@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 리터러시의 이해 | 포트폴리오</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;600;700;800&display=swap');
+        
+        :root {
+            --primary: #3b82f6;
+            --secondary: #8b5cf6;
+            --bg-dark: #020617;
+            --bg-light: #f1f5f9;
+        }
+
+        body {
+            font-family: 'Pretendard', sans-serif;
+            transition: background-color 0.5s ease, color 0.5s ease;
+            overflow-x: hidden;
+        }
+
+        body.dark { background-color: var(--bg-dark); color: #f8fafc; }
+        body.light { background-color: var(--bg-light); color: #0f172a; }
+
+        .bg-glow {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; pointer-events: none; transition: opacity 0.5s ease;
+        }
+
+        .dark .bg-glow {
+            background: radial-gradient(circle at 20% 30%, rgba(59, 130, 246, 0.15) 0%, transparent 40%),
+                        radial-gradient(circle at 80% 70%, rgba(139, 92, 246, 0.15) 0%, transparent 40%);
+        }
+
+        .glass-card {
+            backdrop-filter: blur(10px);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+            border-radius: 2rem;
+            border-width: 2px;
+        }
+
+        .card-blue { background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(37, 99, 235, 0.05) 100%); border-color: rgba(59, 130, 246, 0.3); }
+        .card-purple { background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(124, 58, 237, 0.05) 100%); border-color: rgba(139, 92, 246, 0.3); }
+        .card-pink { background: linear-gradient(135deg, rgba(236, 72, 153, 0.1) 0%, rgba(219, 39, 119, 0.05) 100%); border-color: rgba(236, 72, 153, 0.3); }
+        .card-orange { background: linear-gradient(135deg, rgba(249, 115, 22, 0.1) 0%, rgba(234, 88, 12, 0.05) 100%); border-color: rgba(249, 115, 22, 0.3); }
+        .card-emerald { background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.05) 100%); border-color: rgba(16, 185, 129, 0.3); }
+        .card-indigo { background: linear-gradient(135deg, rgba(79, 70, 229, 0.1) 0%, rgba(67, 56, 202, 0.05) 100%); border-color: rgba(79, 70, 229, 0.3); }
+
+        .card-blue:hover { background: rgba(59, 130, 246, 0.15); border-color: #3b82f6; box-shadow: 0 20px 40px -15px rgba(59, 130, 246, 0.5); }
+        .card-purple:hover { background: rgba(139, 92, 246, 0.15); border-color: #8b5cf6; box-shadow: 0 20px 40px -15px rgba(139, 92, 246, 0.5); }
+        .card-pink:hover { background: rgba(236, 72, 153, 0.15); border-color: #ec4899; box-shadow: 0 20px 40px -15px rgba(236, 72, 153, 0.5); }
+        .card-orange:hover { background: rgba(249, 115, 22, 0.15); border-color: #f97316; box-shadow: 0 20px 40px -15px rgba(249, 115, 22, 0.5); }
+        .card-emerald:hover { background: rgba(16, 185, 129, 0.15); border-color: #10b981; box-shadow: 0 20px 40px -15px rgba(16, 185, 129, 0.5); }
+        .card-indigo:hover { background: rgba(79, 70, 229, 0.15); border-color: #4f46e5; box-shadow: 0 20px 40px -15px rgba(79, 70, 229, 0.5); }
+
+        .glass-card:hover { transform: translateY(-12px) scale(1.02); }
+
+        .theme-toggle {
+            position: fixed; top: 1.5rem; right: 1.5rem; z-index: 100;
+            background: rgba(128, 128, 128, 0.1); backdrop-filter: blur(10px);
+            padding: 6px; border-radius: 50px; display: flex; gap: 4px;
+            border: 1px solid rgba(128, 128, 128, 0.2);
+        }
+
+        .toggle-btn {
+            width: 36px; height: 36px; border-radius: 50%; display: flex;
+            align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease;
+        }
+
+        .toggle-btn.active { background: #3b82f6; color: white; box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3); }
+
+        .badge { font-size: 0.7rem; padding: 3px 10px; border-radius: 8px; font-weight: 700; text-transform: uppercase; }
+        .dark .badge { background: rgba(255, 255, 255, 0.1); color: #fff; }
+        .light .badge { background: rgba(0, 0, 0, 0.05); color: #1e293b; }
+
+        .btn-view { 
+            background: #1e293b; color: white; border-radius: 1rem;
+            font-weight: 700; transition: all 0.3s ease; 
+        }
+        .dark .btn-view { background: #f8fafc; color: #020617; }
+        .btn-view:hover { transform: scale(0.98); opacity: 0.9; }
+
+        #modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(12px);
+            z-index: 1000; display: none; align-items: center; justify-content: center; padding: 20px;
+        }
+        .modal-content {
+            max-width: 650px; width: 100%; border-radius: 2.5rem; padding: 3rem;
+            position: relative; transform: translateY(20px); transition: all 0.4s ease;
+        }
+        #modal-overlay.active { display: flex; }
+        #modal-overlay.active .modal-content { transform: translateY(0); }
+        .dark .modal-content { background: #0f172a; border: 1px solid rgba(255, 255, 255, 0.1); }
+        .light .modal-content { background: #ffffff; border: 1px solid rgba(0, 0, 0, 0.05); }
+
+        .profile-img-container {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid #3b82f6;
+            margin-bottom: 1.5rem;
+            background: #1e293b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.4);
+        }
+
+        .profile-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body class="dark">
+    <div class="bg-glow"></div>
+
+    <div class="theme-toggle">
+        <div id="dark-btn" class="toggle-btn active" onclick="setTheme('dark')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+        </div>
+        <div id="light-btn" class="toggle-btn" onclick="setTheme('light')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+        </div>
+    </div>
+
+    <div id="modal-overlay" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="absolute top-8 right-8 text-gray-500 hover:text-red-500 transition-colors" onclick="closeModal()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            </button>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <header class="min-h-[70vh] flex flex-col items-center justify-center text-center px-6 pt-20">
+        <div class="bg-indigo-500/10 text-indigo-500 border border-indigo-500/20 px-6 py-2 rounded-full text-xs font-black mb-10 tracking-[0.2em] uppercase">
+            AI Literacy Lab 2024
+        </div>
+        <h1 class="text-6xl md:text-8xl font-black mb-10 leading-[1.1] tracking-tighter">
+            AI와 함께<br>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500">
+                미래를 그리다
+            </span>
+        </h1>
+        <p id="hero-desc" class="text-gray-400 text-lg md:text-2xl max-w-4xl leading-relaxed transition-colors font-light">
+            데이터 수집부터 AI 이미지 생성까지, 한 학기 동안 탐구한<br class="hidden md:block">
+            10가지 디지털 혁신의 발자취를 소개합니다.
+        </p>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-6 py-32">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10" id="assignment-grid">
+            <!-- Cards JS -->
+        </div>
+    </main>
+
+    <!-- Profile Section -->
+    <section class="max-w-4xl mx-auto px-6 py-20 text-center flex flex-col items-center border-t border-gray-500/10">
+        <div class="profile-img-container">
+            <!-- Pinterest Image Link Optimized -->
+            <img src="https://i.pinimg.com/originals/80/63/01/806301a2f602221b2767222476b71360.jpg" 
+                 onerror="this.src='https://ui-avatars.com/api/?name=DYH&background=3b82f6&color=fff&size=256'" 
+                 alt="하동윤 프로필" class="profile-img">
+        </div>
+        <h3 class="text-3xl font-black mb-2">하동윤</h3>
+        <p class="text-blue-500 font-bold mb-4 tracking-widest uppercase text-sm">AI Literacy Explorer</p>
+        <p class="text-gray-500 max-w-lg leading-relaxed">AI의 원리를 탐구하고 데이터로 소통하는 리터러시 역량을 키우고 있습니다.</p>
+    </section>
+
+    <footer class="py-32 text-center">
+        <h2 class="text-3xl font-black mb-4 tracking-tight">AI 리터러시의 이해</h2>
+        <p id="footer-desc" class="text-gray-500 font-bold tracking-[0.3em] text-xs uppercase mb-10">Creative Exploration with AI</p>
+        <div class="w-12 h-1 bg-gradient-to-r from-blue-500 to-pink-500 mx-auto mb-10 rounded-full"></div>
+        <p class="text-gray-600 text-xs font-medium uppercase tracking-widest">© 2024 PORTFOLIO ARCHIVE. ALL RIGHTS RESERVED.</p>
+    </footer>
+
+    <script>
+        const assignments = [
+            { 
+                id: "01", 
+                title: "AI의 이해", 
+                tools: ["NotebookLM"], 
+                summary: "구글 노트북LM을 활용하여 AI의 정의, 역사 및 생성형 AI에 대한 자료를 정리했습니다.", 
+                detail: "구글의 노트북LM을 사용하여 방대한 문서를 구조화하고, AI의 발전 과정과 생성형 AI의 특징을 체계적으로 요약 및 분석하는 실습을 진행했습니다.", 
+                type: "blue",
+                isLink: true,
+                link: "./02/index.html"
+            },
+            { id: "02", title: "효과적인 프롬프트 설계", tools: ["ChatGPT", "Claude"], summary: "질문의 구조가 답변의 질을 결정하는 '프롬프트의 힘'을 실습했습니다.", detail: "페르소나 기법과 소수샷(Few-shot) 학습을 통해 AI 협업 효율을 극대화하는 방법을 습득했습니다.", type: "purple" },
+            { id: "03", title: "현실 세계 문제 정의", tools: ["Miro", "Notion"], summary: "일상의 불편함을 데이터 지표로 전환하여 해결 가능한 과제로 정의했습니다.", detail: "막연한 관찰을 구체적인 문제 정의서로 변환하며 분석적인 사고 체계를 정립했습니다.", type: "indigo" },
+            { id: "04", title: "데이터 수집 및 크롤링", tools: ["Python", "BS4"], summary: "웹상의 방대한 텍스트 정보를 자동 수집하여 나만의 데이터셋을 구축했습니다.", detail: "Python을 활용해 수작업으로는 불가능한 규모의 데이터를 체계적으로 확보하는 기술을 익혔습니다.", type: "emerald" },
+            { id: "05", title: "탐색적 데이터 분석(EDA)", tools: ["Python", "Pandas"], summary: "데이터 정제와 통계 분석을 통해 숫자 뒤에 숨겨진 진짜 이야기를 읽었습니다.", detail: "이상치를 제거하고 데이터 간의 상관관계를 분석하며 객관적인 인사이트를 도출했습니다.", type: "orange" },
+            { id: "06", title: "데이터 시각화 스토리텔링", tools: ["Matplotlib", "Seaborn"], summary: "복잡한 분석 결과를 누구나 이해할 수 있는 직관적인 차트로 시각화했습니다.", detail: "단순한 그래프를 넘어, 설득력 있는 메시지를 전달하는 시각적 문법을 실습했습니다.", type: "pink" },
+            { id: "07", title: "AI 이미지 생성과 창의성", tools: ["Midjourney", "DALL-E"], summary: "추상적 아이디어를 AI 시각 도구를 통해 고해상도 예술 작품으로 완성했습니다.", detail: "데이터 분석 결과를 시각적 메타포로 변환하여 콘텐츠의 임팩트를 극대화했습니다.", type: "blue" },
+            { id: "08", title: "AI 환각과 비판적 사고", tools: ["ChatGPT", "Perplexity"], summary: "AI의 오류를 직접 찾아내며 기술을 비판적으로 수용하는 능력을 길렀습니다.", detail: "교차 검증을 통해 정보의 진위를 파악하고 AI를 올바르게 활용하는 가이드라인을 세웠습니다.", type: "purple" },
+            { id: "09", title: "데이터 기반 리포트 제작", tools: ["Canva", "AI"], summary: "학기 동안의 모든 데이터를 통합하여 설득력 있는 비즈니스 리포트를 제작했습니다.", detail: "분석, 시각화, 작문의 모든 역량을 하나로 모아 완성도 높은 결과물을 도출했습니다.", type: "indigo" },
+            { id: "10", title: "최종 성찰 및 포트폴리오", tools: ["JS", "Tailwind"], summary: "전체 여정을 회고하며 나만의 AI 활용 철학을 담은 웹을 구축했습니다.", detail: "기술적 숙련도를 넘어, 인간과 AI가 공존하는 미래에 대한 나만의 답을 내렸습니다.", type: "emerald" }
+        ];
+
+        // Safe Navigation function to prevent SyntaxError
+        function navigateTo(url) {
+            if (url && url.trim() !== "") {
+                window.location.href = url;
+            } else {
+                console.error("Invalid Navigation URL");
+            }
+        }
+
+        function renderCards() {
+            const grid = document.getElementById('assignment-grid');
+            grid.innerHTML = '';
+            assignments.forEach(task => {
+                const card = document.createElement('div');
+                card.className = `glass-card p-10 card-${task.type}`;
+                const toolsHTML = task.tools.map(tool => `<span class="badge">${tool}</span>`).join('');
+                
+                // Fixed navigation logic
+                const actionCall = task.isLink ? `MapsTo('${task.link}')` : `openModal('${task.id}')`;
+                const buttonText = task.isLink ? '결과물 보기' : 'Project Detail';
+
+                card.innerHTML = `
+                    <div class="mb-12">
+                        <div class="flex justify-between items-start mb-8">
+                            <span class="font-black text-xs tracking-[0.3em] opacity-50 uppercase">No. ${task.id}</span>
+                            <div class="flex flex-wrap gap-2 justify-end">
+                                ${toolsHTML}
+                            </div>
+                        </div>
+                        <h3 class="text-3xl font-black mb-6 tracking-tight leading-tight">${task.title}</h3>
+                        <p class="opacity-70 text-base leading-relaxed mb-4 font-medium">${task.summary}</p>
+                    </div>
+                    <div class="flex flex-col gap-4">
+                        <button onclick="${actionCall}" class="btn-view w-full py-5 text-sm uppercase tracking-widest relative overflow-hidden group">
+                            <span class="relative z-10">${buttonText}</span>
+                        </button>
+                        <div class="flex justify-center mt-2">
+                             <button onclick="${actionCall}" class="opacity-30 hover:opacity-100 transition-opacity p-2 cursor-pointer">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                             </button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function openModal(id) {
+            const task = assignments.find(t => t.id === id);
+            const modalBody = document.getElementById('modal-body');
+            const toolsHTML = task.tools.map(tool => `<span class="badge mr-2">${tool}</span>`).join('');
+            
+            modalBody.innerHTML = `
+                <div class="mb-6 text-${task.type}-500 font-black tracking-widest text-sm uppercase">Assignment ${task.id}</div>
+                <h2 class="text-4xl font-black mb-8 tracking-tighter leading-tight">${task.title}</h2>
+                <div class="mb-12 flex flex-wrap gap-3">${toolsHTML}</div>
+                <div class="grid gap-10">
+                    <div class="bg-gray-500/5 p-8 rounded-3xl border border-gray-500/10">
+                        <h4 class="text-xs font-black opacity-30 uppercase mb-4 tracking-[0.2em]">Summary</h4>
+                        <p class="text-xl font-bold leading-relaxed">${task.summary}</p>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-black opacity-30 uppercase mb-4 tracking-[0.2em]">Deep Insight</h4>
+                        <p class="text-lg leading-relaxed opacity-80 font-medium">${task.detail}</p>
+                    </div>
+                </div>
+            `;
+            document.getElementById('modal-overlay').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('modal-overlay').classList.remove('active');
+        }
+
+        function setTheme(theme) {
+            const body = document.body;
+            const darkBtn = document.getElementById('dark-btn');
+            const lightBtn = document.getElementById('light-btn');
+            const heroDesc = document.getElementById('hero-desc');
+
+            if (theme === 'dark') {
+                body.classList.replace('light', 'dark');
+                darkBtn.classList.add('active');
+                lightBtn.classList.remove('active');
+                heroDesc.classList.replace('text-gray-700', 'text-gray-400');
+            } else {
+                body.classList.replace('dark', 'light');
+                lightBtn.classList.add('active');
+                darkBtn.classList.remove('active');
+                heroDesc.classList.replace('text-gray-400', 'text-gray-700');
+            }
+        }
+
+        window.onload = renderCards;
+    </script>
+</body>
+</html>
