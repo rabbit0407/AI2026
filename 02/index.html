@@ -122,7 +122,7 @@
             align-items: center;
             gap: 0.5rem;
             padding: 0.8rem 1.8rem;
-            background: #ff4757; /* Video accent color */
+            background: #ff4757; 
             color: var(--white);
             border-radius: 12px;
             font-weight: 700;
@@ -342,11 +342,12 @@
 
         .modal-content {
             position: relative;
-            max-width: 95%;
-            max-height: 95%;
+            max-width: 90%;
+            max-height: 90%;
             margin: auto;
             display: block;
             border-radius: 12px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
         }
 
         .close-modal {
@@ -358,6 +359,11 @@
             font-weight: bold;
             cursor: pointer;
             z-index: 1001;
+            transition: color 0.2s;
+        }
+
+        .close-modal:hover {
+            color: var(--primary);
         }
 
         /* Footer */
@@ -389,7 +395,7 @@
     <!-- Modal for Infographic -->
     <div id="imageModal" class="modal">
         <span class="close-modal" id="closeModal">&times;</span>
-        <img class="modal-content" id="infographicImg" src="AI_history.jpg" alt="인공지능 역사 인포그래픽">
+        <img class="modal-content" id="infographicImg" src="AI_04_history.png" alt="인공지능 역사 인포그래픽">
     </div>
 
     <header>
@@ -573,7 +579,7 @@
             // 1. 인포그래픽 모달 제어
             viewBtn.addEventListener('click', () => {
                 modal.style.display = 'flex';
-                document.body.style.overflow = 'hidden'; // 스크롤 방지
+                document.body.style.overflow = 'hidden'; 
             });
 
             closeBtn.addEventListener('click', () => {
@@ -588,7 +594,6 @@
                 }
             });
 
-            // ESC 키로 닫기
             window.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape' && modal.style.display === 'flex') {
                     modal.style.display = 'none';
@@ -599,15 +604,16 @@
             // 2. 스무스 스크롤
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
                     const targetId = this.getAttribute('href');
-                    const targetSection = document.querySelector(targetId);
-                    
-                    if (targetSection) {
-                        window.scrollTo({
-                            top: targetSection.offsetTop - 80,
-                            behavior: 'smooth'
-                        });
+                    if (targetId.startsWith('#')) {
+                        e.preventDefault();
+                        const targetSection = document.querySelector(targetId);
+                        if (targetSection) {
+                            window.scrollTo({
+                                top: targetSection.offsetTop - 80,
+                                behavior: 'smooth'
+                            });
+                        }
                     }
                 });
             });
