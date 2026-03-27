@@ -170,30 +170,34 @@
         
         // Projects data for all 10 cards
         const projects = [
-            { id: 0, title: "AI의 이해", color: "card-blue", grad: "from-blue-500 to-blue-700", icon: "fa-brain", description: "AI의 정의, 역사적 흐름, 생성형 AI의 메커니즘을 분석하고 구글 NotebookLM을 통해 지식 베이스를 구축했습니다.", detail: "이 프로젝트는 AI를 블랙박스가 아닌 이해 가능한 도구로 정의하는 데 집중했습니다. 데이터가 어떻게 지능으로 변모하는지 그 핵심 프로세스를 탐구했습니다.", link: "./02/index.html" },
-            { id: 1, title: "프롬프트 데이터 사이언스", color: "card-purple", grad: "from-purple-500 to-purple-700", icon: "fa-terminal", description: "프롬프트 설계를 통해 대규모 언어 모델로부터 최적의 데이터 인사이트를 추출하는 기법을 실습합니다.", detail: "구조화된 질의를 통해 AI의 답변 품질을 높이고, 정교한 데이터 분석 요청을 자동화하는 워크플로우를 연구했습니다." },
-            { id: 2, title: "AI 시각화와 데이터 스토리", color: "card-pink", grad: "from-pink-500 to-pink-700", icon: "fa-chart-line", description: "복잡한 데이터를 시각적 요소로 변환하고 AI를 활용해 청중에게 깊은 울림을 주는 스토리를 구성합니다.", detail: "데이터 시각화 도구와 생성형 AI를 결합하여 설득력 있는 시각 자료를 제작하는 능력을 배양했습니다." },
-            { id: 3, title: "워크플로우 자동화의 이해", color: "card-orange", grad: "from-orange-500 to-orange-700", icon: "fa-gears", description: "반복적인 업무를 AI 기반 자동화 도구로 대체하여 효율성을 극대화하는 프로세스를 설계합니다.", detail: "노코드 도구와 AI API를 연동하여 업무 효율을 200% 이상 개선할 수 있는 자동화 파이프라인을 기획했습니다." },
-            { id: 4, title: "멀티모달 AI 리터러시", color: "card-green", grad: "from-green-500 to-green-700", icon: "fa-layer-group", description: "텍스트, 이미지, 오디오 등 다양한 형태의 데이터를 동시에 처리하는 멀티모달 AI의 활용법을 익힙니다.", detail: "이미지를 설명하고 텍스트를 이미지로 변환하는 등 서로 다른 매체 간의 지능적 연결을 실험했습니다." },
-            { id: 5, title: "데이터 윤리와 AI 거버넌스", color: "card-teal", grad: "from-teal-500 to-teal-700", icon: "fa-shield-halved", description: "AI 사용 시 발생할 수 있는 저작권, 편향성 문제를 인식하고 책임감 있는 기술 사용 원칙을 수립합니다.", detail: "기술의 발전만큼 중요한 윤리적 잣대를 세우고, 사회적으로 이로운 AI 활용 방향을 논의했습니다." },
-            { id: 6, title: "GPTs 커스텀 에이전트 설계", color: "card-red", grad: "from-red-500 to-red-700", icon: "fa-robot", description: "특정 목적에 최적화된 나만의 AI 비서를 제작하고 외부 지식을 학습시키는 과정을 경험합니다.", detail: "사용자 요구사항에 맞춤화된 GPTs를 제작하여 특정 도메인 지식을 효과적으로 전달하는 에이전트를 구성했습니다." },
-            { id: 7, title: "지능형 정보 검색 실습", color: "card-indigo", grad: "from-indigo-500 to-indigo-700", icon: "fa-magnifying-glass", description: "수많은 정보 속에서 AI를 필터링 도구로 삼아 필요한 정보를 정확하게 찾아내는 검색 리터러시를 강화합니다.", detail: "RAG(검색 증강 생성) 원리를 이해하고 정확한 출처 기반의 답변을 얻어내는 검색 전략을 학습했습니다." },
-            { id: 8, title: "AI 기반 창의적 문제해결", color: "card-amber", grad: "from-amber-500 to-amber-700", icon: "fa-lightbulb", description: "기존의 사고방식을 넘어 AI를 브레인스토밍 파트너로 활용해 혁신적인 해결책을 도출합니다.", detail: "아이디어 확장 단계에서 AI와 대화하며 기존의 한계를 깨뜨리는 창의적 협업 프로세스를 정립했습니다." },
-            { id: 9, title: "미래 기술 트렌드 분석", color: "card-cyan", grad: "from-cyan-500 to-cyan-700", icon: "fa-rocket", description: "빠르게 변하는 AI 생태계의 트렌드를 추적하고 데이터 기반으로 기술의 미래를 전망합니다.", detail: "최신 기술 보고서와 시장 동향을 분석하여 다가올 AI 시대에 필요한 역량을 미리 정의해 보았습니다." }
+            { id: 0, title: "AI의 이해", color: "card-blue", grad: "from-blue-500 to-blue-700", icon: "fa-brain", description: "AI의 정의, 역사적 흐름, 생성형 AI의 메커니즘을 분석하고 구글 NotebookLM을 통해 지식 베이스를 구축했습니다.", detail: "이 프로젝트는 AI를 블랙박스가 아닌 이해 가능한 도구로 정의하는 데 집중했습니다. 데이터가 어떻게 지능으로 변모하는지 그 핵심 프로세스를 탐구했습니다.", tech: "Google NotebookLM", link: "./02/index.html" },
+            { id: 1, title: "데이터 스토리텔링", color: "card-purple", grad: "from-purple-500 to-purple-700", icon: "fa-book-open", description: "공공 데이터를 분석하고 인사이트를 도출하여 시각적으로 설득력 있는 리포트 작성하여 스토리북으로 만들기", detail: "공공 데이터를 분석하고 인사이트를 도출하여 시각적으로 설득력 있는 리포트 작성하여 스토리북으로 만들기", tech: "Gemini 스토리북", link: "./03/index.html" },
+            { id: 2, title: "AI 시각화와 데이터 스토리", color: "card-pink", grad: "from-pink-500 to-pink-700", icon: "fa-chart-line", description: "복잡한 데이터를 시각적 요소로 변환하고 AI를 활용해 청중에게 깊은 울림을 주는 스토리를 구성합니다.", detail: "데이터 시각화 도구와 생성형 AI를 결합하여 설득력 있는 시각 자료를 제작하는 능력을 배양했습니다.", tech: "Generative AI Tools" },
+            { id: 3, title: "워크플로우 자동화의 이해", color: "card-orange", grad: "from-orange-500 to-orange-700", icon: "fa-gears", description: "반복적인 업무를 AI 기반 자동화 도구로 대체하여 효율성을 극대화하는 프로세스를 설계합니다.", detail: "노코드 도구와 AI API를 연동하여 업무 효율을 200% 이상 개선할 수 있는 자동화 파이프라인을 기획했습니다.", tech: "No-code Tools" },
+            { id: 4, title: "멀티모달 AI 리터러시", color: "card-green", grad: "from-green-500 to-green-700", icon: "fa-layer-group", description: "텍스트, 이미지, 오디오 등 다양한 형태의 데이터를 동시에 처리하는 멀티모달 AI의 활용법을 익힙니다.", detail: "이미지를 설명하고 텍스트를 이미지로 변환하는 등 서로 다른 매체 간의 지능적 연결을 실험했습니다.", tech: "Multimodal Models" },
+            { id: 5, title: "데이터 윤리와 AI 거버넌스", color: "card-teal", grad: "from-teal-500 to-teal-700", icon: "fa-shield-halved", description: "AI 사용 시 발생할 수 있는 저작권, 편향성 문제를 인식하고 책임감 있는 기술 사용 원칙을 수립합니다.", detail: "기술의 발전만큼 중요한 윤리적 잣대를 세우고, 사회적으로 이로운 AI 활용 방향을 논의했습니다.", tech: "AI Ethics Guideline" },
+            { id: 6, title: "GPTs 커스텀 에이전트 설계", color: "card-red", grad: "from-red-500 to-red-700", icon: "fa-robot", description: "특정 목적에 최적화된 나만의 AI 비서를 제작하고 외부 지식을 학습시키는 과정을 경험합니다.", detail: "사용자 요구사항에 맞춤화된 GPTs를 제작하여 특정 도메인 지식을 효과적으로 전달하는 에이전트를 구성했습니다.", tech: "GPT Builder" },
+            { id: 7, title: "지능형 정보 검색 실습", color: "card-indigo", grad: "from-indigo-500 to-indigo-700", icon: "fa-magnifying-glass", description: "수많은 정보 속에서 AI를 필터링 도구로 삼아 필요한 정보를 정확하게 찾아내는 검색 리터러시를 강화합니다.", detail: "RAG(검색 증강 생성) 원리를 이해하고 정확한 출처 기반의 답변을 얻어내는 검색 전략을 학습했습니다.", tech: "RAG / Advanced Search" },
+            { id: 8, title: "AI 기반 창의적 문제해결", color: "card-amber", grad: "from-amber-500 to-amber-700", icon: "fa-lightbulb", description: "기존의 사고방식을 넘어 AI를 브레인스토밍 파트너로 활용해 혁신적인 해결책을 도출합니다.", detail: "아이디어 확장 단계에서 AI와 대화하며 기존의 한계를 깨뜨리는 창의적 협업 프로세스를 정립했습니다.", tech: "Brainstorming AI" },
+            { id: 9, title: "미래 기술 트렌드 분석", color: "card-cyan", grad: "from-cyan-500 to-cyan-700", icon: "fa-rocket", description: "빠르게 변하는 AI 생태계의 트렌드를 추적하고 데이터 기반으로 기술의 미래를 전망합니다.", detail: "최신 기술 보고서와 시장 동향을 분석하여 다가올 AI 시대에 필요한 역량을 미리 정의해 보았습니다.", tech: "Market Analysis Tools" }
         ];
 
         // Generate all 10 cards
         projects.forEach((proj, index) => {
-            const isFirst = index === 0;
-            const actionButton = isFirst 
+            // link가 있는 카드들(AI의 이해, 데이터 스토리텔링)은 결과물 보기 버튼 노출
+            const hasResult = proj.link !== undefined;
+            
+            const resultButton = hasResult 
                 ? `<a href="${proj.link}" class="flex items-center gap-2 font-bold text-blue-600 dark:text-blue-400 hover:gap-3 transition-all">
-                      결과물 보기 <i class="fas fa-arrow-right text-sm"></i>
+                      결과물 보기 <i class="fas fa-external-link-alt text-xs"></i>
                    </a>`
-                : `<button onclick="showDetail(${proj.id})" class="flex items-center gap-2 font-bold text-blue-600 dark:text-blue-400 hover:gap-3 transition-all">
-                      자세히 보기 <i class="fas fa-arrow-right text-sm"></i>
-                   </button>`;
+                : `<span class="text-gray-300 dark:text-gray-700 font-bold text-sm">준비 중</span>`;
 
-            const plusIcon = isFirst
+            const detailButton = `<button onclick="showDetail(${proj.id})" class="flex items-center gap-2 font-bold text-gray-500 dark:text-gray-400 hover:text-blue-500 transition-all">
+                                    자세히 보기 <i class="fas fa-info-circle text-sm"></i>
+                                 </button>`;
+
+            const plusIconAction = hasResult
                 ? `<a href="${proj.link}" class="w-10 h-10 rounded-xl bg-white/20 hover:bg-white/40 flex items-center justify-center transition shadow-lg border border-white/30">
                       <i class="fas fa-plus text-white"></i>
                    </a>`
@@ -209,7 +213,7 @@
                         <div class="bg-white/20 backdrop-blur-md p-4 rounded-full inline-block mb-3">
                             <i class="fas ${proj.icon} text-3xl text-white"></i>
                         </div>
-                        ${plusIcon}
+                        ${plusIconAction}
                     </div>
                     <div class="absolute -right-4 -top-4 w-24 h-24 bg-white/10 opacity-0 group-hover:opacity-100 rounded-full group-hover:scale-150 transition-all duration-500"></div>
                 </div>
@@ -222,7 +226,8 @@
                         ${proj.description}
                     </p>
                     <div class="flex justify-between items-center pt-6 border-t border-gray-50 dark:border-gray-800">
-                        ${actionButton}
+                        ${detailButton}
+                        ${resultButton}
                     </div>
                 </div>
             </div>`;
@@ -259,16 +264,30 @@
             if (proj) {
                 title.innerText = proj.title;
                 body.innerHTML = `
-                    <div class="space-y-4">
+                    <div class="space-y-6">
                         <div class="flex gap-2">
                             <span class="px-2 py-1 bg-blue-100 text-blue-700 text-[10px] font-bold rounded">PROJECT 0${id + 1}</span>
-                            <span class="px-2 py-1 bg-gray-100 text-gray-700 text-[10px] font-bold rounded uppercase">Learning Path</span>
+                            <span class="px-2 py-1 bg-pink-100 text-pink-700 text-[10px] font-bold rounded uppercase">AI Literacy</span>
                         </div>
-                        <p class="font-medium text-gray-800 dark:text-gray-200">${proj.description}</p>
-                        <div class="p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700">
-                            <h4 class="text-xs font-bold text-gray-400 uppercase mb-2">Detailed Context</h4>
-                            <p class="text-sm leading-relaxed">${proj.detail}</p>
+                        
+                        <div>
+                            <h4 class="text-xs font-black text-gray-400 uppercase mb-2 tracking-wider">Used Technology</h4>
+                            <p class="text-lg font-bold text-gray-800 dark:text-gray-100">${proj.tech || 'To be updated'}</p>
                         </div>
+
+                        <div>
+                            <h4 class="text-xs font-black text-gray-400 uppercase mb-2 tracking-wider">Project Overview</h4>
+                            <p class="text-sm leading-relaxed text-gray-600 dark:text-gray-300">
+                                ${proj.detail}
+                            </p>
+                        </div>
+
+                        ${proj.link ? `
+                        <div class="pt-4 border-t border-gray-100 dark:border-gray-800">
+                            <a href="${proj.link}" class="inline-flex items-center gap-2 text-blue-600 font-bold hover:underline">
+                                실시간 결과물 확인하기 <i class="fas fa-external-link-alt"></i>
+                            </a>
+                        </div>` : ''}
                     </div>
                 `;
             }
