@@ -1,0 +1,354 @@
+<!--
+Palette: Brilliant Blues & Vibrant Orange (#1E3A8A, #06B6D4, #F97316, #F8FAFC, #FFFFFF, #0F172A)
+Plan: 
+1. Header/Intro: Focus specifically on the 2020-2024 shift, highlighting the '330 million collapse' and '1 million elderly' milestones.
+2. KPI Section: Core metrics based on 5-year change (Total Pop -2.7%, Elderly +14.4%, Gangseo +8.9%).
+3. Trend Analysis (2020-2024): Dual-axis line chart showing the scissor effect between declining total pop and rising elderly pop.
+4. District Comparison (2020 vs 2024): Grouped bar chart comparing the 5-year trajectory of key growth and decline districts.
+5. 2024 Snapshot: Donut chart showing the 31.3% elderly threshold reached in the final year of the data.
+6. Policy Implications: Strategic recommendations based on the 5-year acceleration of aging.
+Visualizations:
+- Data Point: 2020-2024 Population vs Aging -> Goal: Change -> Chosen Visualization: Dual-Axis Line Chart -> Justification: Shows the direct inverse relationship over the specified 5-year window. Library: Chart.js (Canvas). Confirming NO SVG.
+- Data Point: 2020 vs 2024 District Changes -> Goal: Compare -> Chosen Visualization: Grouped Bar Chart -> Justification: Directly compares the starting and ending points of the 5-year period for representative districts. Library: Chart.js (Canvas). Confirming NO SVG.
+- Data Point: 2024 Elderly Share -> Goal: Composition -> Chosen Visualization: Donut Chart -> Justification: Highlights the significant 31.3% ratio in 2024. Library: Chart.js (Canvas). Confirming NO SVG.
+Confirmation: NEITHER Mermaid JS NOR SVG were used anywhere in the output.
+-->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>부산광역시 인구 변화 분석 (2020-2024)</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+body {
+    background-color: #F8FAFC;
+    color: #0F172A;
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+.chart-container {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 300px;
+    max-height: 400px;
+}
+@media (min-width: 768px) {
+    .chart-container {
+        height: 380px;
+    }
+}
+.glass-card {
+    background: #FFFFFF;
+    border-radius: 1rem;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+    padding: 1.5rem;
+    border-top: 4px solid #06B6D4;
+}
+.glass-card.alert {
+    border-top: 4px solid #F97316;
+}
+.glass-card.primary {
+    border-top: 4px solid #1E3A8A;
+}
+.stat-value {
+    font-size: 2.5rem;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 0.25rem;
+}
+.stat-label {
+    font-size: 0.875rem;
+    color: #64748B;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+}
+</style>
+</head>
+<body class="antialiased pb-20">
+
+<nav class="sticky top-0 z-50 bg-[#1E3A8A] text-white shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+            <div class="flex items-center space-x-4">
+                <a href="../index.html" class="flex items-center px-3 py-1 rounded-md bg-white/10 hover:bg-white/20 transition-colors duration-200 text-sm font-bold">
+                    <span class="mr-2">🏠</span> 홈
+                </a>
+                <div class="flex items-center font-bold text-xl tracking-tight border-l border-white/20 pl-4">
+                    <span class="mr-2">📊</span> 부산 인구 인사이트
+                </div>
+            </div>
+            <div class="hidden md:block text-sm font-medium text-blue-200">
+                2020 - 2024 5개년 집중 분석
+            </div>
+        </div>
+    </div>
+</nav>
+
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+    
+    <header class="mb-12 text-center">
+        <h1 class="text-3xl md:text-5xl font-extrabold text-[#1E3A8A] mb-4 tracking-tight">급변하는 5년, 부산의 인구 지형</h1>
+        <p class="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
+            최근 5년(2020-2024)은 부산광역시 인구 구조의 임계점이라 할 수 있습니다. 총인구 330만 명 시대가 저물고 고령 인구 100만 명 시대가 열린 이 격동의 기간 동안 나타난 주요 변화와 지역별 격차를 시각화했습니다.
+        </p>
+    </header>
+
+    <section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        <div class="glass-card">
+            <div class="text-4xl mb-2">📉</div>
+            <div class="stat-value text-[#1E3A8A]">-2.74%</div>
+            <div class="stat-label">5개년 총 인구 감소율 (약 9.2만명 감소)</div>
+        </div>
+        <div class="glass-card alert">
+            <div class="text-4xl mb-2">👴</div>
+            <div class="stat-value text-[#F97316]">+14.38%</div>
+            <div class="stat-label">5개년 고령 인구 증가율 (약 12.8만명 증가)</div>
+        </div>
+        <div class="glass-card primary">
+            <div class="text-4xl mb-2">🏢</div>
+            <div class="stat-value text-[#06B6D4]">+8.93%</div>
+            <div class="stat-label">강서구 5개년 인구 성장률 (최대 성장)</div>
+        </div>
+    </section>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
+        
+        <section class="lg:col-span-12 glass-card primary">
+            <h2 class="text-2xl font-bold text-[#1E3A8A] mb-2">1. 인구 교차 현상의 심화 (2020-2024)</h2>
+            <p class="text-slate-600 mb-6 leading-relaxed">
+                2020년부터 2024년까지 부산은 매년 약 2.3만 명의 총인구가 감소하는 동시에, 약 3.2만 명의 고령 인구가 새로 유입되는 '인구 교차 현상'을 겪었습니다. 그래프에서 보듯 총인구의 하락 곡선과 고령 인구의 상승 곡선이 매우 일정하고 가파르게 진행되며 도시의 노령화 지수(Aged-child ratio)를 급격히 끌어올리고 있습니다.
+            </p>
+            <div class="chart-container">
+                <canvas id="trendChart"></canvas>
+            </div>
+        </section>
+
+        <section class="lg:col-span-8 glass-card">
+            <h2 class="text-2xl font-bold text-[#1E3A8A] mb-2">2. 5년 사이의 지역별 희비 교차 (2020 vs 2024)</h2>
+            <p class="text-slate-600 mb-6 leading-relaxed">
+                5년이라는 짧은 기간 동안 강서구는 약 1.2만 명의 인구가 늘어난 반면, 영도구는 약 1.2만 명의 인구가 줄어들었습니다. 이는 단순한 수치 비교를 넘어, 신도시 위주의 인구 재편이 가속화되고 있음을 보여줍니다. 기장군 또한 꾸준한 성장세를 보이며 동부산의 주거 거점 역할을 공고히 하고 있습니다.
+            </p>
+            <div class="chart-container">
+                <canvas id="districtChart"></canvas>
+            </div>
+        </section>
+
+        <section class="lg:col-span-4 glass-card alert flex flex-col">
+            <h2 class="text-2xl font-bold text-[#1E3A8A] mb-2">3. 2024년: 고령 인구 31.3% 도달</h2>
+            <p class="text-slate-600 mb-6 leading-relaxed flex-grow">
+                2020년 26.6%였던 고령 인구 비중은 단 5년 만에 31.3%로 약 4.7%p 급증했습니다. 이는 부산이 이미 초고령사회(20% 이상)를 넘어, 인구 3명 중 1명이 노인인 초밀집 고령사회로 빠르게 진입하고 있음을 확증합니다.
+            </p>
+            <div class="chart-container">
+                <canvas id="donutChart"></canvas>
+            </div>
+        </section>
+
+    </div>
+
+    <section class="glass-card bg-[#1E3A8A] text-white border-none mt-8">
+        <h2 class="text-2xl font-bold text-white mb-6">4. 최근 5년 트렌드 기반의 정책 방향</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            <div class="bg-white/10 p-5 rounded-lg border border-white/20">
+                <div class="text-3xl mb-3">🚄</div>
+                <h3 class="text-xl font-bold text-[#06B6D4] mb-2">거점 간 연결성 강화</h3>
+                <p class="text-blue-100 text-sm leading-relaxed mb-3">
+                    강서구와 기장군 등 인구가 밀집되는 외곽 거점과 원도심 간의 대중교통 및 산업 연결을 강화하여 인구 분산 효과를 극대화해야 합니다.
+                </p>
+                <div class="bg-[#0F172A]/40 p-3 rounded text-sm font-semibold flex items-center">
+                    <span class="text-[#F97316] mr-2">과제 ➔</span> 서부산-원도심 간 광역 교통망 조기 확충
+                </div>
+            </div>
+
+            <div class="bg-white/10 p-5 rounded-lg border border-white/20">
+                <div class="text-3xl mb-3">👴</div>
+                <h3 class="text-xl font-bold text-[#06B6D4] mb-2">실버 경제 생태계 조성</h3>
+                <p class="text-blue-100 text-sm leading-relaxed mb-3">
+                    5년 만에 12만 명 이상 증가한 고령 인구를 수용하기 위해 돌봄 시설뿐 아니라, 이들을 위한 능동적 일자리와 소비 시장을 지원해야 합니다.
+                </p>
+                <div class="bg-[#0F172A]/40 p-3 rounded text-sm font-semibold flex items-center">
+                    <span class="text-[#F97316] mr-2">과제 ➔</span> 시니어 특화 창업 및 문화 공간 인프라 확대
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+</main>
+
+<script>
+const wrapLabel = (label) => {
+    if (label.length <= 16) return label;
+    const words = label.split(' ');
+    let lines = [];
+    let currentLine = '';
+    words.forEach(word => {
+        if ((currentLine + word).length > 16) {
+            if (currentLine) lines.push(currentLine.trim());
+            currentLine = word + ' ';
+        } else {
+            currentLine += word + ' ';
+        }
+    });
+    if (currentLine) lines.push(currentLine.trim());
+    return lines;
+};
+
+const commonTooltipConfig = {
+    tooltip: {
+        callbacks: {
+            title: function(tooltipItems) {
+                const item = tooltipItems[0];
+                let label = item.chart.data.labels[item.dataIndex];
+                if (Array.isArray(label)) {
+                    return label.join(' ');
+                } else {
+                    return label;
+                }
+            }
+        }
+    }
+};
+
+const trendCtx = document.getElementById('trendChart').getContext('2d');
+new Chart(trendCtx, {
+    type: 'line',
+    data: {
+        labels: ['2020년', '2021년', '2022년', '2023년', '2024년'].map(wrapLabel),
+        datasets: [
+            {
+                label: '총 인구수 (명)',
+                data: [3349016, 3324335, 3295760, 3279604, 3257256],
+                borderColor: '#06B6D4',
+                backgroundColor: 'rgba(6, 182, 212, 0.1)',
+                borderWidth: 3,
+                yAxisID: 'y',
+                tension: 0.3,
+                fill: true,
+                pointBackgroundColor: '#06B6D4',
+                pointRadius: 5
+            },
+            {
+                label: '60세 이상 인구수 (명)',
+                data: [892277, 934024, 965387, 997993, 1020554],
+                borderColor: '#F97316',
+                backgroundColor: 'rgba(249, 115, 22, 0.1)',
+                borderWidth: 3,
+                yAxisID: 'y1',
+                tension: 0.3,
+                fill: true,
+                pointBackgroundColor: '#F97316',
+                pointRadius: 5
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: { mode: 'index', intersect: false },
+        plugins: {
+            ...commonTooltipConfig,
+            legend: { position: 'top', labels: { font: { family: 'Pretendard' } } }
+        },
+        scales: {
+            x: { grid: { display: false } },
+            y: {
+                type: 'linear',
+                display: true,
+                position: 'left',
+                title: { display: true, text: '총 인구', color: '#06B6D4' },
+                min: 3200000,
+                max: 3400000
+            },
+            y1: {
+                type: 'linear',
+                display: true,
+                position: 'right',
+                title: { display: true, text: '60세 이상 인구', color: '#F97316' },
+                min: 800000,
+                max: 1100000,
+                grid: { drawOnChartArea: false }
+            }
+        }
+    }
+});
+
+const rawDistrictLabels = ['강서구 (신도시 유입)', '기장군 (주거지 성장)', '해운대구 (인구 최대 지역)', '영도구 (인구 급감 지역)', '중구 (인구 최소 지역)'];
+const districtLabels = rawDistrictLabels.map(wrapLabel);
+
+const districtCtx = document.getElementById('districtChart').getContext('2d');
+new Chart(districtCtx, {
+    type: 'bar',
+    data: {
+        labels: districtLabels,
+        datasets: [
+            {
+                label: '2020년 인구',
+                data: [133231, 169328, 396443, 113758, 41439],
+                backgroundColor: '#94A3B8',
+                borderRadius: 4
+            },
+            {
+                label: '2024년 인구',
+                data: [145123, 175257, 379165, 101311, 39599],
+                backgroundColor: '#1E3A8A',
+                borderRadius: 4
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            ...commonTooltipConfig,
+            legend: { position: 'top' }
+        },
+        scales: {
+            x: { grid: { display: false } },
+            y: { 
+                beginAtZero: true,
+                ticks: {
+                    callback: function(value) {
+                        return (value / 10000) + '만명';
+                    }
+                }
+            }
+        }
+    }
+});
+
+const donutData = [1020554, 2236702];
+const donutLabels = ['60세 이상 고령자 (31.3%)', '60세 미만 비고령자 (68.7%)'].map(wrapLabel);
+
+const donutCtx = document.getElementById('donutChart').getContext('2d');
+new Chart(donutCtx, {
+    type: 'doughnut',
+    data: {
+        labels: donutLabels,
+        datasets: [{
+            data: donutData,
+            backgroundColor: ['#F97316', '#06B6D4'],
+            hoverOffset: 4,
+            borderWidth: 2,
+            borderColor: '#FFFFFF'
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '65%',
+        plugins: {
+            ...commonTooltipConfig,
+            legend: { position: 'bottom' }
+        }
+    }
+});
+</script>
+
+</body>
+</html>
