@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>웹 기술의 이해 - 핵심 가이드</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            scroll-behavior: smooth;
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .tech-card:hover {
+            transform: translateY(-5px);
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900">
+
+    <!-- 내비게이션 -->
+    <nav class="fixed w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
+        <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="text-xl font-black gradient-text">WEB TECH 101</div>
+            <div class="hidden md:flex space-x-8 text-sm font-medium">
+                <a href="#intro" class="hover:text-blue-600">개요</a>
+                <a href="#resources" class="hover:text-blue-600">학습 자료</a>
+                <a href="#core" class="hover:text-blue-600">핵심 3요소</a>
+                <a href="#architecture" class="hover:text-blue-600">웹의 구조</a>
+                <a href="#modern" class="hover:text-blue-600">현대 트렌드</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 히어로 섹션 -->
+    <header id="intro" class="pt-32 pb-16 px-4">
+        <div class="max-w-4xl mx-auto text-center">
+            <h1 class="text-4xl md:text-6xl font-black mb-6 leading-tight">
+                우리가 매일 사용하는<br><span class="gradient-text">웹 기술의 모든 것</span>
+            </h1>
+            <p class="text-lg text-slate-600 mb-10 leading-relaxed">
+                웹은 단순한 문서의 집합에서 강력한 애플리케이션 플랫폼으로 진화했습니다.<br>
+                브라우저 뒤에서 일어나는 마법 같은 기술들을 한눈에 살펴보세요.
+            </p>
+            
+            <!-- 학습 자료 버튼 그룹 -->
+            <div id="resources" class="flex flex-wrap justify-center gap-4 mb-8">
+                <a href="https://notebooklm.google.com/notebook/0e9dea8b-ecf7-4b1e-81e9-36342a5a0320?artifactId=b6abc584-80e0-47a8-a828-b4209929b02d" target="_blank" class="flex items-center gap-2 bg-red-500 text-white px-6 py-3 rounded-xl font-bold hover:bg-red-600 transition shadow-lg shadow-red-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 12-8.5 4.5V7.5L15 12Z"/></svg>
+                    동영상 보기
+                </a>
+                <a href="./인포그래픽.png" class="flex items-center gap-2 bg-emerald-500 text-white px-6 py-3 rounded-xl font-bold hover:bg-emerald-600 transition shadow-lg shadow-emerald-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+                    인포그래픽 보기
+                </a>
+                <a href="./슬라이드" class="flex items-center gap-2 bg-amber-500 text-white px-6 py-3 rounded-xl font-bold hover:bg-amber-600 transition shadow-lg shadow-amber-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="14" x="3" y="5" rx="2"/><path d="M7 10v4"/><path d="M11 6v8"/><path d="M15 12v2"/></svg>
+                    슬라이드 자료 보기
+                </a>
+            </div>
+
+            <div class="flex flex-wrap justify-center gap-4 border-t border-slate-200 pt-8">
+                <a href="#core" class="bg-blue-600 text-white px-8 py-3 rounded-full font-bold hover:bg-blue-700 transition">웹 기초 배우기</a>
+                <button onclick="showQuickTip()" class="bg-slate-200 text-slate-800 px-8 py-3 rounded-full font-bold hover:bg-slate-300 transition">오늘의 팁</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 핵심 3요소 섹션 -->
+    <section id="core" class="py-20 bg-white">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold mb-4">웹 프론트엔드의 심장</h2>
+                <p class="text-slate-500">모든 웹 페이지는 이 세 가지 기술의 조합으로 만들어집니다.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- HTML -->
+                <div class="tech-card p-8 rounded-2xl border border-slate-100 bg-slate-50 shadow-sm">
+                    <div class="w-12 h-12 bg-orange-100 text-orange-600 rounded-lg flex items-center justify-center mb-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">HTML5</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                        웹의 '뼈대'를 담당합니다. 텍스트, 이미지, 버튼 등 요소들의 의미와 구조를 정의하는 마크업 언어입니다.
+                    </p>
+                    <span class="text-xs font-semibold text-orange-600 bg-orange-50 px-2 py-1 rounded">Structure</span>
+                </div>
+
+                <!-- CSS -->
+                <div class="tech-card p-8 rounded-2xl border border-slate-100 bg-slate-50 shadow-sm">
+                    <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center mb-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">CSS3</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                        웹의 '근육과 피부'입니다. 레이아웃, 색상, 애니메이션 등 시각적인 스타일을 입혀 사용자 경험을 극대화합니다.
+                    </p>
+                    <span class="text-xs font-semibold text-blue-600 bg-blue-50 px-2 py-1 rounded">Style</span>
+                </div>
+
+                <!-- JavaScript -->
+                <div class="tech-card p-8 rounded-2xl border border-slate-100 bg-slate-50 shadow-sm">
+                    <div class="w-12 h-12 bg-yellow-100 text-yellow-600 rounded-lg flex items-center justify-center mb-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">JavaScript</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                        웹의 '두뇌'입니다. 클릭 이벤트, 데이터 통신, 동적 화면 업데이트 등 상호작용이 가능한 지능적인 웹을 만듭니다.
+                    </p>
+                    <span class="text-xs font-semibold text-yellow-700 bg-yellow-50 px-2 py-1 rounded">Logic</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 웹 구조 섹션 -->
+    <section id="architecture" class="py-20 bg-slate-900 text-white overflow-hidden">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <div>
+                    <h2 class="text-3xl font-bold mb-6 italic">How Web Works?</h2>
+                    <p class="text-slate-400 mb-8 leading-relaxed">
+                        사용자가 URL을 입력하면 브라우저는 DNS를 통해 서버의 IP 주소를 찾고, HTTP 프로토콜을 이용해 리소스를 요청합니다. 서버는 이에 응답하여 데이터를 보내주고 브라우저는 이를 렌더링합니다.
+                    </p>
+                    <ul class="space-y-4">
+                        <li class="flex items-start space-x-3">
+                            <div class="mt-1 text-blue-400">✔</div>
+                            <div>
+                                <strong class="text-white block">Client-Server 모델</strong>
+                                <span class="text-sm text-slate-500">요청하는 클라이언트(브라우저)와 응답하는 서버</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start space-x-3">
+                            <div class="mt-1 text-blue-400">✔</div>
+                            <div>
+                                <strong class="text-white block">HTTP/HTTPS 프로토콜</strong>
+                                <span class="text-sm text-slate-500">데이터를 주고받기 위한 통신 규약</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start space-x-3">
+                            <div class="mt-1 text-blue-400">✔</div>
+                            <div>
+                                <strong class="text-white block">API & Database</strong>
+                                <span class="text-sm text-slate-500">데이터를 처리하고 영구적으로 저장하는 시스템</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="relative">
+                    <div class="bg-white/10 p-10 rounded-3xl border border-white/20 backdrop-blur-sm">
+                        <div class="flex justify-between items-center mb-8">
+                            <div class="text-center">
+                                <div class="bg-blue-500 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-2">PC</div>
+                                <span class="text-xs">Client</span>
+                            </div>
+                            <div class="flex-1 flex flex-col items-center">
+                                <div class="w-full h-1 bg-gradient-to-r from-blue-500 to-purple-500 relative">
+                                    <div class="absolute top-[-4px] right-0 w-2 h-2 rounded-full bg-purple-500"></div>
+                                </div>
+                                <span class="text-[10px] mt-2 text-slate-400 uppercase tracking-widest">Request / Response</span>
+                            </div>
+                            <div class="text-center">
+                                <div class="bg-purple-500 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-2">SV</div>
+                                <span class="text-xs">Server</span>
+                            </div>
+                        </div>
+                        <p class="text-center text-xs text-slate-400 italic">"웹의 기본적인 상호작용 사이클"</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 현대 트렌드 -->
+    <section id="modern" class="py-20">
+        <div class="max-w-6xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-16">현대 웹의 기술 스택</h2>
+            <div class="grid md:grid-cols-2 gap-12">
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
+                    <h3 class="text-xl font-bold mb-6 flex items-center">
+                        <span class="mr-2 text-blue-600">●</span> 프론트엔드 프레임워크
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center p-3 bg-slate-50 rounded-lg">
+                            <span class="font-medium">React.js</span>
+                            <span class="text-xs text-slate-400 font-mono">Component-based</span>
+                        </div>
+                        <div class="flex justify-between items-center p-3 bg-slate-50 rounded-lg">
+                            <span class="font-medium">Vue.js</span>
+                            <span class="text-xs text-slate-400 font-mono">Easy Learning Curve</span>
+                        </div>
+                        <div class="flex justify-between items-center p-3 bg-slate-50 rounded-lg">
+                            <span class="font-medium">Next.js</span>
+                            <span class="text-xs text-slate-400 font-mono">SSR & SEO</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
+                    <h3 class="text-xl font-bold mb-6 flex items-center">
+                        <span class="mr-2 text-purple-600">●</span> 백엔드 & 런타임
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center p-3 bg-slate-50 rounded-lg">
+                            <span class="font-medium">Node.js</span>
+                            <span class="text-xs text-slate-400 font-mono">JavaScript Everywhere</span>
+                        </div>
+                        <div class="flex justify-between items-center p-3 bg-slate-50 rounded-lg">
+                            <span class="font-medium">Python (Django/FastAPI)</span>
+                            <span class="text-xs text-slate-400 font-mono">Data & AI Ready</span>
+                        </div>
+                        <div class="flex justify-between items-center p-3 bg-slate-50 rounded-lg">
+                            <span class="font-medium">PostgreSQL / MongoDB</span>
+                            <span class="text-xs text-slate-400 font-mono">Database Solutions</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 푸터 -->
+    <footer class="bg-slate-100 py-12 border-t border-slate-200 text-center">
+        <div class="max-w-6xl mx-auto px-4">
+            <p class="text-slate-500 text-sm">© 2025 Web Technology Understanding Guide. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- 알림 메시지 박스 (Alert 대용) -->
+    <div id="toast" class="fixed bottom-10 right-10 transform translate-y-20 opacity-0 bg-slate-900 text-white px-6 py-4 rounded-xl shadow-2xl transition-all duration-300 pointer-events-none z-50">
+        <span id="toast-message">오늘도 즐거운 학습 되세요!</span>
+    </div>
+
+    <script>
+        function showQuickTip() {
+            const tips = [
+                "HTML은 검색엔진 최적화(SEO)의 시작입니다.",
+                "반응형 웹 디자인을 위해 CSS Grid와 Flexbox를 배우세요.",
+                "JavaScript의 비동기 처리는 현대 웹의 핵심입니다.",
+                "웹 성능 최적화는 이미지 용량을 줄이는 것부터 시작합니다."
+            ];
+            const randomTip = tips[Math.floor(Math.random() * tips.length)];
+            
+            const toast = document.getElementById('toast');
+            const message = document.getElementById('toast-message');
+            
+            message.innerText = randomTip;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+            
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+                toast.classList.remove('translate-y-0', 'opacity-100');
+            }, 3000);
+        }
+
+        // 스크롤 시 내비게이션 스타일 변경
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.classList.add('shadow-md');
+            } else {
+                nav.classList.remove('shadow-md');
+            }
+        });
+    </script>
+</body>
+</html>
