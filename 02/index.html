@@ -3,20 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI 이해: 고대 신화에서 트랜스포머까지</title>
+    <title>AI의 이해: 고대 신화에서 트랜스포머 혁명까지</title>
+    <!-- Font Import -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
     <style>
-        /* CSS Variables & Reset */
+        /* --- CSS Variables & Design Tokens --- */
         :root {
             --primary: #ebfeae;
-            --primary-dark: #d4e895;
-            --text-main: #1f2937;
-            --text-muted: #6b7280;
-            --bg-light: #f9fafb;
+            --primary-hover: #d4e895;
+            --primary-glow: rgba(235, 254, 174, 0.4);
+            --accent: #7a8c00;
+            --bg-light: #f1f5f9; 
+            --bg-section: #f8fafc;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
             --white: #ffffff;
-            --accent: #8fa300;
+            --glass: rgba(255, 255, 255, 0.7); /* 요청하신 글래스 효과 배경색 */
+            --border: rgba(226, 232, 240, 0.8);
+            --card-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
+        body.dark-mode {
+            --bg-light: #020617;
+            --bg-section: #0f172a;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --white: #1e293b;
+            --glass: rgba(30, 41, 59, 0.7);
+            --border: rgba(255, 255, 255, 0.1);
+            --primary: #cce080;
+            --accent: #ebfeae;
+        }
+
+        /* --- Base Styles --- */
         * {
             margin: 0;
             padding: 0;
@@ -24,53 +44,93 @@
         }
 
         body {
-            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+            font-family: 'Pretendard', -apple-system, sans-serif;
             background-color: var(--bg-light);
             color: var(--text-main);
-            line-height: 1.6;
+            line-height: 1.7;
             scroll-behavior: smooth;
+            transition: background-color 0.4s ease;
+            overflow-x: hidden;
         }
 
-        /* Layout */
         .container {
-            max-width: 1000px;
+            max-width: 1100px;
             margin: 0 auto;
             padding: 0 1.5rem;
         }
 
-        /* Header */
+        /* --- Utility Bar --- */
+        .utility-bar {
+            position: fixed;
+            top: 1.5rem;
+            right: 1.5rem;
+            display: flex;
+            gap: 0.75rem;
+            z-index: 1001;
+        }
+
+        .util-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            color: var(--text-main);
+            text-decoration: none;
+        }
+
+        .util-btn:hover {
+            transform: translateY(-3px);
+            background: var(--primary);
+            border-color: var(--accent);
+        }
+
+        /* --- Header --- */
         header {
-            background-color: var(--primary);
-            padding: 6rem 1.5rem;
+            padding: 10rem 1.5rem 8rem;
             text-align: center;
+            background: radial-gradient(circle at top right, var(--primary-glow), transparent),
+                        radial-gradient(circle at bottom left, var(--primary-glow), transparent);
+            position: relative;
         }
 
         .badge {
-            background: var(--white);
-            padding: 0.25rem 1rem;
-            border-radius: 999px;
-            font-size: 0.875rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
             display: inline-block;
+            padding: 0.5rem 1.25rem;
+            background: var(--text-main);
+            color: var(--white);
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
         h1 {
-            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-size: clamp(2.5rem, 6vw, 4.2rem);
+            line-height: 1.1;
             font-weight: 800;
-            line-height: 1.2;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
+            letter-spacing: -0.04em;
         }
 
         .hero-desc {
             font-size: 1.25rem;
-            max-width: 700px;
-            margin: 0 auto;
-            color: rgba(31, 41, 55, 0.8);
-            margin-bottom: 2.5rem;
+            color: var(--text-muted);
+            max-width: 800px;
+            margin: 0 auto 3.5rem;
         }
 
-        /* CTA Buttons in Header */
+        /* --- CTA Buttons (Restored) --- */
         .header-actions {
             display: flex;
             justify-content: center;
@@ -78,315 +138,195 @@
             flex-wrap: wrap;
         }
 
-        .btn-primary {
+        .btn {
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
-            padding: 0.8rem 1.8rem;
-            background: var(--text-main);
-            color: var(--white);
-            border-radius: 12px;
+            gap: 0.6rem;
+            padding: 0.9rem 1.8rem;
+            border-radius: 14px;
             font-weight: 700;
             text-decoration: none;
             transition: var(--transition);
             border: none;
             cursor: pointer;
+            font-size: 1rem;
         }
 
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        .btn-primary { background: var(--text-main); color: var(--white); }
+        .btn-secondary { background: var(--glass); color: var(--text-main); border: 1px solid var(--text-main); backdrop-filter: blur(5px); }
+        .btn-video { background: #ff4757; color: var(--white); }
+
+        .btn:hover { 
+            transform: translateY(-4px); 
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1); 
         }
 
-        .btn-download {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.8rem 1.8rem;
-            background: var(--white);
-            color: var(--text-main);
-            border: 2px solid var(--text-main);
-            border-radius: 12px;
-            font-weight: 700;
-            text-decoration: none;
-            transition: var(--transition);
-            cursor: pointer;
-        }
-
-        .btn-download:hover {
-            background: #f3f4f6;
-        }
-
-        .btn-video {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.8rem 1.8rem;
-            background: #ff4757; 
-            color: var(--white);
-            border-radius: 12px;
-            font-weight: 700;
-            text-decoration: none;
-            transition: var(--transition);
-            cursor: pointer;
-            border: none;
-        }
-
-        .btn-video:hover {
-            background: #e84118;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(255, 71, 87, 0.3);
-        }
-
-        /* Navigation */
+        /* --- Navigation --- */
         nav {
             position: sticky;
             top: 0;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid #e5e7eb;
-            z-index: 100;
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
             padding: 1rem 0;
         }
 
         .nav-inner {
             display: flex;
             justify-content: center;
-            gap: 2rem;
-            overflow-x: auto;
-            scrollbar-width: none;
+            gap: 1.5rem;
+            flex-wrap: wrap;
         }
-
-        .nav-inner::-webkit-scrollbar { display: none; }
 
         .nav-item {
             text-decoration: none;
             color: var(--text-muted);
             font-weight: 600;
-            white-space: nowrap;
+            font-size: 0.9rem;
             transition: var(--transition);
+            padding: 0.5rem 0.8rem;
+            border-radius: 8px;
         }
 
-        .nav-item:hover, .nav-item.active {
-            color: var(--text-main);
-            border-bottom: 2px solid var(--accent);
-        }
+        .nav-item:hover { background: rgba(0,0,0,0.05); color: var(--text-main); }
+        .nav-item.active { color: var(--text-main); background: var(--primary); }
 
-        /* Sections */
-        section {
-            padding: 5rem 0;
-        }
+        /* --- Sections --- */
+        section { padding: 8rem 0; }
+        .section-header { margin-bottom: 4rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem; }
+        .section-tag { color: var(--accent); font-weight: 800; font-size: 0.9rem; text-transform: uppercase; margin-bottom: 0.5rem; display: block; }
+        .section-title { font-size: 2.2rem; font-weight: 800; letter-spacing: -0.02em; display: flex; align-items: center; gap: 1rem; }
 
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin-bottom: 3rem;
-        }
-
-        .section-title {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .icon-box {
-            width: 48px;
-            height: 48px;
+        .icon-square {
+            width: 50px;
+            height: 50px;
             background: var(--primary);
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
+            color: #000;
+            box-shadow: 0 4px 15px var(--primary-glow);
         }
 
-        /* Button Style for Infographic */
-        .btn-outline {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.6rem 1.2rem;
-            border: 2px solid var(--accent);
-            color: var(--accent);
-            background: transparent;
-            border-radius: 10px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: var(--transition);
-        }
+        /* --- Content Cards (Glass Effect) --- */
+        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem; }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
 
-        .btn-outline:hover {
-            background: var(--primary);
-            color: var(--text-main);
-        }
-
-        /* Timeline */
-        .timeline {
-            position: relative;
-            padding-left: 2rem;
-        }
-
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: linear-gradient(to bottom, var(--primary), var(--accent));
-        }
-
-        .timeline-item {
-            position: relative;
-            margin-bottom: 3rem;
-        }
-
-        .timeline-dot {
-            position: absolute;
-            left: -2.4rem;
-            top: 0.25rem;
-            width: 12px;
-            height: 12px;
-            background: var(--white);
-            border: 3px solid var(--accent);
-            border-radius: 50%;
-        }
-
-        .timeline-content h3 {
-            font-size: 1.25rem;
-            margin-bottom: 0.5rem;
-        }
-
-        /* Cards */
-        .grid-3 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .card {
-            background: var(--white);
-            padding: 2rem;
-            border-radius: 20px;
-            border: 1px solid #f3f4f6;
-            transition: var(--transition);
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-        }
-
-        .insight-box {
-            margin-top: 2rem;
-            padding: 1.5rem;
-            background: var(--white);
-            border-left: 6px solid var(--primary);
-            border-radius: 12px;
-        }
-
-        /* Workflow Steps */
-        .workflow-card {
-            background: var(--white);
-            border-radius: 24px;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
-        }
-
-        .workflow-header {
-            background: var(--primary);
-            padding: 1.5rem 2rem;
-            font-weight: 800;
-        }
-
-        .workflow-steps {
-            display: flex;
+        .content-card {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             padding: 2.5rem;
-            gap: 2rem;
-        }
-
-        .step {
-            flex: 1;
-        }
-
-        .step-num {
-            width: 32px;
-            height: 32px;
-            background: var(--text-main);
-            color: var(--white);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-
-        /* Modal / Popup */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
-            overflow: auto;
-            justify-content: center;
-            align-items: center;
-            padding: 2rem;
-        }
-
-        .modal-content {
+            border-radius: 28px;
+            border: 1px solid var(--border);
+            transition: var(--transition);
             position: relative;
-            max-width: 90%;
-            max-height: 90%;
-            margin: auto;
-            display: block;
-            border-radius: 12px;
-            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+            box-shadow: var(--card-shadow);
         }
 
-        .close-modal {
-            position: fixed;
-            top: 20px;
-            right: 35px;
-            color: #f1f1f1;
-            font-size: 40px;
-            font-weight: bold;
-            cursor: pointer;
-            z-index: 1001;
-            transition: color 0.2s;
+        .content-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--primary);
+            background: rgba(255, 255, 255, 0.85);
         }
 
-        .close-modal:hover {
-            color: var(--primary);
-        }
+        .content-card h4 { font-size: 1.5rem; margin-bottom: 1.2rem; font-weight: 800; color: var(--text-main); }
+        .content-card p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.8; }
 
-        /* Footer */
-        footer {
-            background: #111827;
-            color: var(--white);
-            padding: 5rem 1.5rem;
+        /* --- Transformer Visuals --- */
+        .transformer-visual {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border-radius: 40px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            border: 1px solid var(--border);
             text-align: center;
         }
 
-        .footer-desc {
-            color: #9ca3af;
-            font-style: italic;
-            margin: 1.5rem 0;
+        .qkv-flow {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 2rem 0;
+            position: relative;
         }
 
-        /* Responsive */
+        .qkv-node { text-align: center; flex: 1; }
+        .qkv-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--white);
+            border: 4px solid var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.2rem;
+            font-weight: 900;
+            font-size: 1.6rem;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        /* --- Timeline --- */
+        .timeline { position: relative; padding-left: 3.5rem; }
+        .timeline::before {
+            content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+            background: var(--border); border-radius: 4px;
+        }
+        .timeline-item { position: relative; margin-bottom: 5rem; }
+        .timeline-item::after {
+            content: ''; position: absolute; left: -4.05rem; top: 0.5rem; width: 24px; height: 24px;
+            background: var(--white); border: 5px solid var(--primary); border-radius: 50%; z-index: 1;
+        }
+
+        /* --- Workflow --- */
+        .workflow-step {
+            display: flex;
+            gap: 2rem;
+            padding: 2.5rem;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border-radius: 28px;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border);
+            align-items: flex-start;
+            box-shadow: var(--card-shadow);
+        }
+        .step-num {
+            background: var(--text-main);
+            color: var(--primary);
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        /* --- Modal (Restored) --- */
+        .modal {
+            display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.9); overflow: auto; justify-content: center; align-items: center; padding: 2rem;
+        }
+        .modal-content { max-width: 90%; max-height: 90%; border-radius: 12px; box-shadow: 0 0 50px rgba(0,0,0,0.5); }
+        .close-modal { position: fixed; top: 25px; right: 40px; color: #fff; font-size: 45px; cursor: pointer; font-weight: bold; }
+
+        /* --- Footer --- */
+        footer { padding: 6rem 0; background: var(--bg-section); border-top: 1px solid var(--border); text-align: center; }
+
         @media (max-width: 768px) {
-            .workflow-steps { flex-direction: column; }
-            .nav-inner { justify-content: flex-start; padding: 0 1rem; }
+            h1 { font-size: 2.6rem; }
             .section-header { flex-direction: column; align-items: flex-start; }
-            .btn-outline { width: 100%; justify-content: center; }
-            .header-actions { flex-direction: column; width: 100%; max-width: 300px; margin: 0 auto; }
+            .grid-2, .grid-3 { grid-template-columns: 1fr; }
+            .header-actions { flex-direction: column; width: 100%; max-width: 320px; margin: 0 auto; }
+            .btn { width: 100%; justify-content: center; }
         }
     </style>
 </head>
@@ -398,163 +338,183 @@
         <img class="modal-content" id="infographicImg" src="AI_04_history.png" alt="인공지능 역사 인포그래픽">
     </div>
 
-    <header>
+    <!-- Utility Bar -->
+    <div class="utility-bar">
+        <a href="../index.html" class="util-btn" title="홈으로 이동">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+        </a>
+        <button id="themeToggle" class="util-btn" title="테마 변경">
+            <svg id="themeIcon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+        </button>
+    </div>
+
+    <!-- Hero Header -->
+    <header id="top">
         <div class="container">
-            <span class="badge">A Macro Guide to Artificial Intelligence</span>
-            <h1>인공지능 발전 지도:<br>고대 신화에서 트랜스포머까지</h1>
-            <p class="hero-desc">지능을 가진 존재를 창조하고자 했던 인류의 갈망이 수학과 데이터를 만나 탄생한 거대한 서사시를 탐험합니다.</p>
+            <span class="badge">2026 AI 리터러시의 이해</span>
+            <h1>AI의 이해:<br>고대 신화에서 트랜스포머 혁명까지</h1>
+            <p class="hero-desc">인류의 지능 탐구가 기술적 실체로 변모한 거대한 여정을 분석하고, 현대 비즈니스와 실무의 핵심 경쟁력을 학습합니다.</p>
             
             <div class="header-actions">
-                <a href="#history" class="btn-primary">
+                <a href="#history" class="btn btn-primary">
                     지금 시작하기
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                 </a>
-                <a href="AI슬라이드.pdf" download="AI슬라이드.pdf" class="btn-download">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                <a href="AI슬라이드.pdf" download class="btn btn-secondary">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                     슬라이드 다운로드
                 </a>
-                <a href="AI동영상" target="_blank" class="btn-video">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                <a href="AI동영상" target="_blank" class="btn btn-video">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
                     동영상 보기
                 </a>
             </div>
         </div>
     </header>
 
+    <!-- Navbar -->
     <nav id="mainNav">
         <div class="container nav-inner">
-            <a href="#history" class="nav-item active">1. 역사적 여정</a>
-            <a href="#transformer" class="nav-item">2. 핵심 기술</a>
-            <a href="#business" class="nav-item">3. 비즈니스 가치</a>
-            <a href="#workflow" class="nav-item">4. 실무 워크플로</a>
+            <a href="#history" class="nav-item active">거시적 역사</a>
+            <a href="#transformer" class="nav-item">핵심원리: 트랜스포머</a>
+            <a href="#business" class="nav-item">비즈니스 경쟁 우위</a>
+            <a href="#workflow" class="nav-item">지능형 업무 최적화</a>
         </div>
     </nav>
 
     <main class="container">
-        <!-- History Section -->
+        <!-- 1. History -->
         <section id="history">
             <div class="section-header">
                 <div class="section-title">
-                    <div class="icon-box">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                    </div>
+                    <div class="icon-square"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
                     <h2>인공지능의 거시적 역사</h2>
                 </div>
-                <button id="viewInfographic" class="btn-outline">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-                    인포그래픽으로 보기
+                <button id="viewInfographic" class="btn btn-secondary" style="border-radius: 10px; font-size: 0.9rem;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 5px;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    인포그래픽 보기
                 </button>
             </div>
 
             <div class="timeline">
                 <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <h3>태동기 (고대 ~ 1950년대)</h3>
-                        <p>그리스 신화의 '탈로스'부터 앨런 튜링의 '튜링 테스트'까지. 인간의 사고를 기계로 구현하려는 원초적 갈망의 시기입니다.</p>
-                    </div>
+                    <h3>신화적 상상력과 논리학 (고대 ~ 1940s)</h3>
+                    <p>호메로스의 '탈로스'부터 라이프니츠의 계산 기계까지, 인간은 지능을 가진 존재를 만들고자 갈망했습니다. 1943년 매컬러와 피츠가 최초의 인공신경망 모델을 제안하며 수학적 토대를 닦았습니다.</p>
                 </div>
                 <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <h3>전문가 시스템 (1980년대)</h3>
-                        <p>특정 분야의 지식을 디지털화(Digitizing Logic)하여 문제 해결에 활용하던 시기로, 기업 업무 로직의 자산화가 시작되었습니다.</p>
-                    </div>
+                    <h3>기호주의와 첫 번째 빙하기 (1950s ~ 1970s)</h3>
+                    <p>다트머스 회의(1956)에서 '인공지능'이라는 용어가 탄생했습니다. 초기에는 논리 퍼즐을 푸는 수준이었으나, 컴퓨터 성능의 한계와 실세계의 복잡성으로 인해 첫 암흑기를 맞이했습니다.</p>
                 </div>
                 <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <h3>딥러닝 & 트랜스포머 (2017 ~ 현재)</h3>
-                        <p>'Attention Is All You Need' 논문의 발표로 병렬 연산 기반의 생성형 AI 시대가 도래하며 지식 업무의 패러다임을 바꿨습니다.</p>
-                    </div>
+                    <h3>연결주의의 부활과 딥러닝 (2010s ~ 현재)</h3>
+                    <p>빅데이터와 GPU의 발전으로 역전파 알고리즘이 빛을 발했습니다. 2012년 AlexNet의 등장은 시각 지능 혁명을, 2017년 트랜스포머는 언어 지능 혁명을 일으키며 생성형 AI 시대를 열었습니다.</p>
                 </div>
             </div>
         </section>
 
-        <!-- Transformer Section -->
-        <section id="transformer" style="background: #f3f4f6; margin: 0 -100vw; padding: 5rem 100vw; border-radius: 40px;">
-            <div class="section-title" style="margin-bottom: 3rem;">
-                <div class="icon-box">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2" ry="2"/><rect x="7" y="7" width="10" height="10"/></svg>
-                </div>
-                <h2>핵심 원리: 트랜스포머</h2>
-            </div>
-            
-            <div class="grid-3">
-                <div class="card">
-                    <div style="font-size: 2rem; margin-bottom: 1rem;">🔍</div>
-                    <h4 style="font-weight: 700; margin-bottom: 0.5rem;">Query (질의)</h4>
-                    <p style="font-size: 0.875rem; color: var(--text-muted);">"내가 지금 찾고자 하는 정보의 특성은 무엇인가?"</p>
-                </div>
-                <div class="card">
-                    <div style="font-size: 2rem; margin-bottom: 1rem;">🏷️</div>
-                    <h4 style="font-weight: 700; margin-bottom: 0.5rem;">Key (키)</h4>
-                    <p style="font-size: 0.875rem; color: var(--text-muted);">"데이터베이스 내 각 정보들이 가진 이름표(Label)"</p>
-                </div>
-                <div class="card">
-                    <div style="font-size: 2rem; margin-bottom: 1rem;">📄</div>
-                    <h4 style="font-weight: 700; margin-bottom: 0.5rem;">Value (값)</h4>
-                    <p style="font-size: 0.875rem; color: var(--text-muted);">"키와 매칭되었을 때 실제로 전달할 핵심 정보"</p>
+        <!-- 2. Transformer -->
+        <section id="transformer">
+            <div class="section-header">
+                <div class="section-title">
+                    <div class="icon-square"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="2" width="20" height="20" rx="2"/><rect x="7" y="7" width="10" height="10"/></svg></div>
+                    <h2>핵심원리: 트랜스포머 (Transformer)</h2>
                 </div>
             </div>
 
-            <div class="insight-box">
-                <h5 style="font-weight: 800; margin-bottom: 0.5rem;">💡 전문가의 팁</h5>
-                <p>트랜스포머 아키텍처는 문장을 순차적이 아닌 **병렬적**으로 처리합니다. 이는 엑셀의 VLOOKUP 기능을 수억 번 동시에 수행하여 가장 연관성 높은 결과값을 찾아내는 것과 유사합니다.</p>
+            <div class="transformer-visual">
+                <h3 style="margin-bottom: 1.5rem;">Attention 메커니즘: QKV 연산</h3>
+                <div class="qkv-flow">
+                    <div class="qkv-node">
+                        <div class="qkv-circle">Q</div>
+                        <strong>Query</strong>
+                        <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.5rem;">"무엇을 찾는가?"</p>
+                    </div>
+                    <div style="font-size: 1.5rem; opacity: 0.2;">⇄</div>
+                    <div class="qkv-node">
+                        <div class="qkv-circle">K</div>
+                        <strong>Key</strong>
+                        <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.5rem;">"어떤 특징이 있는가?"</p>
+                    </div>
+                    <div style="font-size: 1.5rem; opacity: 0.2;">⇄</div>
+                    <div class="qkv-node">
+                        <div class="qkv-circle">V</div>
+                        <strong>Value</strong>
+                        <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.5rem;">"실제 정보 값"</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="content-card">
+                    <h4>병렬 연산의 혁신</h4>
+                    <p>과거의 AI(RNN)는 문장을 한 단어씩 순차적으로 읽었으나, 트랜스포머는 문장 전체를 한 번에 처리합니다. 이는 학습 속도를 비약적으로 높였고, 문장 내 단어 간의 거리에 상관없이 맥락을 완벽하게 파악하게 합니다.</p>
+                </div>
+                <div class="content-card">
+                    <h4>추론과 생성의 조화</h4>
+                    <p>단순한 패턴 매칭을 넘어 데이터 간의 '관계'를 수학적으로 계산합니다. 이는 AI가 인간의 언어를 단순 복사하는 것이 아니라, 맥락에 맞는 새로운 문장을 '생성'할 수 있는 근본적인 이유입니다.</p>
+                </div>
             </div>
         </section>
 
-        <!-- Business Impact Section -->
+        <!-- 3. Business Value -->
         <section id="business">
-            <div class="section-title" style="margin-bottom: 3rem;">
-                <div class="icon-box">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+            <div class="section-header">
+                <div class="section-title">
+                    <div class="icon-square"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+                    <h2>비즈니스 경쟁 우위</h2>
                 </div>
-                <h2>비즈니스 경쟁 우위 전략</h2>
             </div>
+
             <div class="grid-3">
-                <div class="card" style="border-top: 4px solid var(--accent);">
-                    <h4 style="margin-bottom: 1rem;">생산성 극대화</h4>
-                    <p style="font-size: 0.9rem;">반복적 리서치 및 초안 작성 자동화를 통한 프로젝트 리드 타임 단축</p>
+                <div class="content-card">
+                    <h4>초개인화 가치 창출</h4>
+                    <p>모든 고객에게 동일한 메시지가 아닌, 개개인의 맥락과 니즈에 맞춘 맞춤형 경험을 실시간으로 제공하여 브랜드 충성도를 극대화합니다.</p>
                 </div>
-                <div class="card" style="border-top: 4px solid var(--accent);">
-                    <h4 style="margin-bottom: 1rem;">프로세스 최적화</h4>
-                    <p style="font-size: 0.9rem;">비구조화된 데이터(PDF, 메일 등)에서 인사이트를 추출하는 시간 획기적 절감</p>
+                <div class="content-card">
+                    <h4>운영 레버리지 확보</h4>
+                    <p>반복적이고 정형화된 업무를 AI가 담당함으로써, 인적 자원을 고도의 전략 수립과 창의적 문제 해결에 집중시켜 기업의 효율성을 높입니다.</p>
                 </div>
-                <div class="card" style="border-top: 4px solid var(--accent);">
-                    <h4 style="margin-bottom: 1rem;">고객 경험 혁신</h4>
-                    <p style="font-size: 0.9rem;">개별 고객의 맥락을 이해하는 지능형 상담원 배치를 통한 만족도 향상</p>
+                <div class="content-card">
+                    <h4>데이터 기반 신속 대응</h4>
+                    <p>비구조화된 방대한 데이터에서 핵심 인사이트를 즉각적으로 추출하여, 변화하는 시장 환경에 누구보다 빠르게 대응하는 민첩성을 확보합니다.</p>
                 </div>
             </div>
         </section>
 
-        <!-- Workflow Section -->
+        <!-- 4. Workflow -->
         <section id="workflow">
-            <div class="section-title" style="margin-bottom: 3rem;">
-                <div class="icon-box">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            <div class="section-header">
+                <div class="section-title">
+                    <div class="icon-square"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+                    <h2>지능형 업무 최적화</h2>
                 </div>
-                <h2>지능형 업무 최적화 매뉴얼</h2>
             </div>
 
-            <div class="workflow-card">
-                <div class="workflow-header">성공적인 AI 협업 3단계 워크플로</div>
-                <div class="workflow-steps">
-                    <div class="step">
-                        <div class="step-num">1</div>
-                        <h5 style="font-weight: 700; margin-bottom: 0.5rem;">데이터 통합 (Project)</h5>
-                        <p style="font-size: 0.875rem; color: var(--text-muted);">자사의 브랜드 가이드와 내부 IP 데이터를 업로드하여 AI의 답변 기준점을 설정합니다.</p>
-                    </div>
-                    <div class="step">
-                        <div class="step-num">2</div>
-                        <h5 style="font-weight: 700; margin-bottom: 0.5rem;">심층 분석 (Research)</h5>
-                        <p style="font-size: 0.875rem; color: var(--text-muted);">수십 개의 웹 출처를 자동 분석하여 데이터의 최신성(Recency)을 확보하고 근거를 강화합니다.</p>
-                    </div>
-                    <div class="step">
-                        <div class="step-num">3</div>
-                        <h5 style="font-weight: 700; margin-bottom: 0.5rem;">공동 편집 (Canvas)</h5>
-                        <p style="font-size: 0.875rem; color: var(--text-muted);">AI와 실시간으로 초안을 다듬으며 문서의 톤앤매너를 최종 승인권자의 눈높이에 맞춥니다.</p>
-                    </div>
+            <div class="workflow-step">
+                <div class="step-num">01</div>
+                <div>
+                    <h4>고도화된 프롬프트 설계</h4>
+                    <p>명확한 페르소나와 제약 사항을 포함한 프롬프트를 통해 AI의 답변 품질을 전문가 수준으로 제어합니다. 질문의 질이 비즈니스 결과물의 질을 결정합니다.</p>
+                </div>
+            </div>
+
+            <div class="workflow-step">
+                <div class="step-num">02</div>
+                <div>
+                    <h4>RAG 기반 지식 통합</h4>
+                    <p>기업 내부의 최신 데이터와 보안 문서를 AI와 결합하여 환각 현상을 방지하고, 정확한 근거를 바탕으로 한 실질적인 인사이트를 도출합니다.</p>
+                </div>
+            </div>
+
+            <div class="workflow-step">
+                <div class="step-num">03</div>
+                <div>
+                    <h4>전문가 최종 검증 및 피드백</h4>
+                    <p>AI의 초안을 인간 전문가가 최종 검토하고 미세 조정하는 'Human-in-the-Loop' 구조를 통해 업무의 완결성과 신뢰성을 확보합니다.</p>
                 </div>
             </div>
         </section>
@@ -562,93 +522,90 @@
 
     <footer>
         <div class="container">
-            <h2 style="font-size: 1.5rem; margin-bottom: 1rem;">인공지능과 동행하는 지식 노동자</h2>
-            <p class="footer-desc">"강력한 도구를 얻은 만큼, 이를 올바르게 활용하고 결과물을 검증하는 인간의 역량이 더욱 중요해졌습니다."</p>
-            <p style="font-size: 0.75rem; color: #6b7280; margin-top: 2rem;">© 2024 AI 이해 발전 지도 프로젝트 | 기반 데이터: 생성형 AI 통합 전략 보고서</p>
+            <h2 style="font-weight: 800; margin-bottom: 1.5rem;">AI와 함께 걷는 새로운 시대</h2>
+            <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto 3rem;">인공지능 리터러시는 단순한 기술 습득을 넘어, 기계와 협력하여 더 큰 가치를 창출하는 인간 고유의 능력을 확장하는 과정입니다.</p>
+            <div style="opacity: 0.6; font-size: 0.85rem; font-weight: 600;">
+                © 2026 AI 리터러시의 이해. 미래를 위한 디지털 역량 강화.
+            </div>
         </div>
     </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const sections = document.querySelectorAll('section');
+            const body = document.body;
+            const themeToggle = document.getElementById('themeToggle');
+            const themeIcon = document.getElementById('themeIcon');
             const navItems = document.querySelectorAll('.nav-item');
             const modal = document.getElementById('imageModal');
-            const viewBtn = document.getElementById('viewInfographic');
-            const closeBtn = document.getElementById('closeModal');
+            const viewInfographic = document.getElementById('viewInfographic');
+            const closeModal = document.getElementById('closeModal');
 
-            // 1. 인포그래픽 모달 제어
-            viewBtn.addEventListener('click', () => {
+            // 1. Theme Switcher
+            themeToggle.addEventListener('click', () => {
+                const isDark = body.classList.toggle('dark-mode');
+                localStorage.setItem('ai-guide-theme', isDark ? 'dark' : 'light');
+                updateThemeIcon(isDark);
+            });
+
+            const savedTheme = localStorage.getItem('ai-guide-theme');
+            if (savedTheme === 'dark') {
+                body.classList.add('dark-mode');
+                updateThemeIcon(true);
+            }
+
+            function updateThemeIcon(isDark) {
+                if(isDark) {
+                    themeIcon.innerHTML = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
+                } else {
+                    themeIcon.innerHTML = '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';
+                }
+            }
+
+            // 2. Modal Logic (Restored)
+            viewInfographic.addEventListener('click', () => {
                 modal.style.display = 'flex';
-                document.body.style.overflow = 'hidden'; 
+                body.style.overflow = 'hidden';
             });
 
-            closeBtn.addEventListener('click', () => {
+            const closeAction = () => {
                 modal.style.display = 'none';
-                document.body.style.overflow = 'auto';
-            });
-
-            window.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    modal.style.display = 'none';
-                    document.body.style.overflow = 'auto';
-                }
-            });
-
-            window.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && modal.style.display === 'flex') {
-                    modal.style.display = 'none';
-                    document.body.style.overflow = 'auto';
-                }
-            });
-
-            // 2. 스무스 스크롤
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    const targetId = this.getAttribute('href');
-                    if (targetId.startsWith('#')) {
-                        e.preventDefault();
-                        const targetSection = document.querySelector(targetId);
-                        if (targetSection) {
-                            window.scrollTo({
-                                top: targetSection.offsetTop - 80,
-                                behavior: 'smooth'
-                            });
-                        }
-                    }
-                });
-            });
-
-            // 3. 스크롤 감지 및 네비게이션 활성화
-            const observerOptions = {
-                root: null,
-                threshold: 0.3,
-                rootMargin: "-80px 0px 0px 0px"
+                body.style.overflow = 'auto';
             };
 
-            const observerCallback = (entries) => {
+            closeModal.addEventListener('click', closeAction);
+            window.addEventListener('click', (e) => { if (e.target === modal) closeAction(); });
+            window.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeAction(); });
+
+            // 3. Scroll Spying
+            const observerOptions = {
+                threshold: 0.4,
+                rootMargin: "-20% 0px -40% 0px"
+            };
+
+            const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         navItems.forEach(item => {
-                            item.classList.remove('active');
-                            if (item.getAttribute('href') === `#${entry.target.id}`) {
-                                item.classList.add('active');
-                            }
+                            item.classList.toggle('active', item.getAttribute('href') === `#${entry.target.id}`);
                         });
                     }
                 });
-            };
+            }, observerOptions);
 
-            const observer = new IntersectionObserver(observerCallback, observerOptions);
-            sections.forEach(section => observer.observe(section));
+            document.querySelectorAll('section').forEach(section => observer.observe(section));
 
-            // 4. 카드 호버 스타일
-            const cards = document.querySelectorAll('.card');
-            cards.forEach(card => {
-                card.addEventListener('mouseenter', () => {
-                    card.style.borderColor = 'var(--accent)';
-                });
-                card.addEventListener('mouseleave', () => {
-                    card.style.borderColor = '#f3f4f6';
+            // 4. Smooth Scroll for all anchors
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElem = document.querySelector(targetId);
+                    if (targetElem) {
+                        window.scrollTo({
+                            top: targetElem.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
                 });
             });
         });
