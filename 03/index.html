@@ -1,73 +1,71 @@
 <!--
 Palette: Brilliant Blues & Vibrant Orange (#1E3A8A, #06B6D4, #F97316, #F8FAFC, #FFFFFF, #0F172A)
 Plan:
-1. Nav & Header: "../index.html" 홈 버튼을 포함한 상단 내비게이션 바.
-2. KPI Section: 5개년 핵심 지표 요약 카드.
-3. Section 1 (Temporal): "스토리북 보기"(링크 업데이트) 및 "영상 보기"(모달 팝업) 버튼 배치. 총인구와 고령 인구의 역전 현상 시각화.
-4. Section 2 (Comparison): 주요 구·군별 2020년 vs 2024년 인구 변화 비교.
-5. Section 3 (Relationship): 인구 증감률과 고령화 비중의 상관관계 분석 콤보 차트.
-6. Recommendations: 심층 인사이트 및 정책 제언 카드.
-7. Modal Implementation: 영상 재생을 위한 고정 레이어 및 비디오 플레이어 구현.
-Visualizations:
-- Data Point: 2020-2024 총인구 vs 고령인구 -> Goal: Change -> Chosen Visualization: Dual-Axis Line Chart -> Chart.js (Canvas). No SVG.
-- Data Point: 구·군별 인구 이동 -> Goal: Compare -> Chosen Visualization: Grouped Bar Chart -> Chart.js (Canvas). No SVG.
-- Data Point: 증감률 vs 고령화 비중 -> Goal: Relationships -> Chosen Visualization: Combo Chart (Bar + Line) -> Chart.js (Canvas). No SVG.
-Confirmation: Explicitly confirming that NEITHER Mermaid JS NOR SVG were used anywhere in the output.
+1. Nav: 타이틀을 '부산광역시 인구 지형 분석 (2020-2024)'으로 변경 및 홈 버튼/다크모드 토글 유지.
+2. Glassmorphism Design: 전역 배경 그래디언트 및 카드 backdrop-blur 효과 적용.
+3. KPI Section: 5개년 핵심 지표 요약.
+4. Section 1 (Temporal): 스토리북 및 영상 보기 버튼과 시계열 차트 배치.
+5. Charts: 다크 모드 대응 테마 색상 동적 변경 로직 포함.
+Confirmation: NEITHER Mermaid JS NOR SVG were used anywhere in the output.
 -->
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" class="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>부산광역시 최근 5개년 인구 지형 분석 (2020-2024)</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    tailwind.config = {
+        darkMode: 'class',
+        theme: {
+            extend: {
+                colors: {
+                    primary: '#1E3A8A',
+                    accent: '#06B6D4',
+                    vibrant: '#F97316',
+                }
+            }
+        }
+    }
+</script>
 <style>
 body {
-    background-color: #F8FAFC;
-    color: #0F172A;
+    transition: background-color 0.3s ease;
     font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+/* Glassmorphism Effect */
+.glass-container {
+    background: linear-gradient(135deg, #f0f4f8 0%, #dbeafe 100%);
+    min-height: 100vh;
+}
+.dark .glass-container {
+    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+}
+.glass-card {
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 1.5rem;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+    padding: 1.5rem;
+    transition: transform 0.2s ease;
+}
+.dark .glass-card {
+    background: rgba(30, 41, 59, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
 }
 .chart-container {
     position: relative;
     width: 100%;
     max-width: 900px;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 0 auto;
     height: 320px;
-    max-height: 400px;
 }
-@media (min-width: 768px) {
-    .chart-container {
-        height: 380px;
-    }
-}
-.glass-card {
-    background: #FFFFFF;
-    border-radius: 1rem;
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
-    padding: 1.5rem;
-    border-top: 4px solid #06B6D4;
-}
-.glass-card.alert {
-    border-top: 4px solid #F97316;
-}
-.glass-card.primary {
-    border-top: 4px solid #1E3A8A;
-}
-.stat-value {
-    font-size: 2.5rem;
-    font-weight: 800;
-    line-height: 1.2;
-    margin-bottom: 0.25rem;
-}
-.stat-label {
-    font-size: 0.875rem;
-    color: #64748B;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    font-weight: 600;
-}
+@media (min-width: 768px) { .chart-container { height: 380px; } }
 .btn-action {
     display: inline-flex;
     align-items: center;
@@ -75,430 +73,245 @@ body {
     padding: 0.75rem 1.25rem;
     border-radius: 9999px;
     transition: all 0.2s;
-    text-decoration: none;
-    font-size: 0.875rem;
 }
-.btn-storybook {
-    background-color: #F97316;
-    color: white;
-    box-shadow: 0 4px 6px -1px rgba(249, 115, 22, 0.3);
-}
-.btn-storybook:hover {
-    background-color: #EA580C;
-    transform: translateY(-2px);
-    box-shadow: 0 10px 15px -3px rgba(249, 115, 22, 0.4);
-}
-.btn-video {
-    background-color: #1E3A8A;
-    color: white;
-    box-shadow: 0 4px 6px -1px rgba(30, 58, 138, 0.3);
-}
-.btn-video:hover {
-    background-color: #1e40af;
-    transform: translateY(-2px);
-    box-shadow: 0 10px 15px -3px rgba(30, 58, 138, 0.4);
-}
-/* Modal Style */
 #videoModal {
     display: none;
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(15, 23, 42, 0.9);
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
     z-index: 1000;
     align-items: center;
     justify-content: center;
 }
-.modal-content {
-    background: #0F172A;
-    border-radius: 1rem;
-    overflow: hidden;
-    width: 90%;
-    max-width: 1000px;
-    position: relative;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-}
-.close-modal {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    color: white;
-    font-size: 2rem;
-    cursor: pointer;
-    z-index: 1001;
-    line-height: 1;
-}
 </style>
 </head>
-<body class="antialiased pb-20">
+<body class="antialiased">
 
-<div id="videoModal">
-    <div class="modal-content">
-        <span class="close-modal" id="closeModal">&times;</span>
-        <div class="aspect-video w-full bg-black">
-            <video id="mainVideo" controls class="w-full h-full">
-                <source src="./mv.mp4" type="video/mp4">
-                브라우저가 비디오 태그를 지원하지 않습니다.
-            </video>
+<div class="glass-container pb-20">
+    <div id="videoModal">
+        <div class="relative w-[90%] max-w-4xl bg-black rounded-2xl overflow-hidden shadow-2xl">
+            <span id="closeModal" class="absolute top-4 right-4 text-white text-3xl cursor-pointer z-10">×</span>
+            <div class="aspect-video w-full">
+                <video id="mainVideo" controls class="w-full h-full">
+                    <source src="./mv.mp4" type="video/mp4">
+                </video>
+            </div>
         </div>
     </div>
+
+    <nav class="sticky top-0 z-50 backdrop-blur-md bg-white/30 dark:bg-slate-900/40 border-b border-white/20 dark:border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center space-x-4">
+                    <a href="../index.html" class="px-4 py-1.5 rounded-lg bg-primary/10 dark:bg-white/10 hover:bg-primary/20 transition-all text-sm font-bold border border-primary/10 dark:border-white/10 dark:text-white">
+                        🏠 홈으로
+                    </a>
+                    <div class="flex items-center font-bold text-lg md:text-xl tracking-tight border-l border-slate-300 dark:border-slate-600 pl-4 text-primary dark:text-accent">
+                        📊 부산광역시 인구 지형 분석 (2020-2024)
+                    </div>
+                </div>
+                <button id="themeToggle" class="p-2 rounded-full bg-white/50 dark:bg-slate-800 shadow-inner border border-white/40 dark:border-slate-700 text-xl">
+                    <span class="dark:hidden">🌙</span>
+                    <span class="hidden dark:inline">☀️</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10">
+        <header class="mb-12 text-center">
+            <h1 class="text-3xl md:text-5xl font-extrabold text-primary dark:text-white mb-4 tracking-tight">가속화된 비대칭성과 동서 양극화</h1>
+            <p class="text-lg md:text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto leading-relaxed">
+                2020~2024년, 부산의 인구 지형은 330만 선 붕괴와 고령화 100만 시대를 동시에 맞이했습니다. 유리처럼 투명하게 투영된 데이터를 통해 부산의 미래를 진단합니다.
+            </p>
+        </header>
+
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            <div class="glass-card text-center">
+                <div class="text-4xl mb-2">📉</div>
+                <div class="text-3xl font-black text-primary dark:text-accent">-9.2만 명</div>
+                <div class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mt-1">5개년 총 인구 감소율</div>
+            </div>
+            <div class="glass-card text-center !border-t-4 !border-t-vibrant">
+                <div class="text-4xl mb-2">📈</div>
+                <div class="text-3xl font-black text-vibrant">+14.4%</div>
+                <div class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mt-1">60세 이상 고령 인구 증가</div>
+            </div>
+            <div class="glass-card text-center !border-t-4 !border-t-primary">
+                <div class="text-4xl mb-2">🚨</div>
+                <div class="text-3xl font-black text-primary dark:text-white">42.3%</div>
+                <div class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mt-1">영도구 고령 인구 비중</div>
+            </div>
+        </section>
+
+        <div class="grid grid-cols-1 gap-8 mb-12">
+            <section class="glass-card !border-t-4 !border-t-primary">
+                <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+                    <h2 class="text-2xl font-bold text-primary dark:text-white">1. 인구 구조의 가속화된 비대칭성</h2>
+                    <div class="flex gap-3">
+                        <button id="openVideo" class="btn-action bg-primary text-white shadow-lg shadow-primary/30 hover:-translate-y-1">🎬 영상 보기</button>
+                        <a href="https://gemini.google.com/share/63c02df6c608" target="_blank" class="btn-action bg-vibrant text-white shadow-lg shadow-vibrant/30 hover:-translate-y-1">📖 스토리북</a>
+                    </div>
+                </div>
+                <div class="chart-container"><canvas id="trendChart"></canvas></div>
+                <p class="mt-6 text-slate-600 dark:text-slate-400 text-sm leading-relaxed border-t border-slate-200 dark:border-slate-700 pt-4">
+                    총인구가 줄어드는 하락 곡선과 고령 인구가 늘어나는 상승 곡선이 2024년에 이르러 더욱 선명해집니다. 이는 생산 가능 인구의 급격한 축소를 의미합니다.
+                </p>
+            </section>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <section class="glass-card">
+                    <h2 class="text-xl font-bold text-primary dark:text-white mb-6">2. 구·군별 인구 이동 (2020 vs 2024)</h2>
+                    <div class="chart-container !h-[300px]"><canvas id="districtChart"></canvas></div>
+                    <p class="mt-4 text-xs text-slate-500 dark:text-slate-400">강서구의 독보적인 성장과 해운대구/영도구의 인구 유출이 극명하게 대조됩니다.</p>
+                </section>
+                <section class="glass-card !border-t-4 !border-t-vibrant">
+                    <h2 class="text-xl font-bold text-primary dark:text-white mb-6">3. 인구 증감률 vs 고령화 상관관계</h2>
+                    <div class="chart-container !h-[300px]"><canvas id="comboChart"></canvas></div>
+                    <p class="mt-4 text-xs text-slate-500 dark:text-slate-400">인구 유출이 심한 영도구/중구가 가장 높은 고령화 비중을 보이는 '악순환'의 지표입니다.</p>
+                </section>
+            </div>
+        </div>
+
+        <section class="glass-card bg-primary/80 dark:bg-slate-900/60 text-white !border-none">
+            <h2 class="text-2xl font-bold mb-8 text-center">미래 대응을 위한 인사이트</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="p-6 rounded-2xl bg-white/10 border border-white/20">
+                    <div class="text-3xl mb-4">🛤️</div>
+                    <h3 class="text-lg font-bold text-accent mb-2">지역 맞춤형 투-트랙 정책</h3>
+                    <p class="text-sm text-slate-200 leading-relaxed">성장 지역은 보육 및 주거 안정을, 쇠퇴 지역은 생활 인구 및 고령자 케어 중심의 콤팩트 시티 조성이 필요합니다.</p>
+                </div>
+                <div class="p-6 rounded-2xl bg-white/10 border border-white/20">
+                    <div class="text-3xl mb-4">🪙</div>
+                    <h3 class="text-lg font-bold text-accent mb-2">실버 경제 생태계 전환</h3>
+                    <p class="text-sm text-slate-200 leading-relaxed">31.3%의 고령 인구를 단순 수혜자가 아닌 경제 주체로 전환하는 '에이징 인 플레이스' 산업 육성이 시급합니다.</p>
+                </div>
+            </div>
+        </section>
+    </main>
 </div>
 
-<nav class="sticky top-0 z-50 bg-[#1E3A8A] text-white shadow-md">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between h-16">
-            <div class="flex items-center space-x-4">
-                <a href="../index.html" class="flex items-center px-4 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 transition-all duration-200 text-sm font-bold border border-white/10">
-                    <span class="mr-2">🏠</span> 홈으로
-                </a>
-                <div class="flex items-center font-bold text-xl tracking-tight border-l border-white/20 pl-4">
-                    <span class="mr-2">📊</span> 5개년 인구 심층 리포트
-                </div>
-            </div>
-            <div class="hidden md:block text-sm font-medium text-blue-200">
-                2020 - 2024 시각화 분석
-            </div>
-        </div>
-    </div>
-</nav>
-
-<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
-    
-    <header class="mb-12 text-center">
-        <h1 class="text-3xl md:text-5xl font-extrabold text-[#1E3A8A] mb-4 tracking-tight">가속화된 비대칭성과 동서 양극화</h1>
-        <p class="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
-            2020년부터 2024년까지의 5년은 부산 인구 지형의 질적 변화가 가장 극명하게 나타난 시기입니다. 330만 명 선이 무너짐과 동시에 고령 인구 100만 명 시대를 맞이한 부산의 양극화된 거점 현황을 분석합니다.
-        </p>
-    </header>
-
-    <section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-        <div class="glass-card">
-            <div class="text-4xl mb-2">📉</div>
-            <div class="stat-value text-[#1E3A8A]">-9.2만 명</div>
-            <div class="stat-label">5개년 총 인구 감소율 (-2.7%)</div>
-        </div>
-        <div class="glass-card alert">
-            <div class="text-4xl mb-2">📈</div>
-            <div class="stat-value text-[#F97316]">+14.4%</div>
-            <div class="stat-label">60세 이상 고령 인구 폭증 (102.1만명 도달)</div>
-        </div>
-        <div class="glass-card primary">
-            <div class="text-4xl mb-2">🚨</div>
-            <div class="stat-value text-[#06B6D4]">42.3%</div>
-            <div class="stat-label">영도구 고령 인구 비중 (최고 위험 수위)</div>
-        </div>
-    </section>
-
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
-        
-        <section class="lg:col-span-12 glass-card primary">
-            <div class="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
-                <h2 class="text-2xl font-bold text-[#1E3A8A]">1. 인구 구조의 가속화된 비대칭성</h2>
-                <div class="flex flex-wrap gap-3">
-                    <button id="openVideo" class="btn-action btn-video">
-                        <span class="mr-2">🎬</span> 영상 보기
-                    </button>
-                    <a href="https://gemini.google.com/share/63c02df6c608" target="_blank" class="btn-action btn-storybook">
-                        <span class="mr-2">📖</span> 스토리북 보기
-                    </a>
-                </div>
-            </div>
-            <div class="bg-blue-50 border-l-4 border-[#1E3A8A] p-4 mb-6">
-                <p class="text-slate-700 leading-relaxed">
-                    부산은 단순히 사람이 줄어드는 것이 아니라, 젊은 층이 빠져나간 자리를 고령층이 빠르게 메우는 <strong>'질적 노쇠화'</strong>가 진행 중입니다. 전체 인구가 2.7% 감소하는 동안 고령 인구가 14.4%나 증가하는 기형적인 교차 현상이 나타나고 있습니다.
-                </p>
-            </div>
-            <div class="chart-container">
-                <canvas id="trendChart"></canvas>
-            </div>
-        </section>
-
-        <section class="lg:col-span-12 glass-card">
-            <h2 class="text-2xl font-bold text-[#1E3A8A] mb-2">2. 도시 거점의 외곽화 및 서진 현상</h2>
-            <div class="bg-blue-50 border-l-4 border-[#06B6D4] p-4 mb-6">
-                <p class="text-slate-700 leading-relaxed">
-                    원도심(중구·영도구)의 쇠퇴가 가속화되는 반면, 서부산의 <strong>강서구</strong>와 동부산의 <strong>기장군</strong>만 성장하는 '동서 양극화'가 뚜렷합니다. 특히 명지국제신도시를 필두로 한 강서구는 유일하게 8.9%의 압도적인 인구 유입을 기록했습니다.
-                </p>
-            </div>
-            <div class="chart-container">
-                <canvas id="districtChart"></canvas>
-            </div>
-        </section>
-
-        <section class="lg:col-span-12 glass-card alert">
-            <h2 class="text-2xl font-bold text-[#1E3A8A] mb-2">3. 인구 증감과 고령화의 상관관계</h2>
-            <div class="bg-orange-50 border-l-4 border-[#F97316] p-4 mb-6">
-                <p class="text-slate-700 leading-relaxed">
-                    인구 유출이 심각한 지역일수록 고령화 비중이 기하급수적으로 높아집니다. 영도구는 5년 만에 10.9%의 인구가 줄어들며, 전체 주민의 <strong>42.3%가 60세 이상</strong>인 임계점에 도달했습니다. 반면 강서구는 인구가 8.9% 증가했음에도 20.9%의 안정적인 비중을 유지합니다.
-                </p>
-            </div>
-            <div class="chart-container">
-                <canvas id="comboChart"></canvas>
-            </div>
-        </section>
-
-    </div>
-
-    <section class="glass-card bg-[#1E3A8A] text-white border-none mt-8 mb-12">
-        <h2 class="text-2xl font-bold text-white mb-6">4. 심층 인사이트 및 정책 제언</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            
-            <div class="bg-white/10 p-6 rounded-xl border border-white/20 flex flex-col h-full">
-                <div class="text-4xl mb-4">🛤️</div>
-                <h3 class="text-xl font-bold text-[#06B6D4] mb-3">지역별 맞춤형 투-트랙(Two-Track) 전략</h3>
-                <p class="text-blue-100 text-sm leading-relaxed mb-4 flex-grow">
-                    획일화된 정책을 탈피해야 합니다. 성장 지역(강서/기장)은 보육 인프라와 액티브 시니어 일자리를 동시에 구축하고, 소멸 위험 지역(영도/중구)은 상주인구 유치에 집착하기보다 <strong>'생활 인구'</strong> 중심의 콤팩트 시티를 구성해야 합니다.
-                </p>
-            </div>
-
-            <div class="bg-white/10 p-6 rounded-xl border border-white/20 flex flex-col h-full">
-                <div class="text-4xl mb-4">🪙</div>
-                <h3 class="text-xl font-bold text-[#06B6D4] mb-3">실버 경제(Silver Economy) 구조 전환</h3>
-                <p class="text-blue-100 text-sm leading-relaxed mb-4 flex-grow">
-                    전체 인구의 31.3%가 고령자인 현실에서, 이들을 단순 수혜자가 아닌 <strong>경제 주체</strong>로 전환해야 합니다. 의료기기, 실버 케어 특구 조성을 통해 인구 감소의 위기를 새로운 거대 산업의 기회로 탈바꿈시켜야 합니다.
-                </p>
-            </div>
-
-        </div>
-    </section>
-
-</main>
-
 <script>
-// Video Modal Logic
-const videoModal = document.getElementById('videoModal');
-const openVideoBtn = document.getElementById('openVideo');
-const closeModalBtn = document.getElementById('closeModal');
-const mainVideo = document.getElementById('mainVideo');
+    const charts = {};
+    const getThemeColors = () => {
+        const isDark = document.documentElement.classList.contains('dark');
+        return {
+            text: isDark ? '#CBD5E1' : '#475569',
+            grid: isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)'
+        };
+    };
 
-openVideoBtn.addEventListener('click', () => {
-    videoModal.style.display = 'flex';
-    mainVideo.play();
-});
+    const wrapLabel = (label) => {
+        if (typeof label !== 'string' || label.length <= 16) return label;
+        const words = label.split(' ');
+        let lines = [], current = '';
+        words.forEach(w => {
+            if ((current + w).length > 16) { lines.push(current.trim()); current = w + ' '; }
+            else { current += w + ' '; }
+        });
+        if (current) lines.push(current.trim());
+        return lines;
+    };
 
-closeModalBtn.addEventListener('click', () => {
-    videoModal.style.display = 'none';
-    mainVideo.pause();
-    mainVideo.currentTime = 0;
-});
-
-window.addEventListener('click', (event) => {
-    if (event.target == videoModal) {
-        videoModal.style.display = 'none';
-        mainVideo.pause();
-        mainVideo.currentTime = 0;
-    }
-});
-
-const wrapLabel = (label) => {
-    if (label.length <= 16) return label;
-    const words = label.split(' ');
-    let lines = [];
-    let currentLine = '';
-    words.forEach(word => {
-        if ((currentLine + word).length > 16) {
-            if (currentLine) lines.push(currentLine.trim());
-            currentLine = word + ' ';
-        } else {
-            currentLine += word + ' ';
-        }
-    });
-    if (currentLine) lines.push(currentLine.trim());
-    return lines;
-};
-
-const commonTooltipConfig = {
-    tooltip: {
+    const commonTooltip = {
         callbacks: {
-            title: function(tooltipItems) {
-                const item = tooltipItems[0];
-                let label = item.chart.data.labels[item.dataIndex];
-                if (Array.isArray(label)) {
-                    return label.join(' ');
-                } else {
-                    return label;
+            title: function(items) {
+                const label = items[0].chart.data.labels[items[0].dataIndex];
+                return Array.isArray(label) ? label.join(' ') : label;
+            }
+        }
+    };
+
+    function createCharts() {
+        const theme = getThemeColors();
+        const fontConfig = { family: 'Pretendard', size: 12 };
+
+        // 1. Trend Chart
+        charts.trend = new Chart(document.getElementById('trendChart'), {
+            type: 'line',
+            data: {
+                labels: ['2020년', '2021년', '2022년', '2023년', '2024년'].map(wrapLabel),
+                datasets: [
+                    { label: '총 인구', data: [3349016, 3324335, 3295760, 3279604, 3257256], borderColor: '#06B6D4', backgroundColor: 'rgba(6, 182, 212, 0.1)', fill: true, yAxisID: 'y' },
+                    { label: '60세 이상', data: [892277, 934024, 965387, 997993, 1020554], borderColor: '#F97316', backgroundColor: 'rgba(249, 115, 22, 0.1)', fill: true, yAxisID: 'y1' }
+                ]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: { tooltip: commonTooltip, legend: { labels: { color: theme.text, font: fontConfig } } },
+                scales: {
+                    x: { grid: { display: false }, ticks: { color: theme.text, font: fontConfig } },
+                    y: { position: 'left', grid: { color: theme.grid }, ticks: { color: theme.text }, min: 3200000 },
+                    y1: { position: 'right', grid: { display: false }, ticks: { color: theme.text }, min: 800000 }
                 }
             }
-        }
-    }
-};
+        });
 
-const trendCtx = document.getElementById('trendChart').getContext('2d');
-new Chart(trendCtx, {
-    type: 'line',
-    data: {
-        labels: ['2020년', '2024년'].map(wrapLabel),
-        datasets: [
-            {
-                label: '총 인구 (명)',
-                data: [3349016, 3257256],
-                borderColor: '#06B6D4',
-                backgroundColor: 'rgba(6, 182, 212, 0.1)',
-                borderWidth: 4,
-                yAxisID: 'y',
-                tension: 0,
-                fill: true,
-                pointBackgroundColor: '#06B6D4',
-                pointRadius: 8,
-                pointHoverRadius: 10
+        // 2. District Chart
+        charts.district = new Chart(document.getElementById('districtChart'), {
+            type: 'bar',
+            data: {
+                labels: ['강서구', '기장군', '해운대구', '영도구', '중구'].map(wrapLabel),
+                datasets: [
+                    { label: '2020', data: [133231, 169328, 396443, 113758, 41439], backgroundColor: '#94A3B8' },
+                    { label: '2024', data: [145123, 175257, 379165, 101311, 39599], backgroundColor: '#1E3A8A' }
+                ]
             },
-            {
-                label: '60세 이상 고령 인구 (명)',
-                data: [892277, 1020554],
-                borderColor: '#F97316',
-                backgroundColor: 'rgba(249, 115, 22, 0.1)',
-                borderWidth: 4,
-                yAxisID: 'y1',
-                tension: 0,
-                fill: true,
-                pointBackgroundColor: '#F97316',
-                pointRadius: 8,
-                pointHoverRadius: 10
-            }
-        ]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        interaction: { mode: 'index', intersect: false },
-        plugins: {
-            ...commonTooltipConfig,
-            legend: { position: 'top', labels: { font: { family: 'Pretendard', size: 14 } } }
-        },
-        scales: {
-            x: { 
-                grid: { display: false },
-                ticks: { font: { size: 14, weight: 'bold' } }
-            },
-            y: {
-                type: 'linear',
-                display: true,
-                position: 'left',
-                title: { display: true, text: '총 인구 규모', color: '#06B6D4', font: { weight: 'bold' } },
-                min: 3200000,
-                max: 3400000
-            },
-            y1: {
-                type: 'linear',
-                display: true,
-                position: 'right',
-                title: { display: true, text: '고령 인구 규모', color: '#F97316', font: { weight: 'bold' } },
-                min: 800000,
-                max: 1100000,
-                grid: { drawOnChartArea: false }
-            }
-        }
-    }
-});
-
-const districtLabelsRaw = ['강서구 (신규 거점)', '기장군 (동부 성장)', '부산진구 (중심 유지)', '해운대구 (최대 인구)', '중구 (최소 인구)', '영도구 (소멸 위기)'];
-const districtLabels = districtLabelsRaw.map(wrapLabel);
-
-const districtCtx = document.getElementById('districtChart').getContext('2d');
-new Chart(districtCtx, {
-    type: 'bar',
-    data: {
-        labels: districtLabels,
-        datasets: [
-            {
-                label: '2020년 인구',
-                data: [133231, 169328, 354821, 396443, 41439, 113758],
-                backgroundColor: '#94A3B8',
-                borderRadius: 6
-            },
-            {
-                label: '2024년 인구',
-                data: [145123, 175257, 354188, 379165, 39599, 101311],
-                backgroundColor: '#1E3A8A',
-                borderRadius: 6
-            }
-        ]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            ...commonTooltipConfig,
-            legend: { position: 'top', labels: { font: { family: 'Pretendard' } } }
-        },
-        scales: {
-            x: { 
-                grid: { display: false },
-                ticks: { font: { family: 'Pretendard' } }
-            },
-            y: { 
-                beginAtZero: true,
-                grid: { color: '#E2E8F0' },
-                ticks: {
-                    callback: function(value) { return (value / 10000) + '만명'; },
-                    font: { family: 'Pretendard' }
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: { tooltip: commonTooltip, legend: { labels: { color: theme.text } } },
+                scales: {
+                    x: { grid: { display: false }, ticks: { color: theme.text } },
+                    y: { grid: { color: theme.grid }, ticks: { color: theme.text } }
                 }
             }
-        }
-    }
-});
+        });
 
-const comboCtx = document.getElementById('comboChart').getContext('2d');
-new Chart(comboCtx, {
-    type: 'bar',
-    data: {
-        labels: districtLabels,
-        datasets: [
-            {
-                type: 'line',
-                label: '5개년 인구 증감률 (%)',
-                data: [8.9, 3.5, -0.2, -4.4, -4.4, -10.9],
-                borderColor: '#06B6D4',
-                backgroundColor: '#06B6D4',
-                borderWidth: 3,
-                yAxisID: 'y1',
-                pointRadius: 6,
-                pointBackgroundColor: '#FFFFFF',
-                pointBorderWidth: 2
+        // 3. Combo Chart
+        charts.combo = new Chart(document.getElementById('comboChart'), {
+            type: 'bar',
+            data: {
+                labels: ['강서구', '기장군', '부산진구', '해운대구', '중구', '영도구'].map(wrapLabel),
+                datasets: [
+                    { type: 'line', label: '증감률(%)', data: [8.9, 3.5, -0.2, -4.4, -4.4, -10.9], borderColor: '#06B6D4', pointBackgroundColor: '#fff', yAxisID: 'y1' },
+                    { type: 'bar', label: '고령비중(%)', data: [20.9, 28.6, 30.7, 31.3, 37.9, 42.3], backgroundColor: 'rgba(249, 115, 22, 0.7)', yAxisID: 'y' }
+                ]
             },
-            {
-                type: 'bar',
-                label: '2024년 고령 인구 비중 (%)',
-                data: [20.9, 28.6, 30.7, 31.3, 37.9, 42.3],
-                backgroundColor: 'rgba(249, 115, 22, 0.85)',
-                borderRadius: 6,
-                yAxisID: 'y'
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: { tooltip: commonTooltip, legend: { labels: { color: theme.text } } },
+                scales: {
+                    x: { grid: { display: false }, ticks: { color: theme.text } },
+                    y: { position: 'left', grid: { color: theme.grid }, ticks: { color: theme.text } },
+                    y1: { position: 'right', grid: { display: false }, ticks: { color: theme.text } }
+                }
             }
-        ]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            ...commonTooltipConfig,
-            legend: { position: 'top', labels: { font: { family: 'Pretendard' } } }
-        },
-        scales: {
-            x: { 
-                grid: { display: false },
-                ticks: { font: { family: 'Pretendard' } }
-            },
-            y: {
-                type: 'linear',
-                display: true,
-                position: 'left',
-                title: { display: true, text: '고령 인구 비중 (%)', color: '#F97316', font: { weight: 'bold' } },
-                grid: { color: '#E2E8F0' }
-            },
-            y1: {
-                type: 'linear',
-                display: true,
-                position: 'right',
-                title: { display: true, text: '인구 증감률 (%)', color: '#06B6D4', font: { weight: 'bold' } },
-                grid: { drawOnChartArea: false },
-                suggestedMin: -15,
-                suggestedMax: 15
-            }
-        }
+        });
     }
-});
+
+    // Toggle logic
+    document.getElementById('themeToggle').addEventListener('click', () => {
+        document.documentElement.classList.toggle('dark');
+        const theme = getThemeColors();
+        Object.values(charts).forEach(chart => {
+            chart.options.scales.x.ticks.color = theme.text;
+            chart.options.scales.y.ticks.color = theme.text;
+            chart.options.scales.y.grid.color = theme.grid;
+            if (chart.options.scales.y1) chart.options.scales.y1.ticks.color = theme.text;
+            if (chart.options.plugins.legend) chart.options.plugins.legend.labels.color = theme.text;
+            chart.update();
+        });
+    });
+
+    // Modal logic
+    const modal = document.getElementById('videoModal');
+    const video = document.getElementById('mainVideo');
+    document.getElementById('openVideo').onclick = () => { modal.style.display = 'flex'; video.play(); };
+    document.getElementById('closeModal').onclick = () => { modal.style.display = 'none'; video.pause(); };
+    window.onclick = (e) => { if (e.target == modal) { modal.style.display = 'none'; video.pause(); } };
+
+    window.onload = createCharts;
 </script>
 
 </body>
