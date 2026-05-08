@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>고령운전자 사고 통계 대시보드</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Pretendard', sans-serif; background-color: #f8fafc; }
+        .stat-card { transition: transform 0.2s; }
+        .stat-card:hover { transform: translateY(-5px); }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+    <div class="max-w-6xl mx-auto">
+        <!-- Header -->
+        <header class="mb-8 text-center md:text-left">
+            <h1 class="text-3xl font-extrabold text-slate-800 mb-2">고령운전자 교통사고 통계 리포트 (2020-2024)</h1>
+            <p class="text-slate-500">전체 사고는 감소 중이나, 고령운전자 사고 비중은 급격히 증가하고 있습니다.</p>
+        </header>
+
+        <!-- Summary Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="stat-card bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                <div class="text-sm font-semibold text-slate-500 mb-2">2024년 고령운전자 사고</div>
+                <div class="flex items-end gap-2">
+                    <span class="text-3xl font-bold text-red-500">42,369</span>
+                    <span class="text-lg text-slate-400 mb-1">건</span>
+                </div>
+                <div class="mt-2 text-xs text-red-400 font-medium">▲ 2020년 대비 36.3% 증가</div>
+            </div>
+            <div class="stat-card bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                <div class="text-sm font-semibold text-slate-500 mb-2">전체 사고 중 비중 (2024)</div>
+                <div class="flex items-end gap-2">
+                    <span class="text-3xl font-bold text-slate-800">21.6</span>
+                    <span class="text-lg text-slate-400 mb-1">%</span>
+                </div>
+                <div class="mt-2 text-xs text-blue-500 font-medium">5건 중 1건 이상 발생</div>
+            </div>
+            <div class="stat-card bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                <div class="text-sm font-semibold text-slate-500 mb-2">전체 사고 추이 (5년)</div>
+                <div class="flex items-end gap-2">
+                    <span class="text-3xl font-bold text-slate-800">6.3</span>
+                    <span class="text-lg text-slate-400 mb-1">% 감소</span>
+                </div>
+                <div class="mt-2 text-xs text-slate-400 font-medium">안전지표 개선 중</div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+            <!-- Main Trend Chart -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                <h2 class="text-lg font-bold text-slate-800 mb-6">연도별 사고 건수 추이</h2>
+                <div class="relative h-[300px]">
+                    <canvas id="trendChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Ratio Chart -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                <h2 class="text-lg font-bold text-slate-800 mb-6">고령운전자 사고 비중 (%)</h2>
+                <div class="relative h-[300px]">
+                    <canvas id="ratioChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Insights -->
+        <div class="bg-slate-800 text-white p-8 rounded-2xl shadow-lg">
+            <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                데이터 주요 분석 결과
+            </h2>
+            <ul class="space-y-4 text-slate-300">
+                <li class="flex items-start gap-3">
+                    <span class="bg-red-500/20 text-red-400 px-2 py-0.5 rounded text-sm font-bold mt-0.5">상승</span>
+                    <p>고령운전자 사고는 2020년 3.1만 건에서 2024년 4.2만 건으로 매년 중단 없이 증가했습니다.</p>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded text-sm font-bold mt-0.5">역전</span>
+                    <p>전체 사고 건수는 감소세(▼6.3%)를 보이는 반면, 고령운전자 사고는 가파른 증가세(▲36.3%)를 보이며 대조를 이룹니다.</p>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="bg-yellow-500/20 text-yellow-400 px-2 py-0.5 rounded text-sm font-bold mt-0.5">경고</span>
+                    <p>전체 사고 중 고령자 비중이 사상 처음으로 20%를 돌파($21.6\%$)하여 사회적 대책이 시급합니다.</p>
+                </li>
+            </ul>
+        </div>
+
+        <footer class="mt-8 text-center text-slate-400 text-sm">
+            데이터 출처: 고령운전자 사고 통계 보고서 (2020-2024)
+        </footer>
+    </div>
+
+    <script>
+        const years = ['2020년', '2021년', '2022년', '2023년', '2024년'];
+        const totalAccidents = [209654, 203130, 196836, 198296, 196349];
+        const elderlyAccidents = [31072, 31841, 34652, 39614, 42369];
+        const ratios = [14.82, 15.68, 17.60, 19.98, 21.58];
+
+        // Trend Chart
+        new Chart(document.getElementById('trendChart'), {
+            type: 'bar',
+            data: {
+                labels: years,
+                datasets: [
+                    {
+                        label: '고령운전자 사고',
+                        data: elderlyAccidents,
+                        backgroundColor: '#ef4444',
+                        borderRadius: 8,
+                        order: 2
+                    },
+                    {
+                        label: '추세선',
+                        data: elderlyAccidents,
+                        borderColor: '#dc2626',
+                        type: 'line',
+                        tension: 0.4,
+                        borderWidth: 2,
+                        pointRadius: 4,
+                        order: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom' }
+                },
+                scales: {
+                    y: { beginAtZero: false, min: 25000 }
+                }
+            }
+        });
+
+        // Ratio Chart
+        new Chart(document.getElementById('ratioChart'), {
+            type: 'line',
+            data: {
+                labels: years,
+                datasets: [{
+                    label: '고령자 사고 비중 (%)',
+                    data: ratios,
+                    borderColor: '#3b82f6',
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    pointBackgroundColor: '#3b82f6',
+                    pointRadius: 6,
+                    pointHoverRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: { 
+                        beginAtZero: false, 
+                        min: 10,
+                        ticks: {
+                            callback: value => value + '%'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
