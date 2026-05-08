@@ -1,257 +1,295 @@
-import React, { useState, useMemo } from 'react';
-import { 
-  LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell, PieChart, Pie
-} from 'recharts';
-import { 
-  TrendingUp, TrendingDown, AlertTriangle, MapPin, Calendar, BarChart3, List, ChevronUp, ChevronDown
-} from 'lucide-react';
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>시도별 (뺑소니) 교통사고 통계 분석</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .chart-container { position: relative; height: 320px; width: 100%; }
+        table { border-collapse: separate; border-spacing: 0; }
+        th { position: sticky; top: 0; z-index: 10; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 antialiased p-4 md:p-8">
 
-const rawData = [
-  { 시도: "서울", 합계: 3993, "2020": 751, "2021": 824, "2022": 806, "2023": 863, "2024": 749 },
-  { 시도: "부산", 합계: 2409, "2020": 474, "2021": 521, "2022": 427, "2023": 412, "2024": 575 },
-  { 시도: "대구", 합계: 1959, "2020": 481, "2021": 399, "2022": 469, "2023": 329, "2024": 281 },
-  { 시도: "인천", 합계: 3619, "2020": 630, "2021": 913, "2022": 704, "2023": 688, "2024": 684 },
-  { 시도: "광주", 합계: 1557, "2020": 357, "2021": 263, "2022": 295, "2023": 323, "2024": 319 },
-  { 시도: "대전", 합계: 945, "2020": 194, "2021": 193, "2022": 176, "2023": 199, "2024": 183 },
-  { 시도: "울산", 합계: 655, "2020": 137, "2021": 174, "2022": 130, "2023": 116, "2024": 98 },
-  { 시도: "세종", 합계: 129, "2020": 19, "2021": 21, "2022": 28, "2023": 38, "2024": 23 },
-  { 시도: "경기", 합계: 9705, "2020": 2120, "2021": 2077, "2022": 1834, "2023": 1731, "2024": 1943 },
-  { 시도: "강원", 합계: 851, "2020": 218, "2021": 181, "2022": 151, "2023": 186, "2024": 115 },
-  { 시도: "충북", 합계: 882, "2020": 203, "2021": 179, "2022": 152, "2023": 169, "2024": 179 },
-  { 시도: "충남", 합계: 1943, "2020": 417, "2021": 318, "2022": 332, "2023": 386, "2024": 490 },
-  { 시도: "전북", 합계: 1051, "2020": 219, "2021": 214, "2022": 179, "2023": 234, "2024": 205 },
-  { 시도: "전남", 합계: 1391, "2020": 355, "2021": 306, "2022": 292, "2023": 223, "2024": 215 },
-  { 시도: "경북", 합계: 1921, "2020": 388, "2021": 487, "2022": 408, "2023": 311, "2024": 327 },
-  { 시도: "경남", 합계: 1676, "2020": 350, "2021": 338, "2022": 318, "2023": 391, "2024": 279 },
-  { 시도: "제주", 합계: 480, "2020": 105, "2021": 84, "2022": 77, "2023": 78, "2024": 136 }
-];
-
-const App = () => {
-  const [sortConfig, setSortConfig] = useState({ key: '합계', direction: 'desc' });
-
-  // Calculate Aggregates
-  const stats = useMemo(() => {
-    const total = rawData.reduce((acc, curr) => acc + curr.합계, 0);
-    const topRegion = [...rawData].sort((a, b) => b.합계 - a.합계)[0];
-    
-    const yearlyTotals = ["2020", "2021", "2022", "2023", "2024"].map(year => {
-      return {
-        year,
-        count: rawData.reduce((acc, curr) => acc + curr[year], 0)
-      };
-    });
-
-    const yoyGrowth = ((yearlyTotals[4].count - yearlyTotals[3].count) / yearlyTotals[3].count * 100).toFixed(1);
-
-    return { total, topRegion, yearlyTotals, yoyGrowth };
-  }, []);
-
-  const sortedData = useMemo(() => {
-    const sortableData = [...rawData];
-    sortableData.sort((a, b) => {
-      if (a[sortConfig.key] < b[sortConfig.key]) {
-        return sortConfig.direction === 'asc' ? -1 : 1;
-      }
-      if (a[sortConfig.key] > b[sortConfig.key]) {
-        return sortConfig.direction === 'asc' ? 1 : -1;
-      }
-      return 0;
-    });
-    return sortableData;
-  }, [sortConfig]);
-
-  const requestSort = (key) => {
-    let direction = 'desc';
-    if (sortConfig.key === key && sortConfig.direction === 'desc') {
-      direction = 'asc';
-    }
-    setSortConfig({ key, direction });
-  };
-
-  const COLORS = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899', '#06B6D4'];
-
-  return (
-    <div className="min-h-screen bg-slate-50 p-4 md:p-8 font-sans text-slate-900">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
-          <div>
-            <h1 className="text-3xl font-bold text-slate-800 flex items-center gap-2">
-              <BarChart3 className="text-blue-600" />
-              시도별 (뺑소니) 교통사고 통계 분석
-            </h1>
-            <p className="text-slate-500 mt-1">2020년 ~ 2024년 전국 시도별 뺑소니 현황</p>
-          </div>
-          <div className="flex gap-2">
-            <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">최종 업데이트: 2024년 12월</span>
-          </div>
+    <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+            <div>
+                <h1 class="text-3xl font-bold text-slate-800 flex items-center gap-2">
+                    <i data-lucide="bar-chart-3" class="text-blue-600"></i>
+                    시도별 (뺑소니) 교통사고 통계 분석
+                </h1>
+                <p class="text-slate-500 mt-1">2020년 ~ 2024년 전국 시도별 뺑소니 현황</p>
+            </div>
+            <div class="flex gap-2">
+                <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">최종 업데이트: 2024년 12월</span>
+            </div>
         </div>
 
-        {/* Summary Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-            <div className="flex items-center justify-between mb-4">
-              <div className="p-2 bg-blue-50 rounded-lg text-blue-600">
-                <AlertTriangle size={24} />
-              </div>
-              <span className="text-xs font-bold text-slate-400 uppercase">Total Accidents</span>
+        <!-- Summary Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="p-2 bg-blue-50 rounded-lg text-blue-600"><i data-lucide="alert-triangle"></i></div>
+                    <span class="text-xs font-bold text-slate-400 uppercase">Total Accidents</span>
+                </div>
+                <div id="stat-total" class="text-2xl font-bold">-</div>
+                <p class="text-sm text-slate-500 mt-1">5년 누적 합계</p>
             </div>
-            <div className="text-2xl font-bold">{stats.total.toLocaleString()}건</div>
-            <p className="text-sm text-slate-500 mt-1">5년 누적 합계</p>
-          </div>
 
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-            <div className="flex items-center justify-between mb-4">
-              <div className="p-2 bg-red-50 rounded-lg text-red-600">
-                <MapPin size={24} />
-              </div>
-              <span className="text-xs font-bold text-slate-400 uppercase">Top Risk Region</span>
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="p-2 bg-red-50 rounded-lg text-red-600"><i data-lucide="map-pin"></i></div>
+                    <span class="text-xs font-bold text-slate-400 uppercase">Top Risk Region</span>
+                </div>
+                <div id="stat-top-region" class="text-2xl font-bold text-red-600">-</div>
+                <p id="stat-top-count" class="text-sm text-slate-500 mt-1">-</p>
             </div>
-            <div className="text-2xl font-bold text-red-600">{stats.topRegion.시도}</div>
-            <p className="text-sm text-slate-500 mt-1">{stats.topRegion.합계.toLocaleString()}건 발생</p>
-          </div>
 
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-            <div className="flex items-center justify-between mb-4">
-              <div className="p-2 bg-emerald-50 rounded-lg text-emerald-600">
-                <Calendar size={24} />
-              </div>
-              <span className="text-xs font-bold text-slate-400 uppercase">Yearly Trend</span>
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="p-2 bg-emerald-50 rounded-lg text-emerald-600"><i data-lucide="calendar"></i></div>
+                    <span class="text-xs font-bold text-slate-400 uppercase">Yearly Trend</span>
+                </div>
+                <div id="stat-growth" class="flex items-center gap-2 text-2xl font-bold">-</div>
+                <p class="text-sm text-slate-500 mt-1">전년 대비 증감율 (24년)</p>
             </div>
-            <div className="flex items-center gap-2 text-2xl font-bold">
-              {stats.yoyGrowth > 0 ? <TrendingUp className="text-red-500" /> : <TrendingDown className="text-blue-500" />}
-              {Math.abs(stats.yoyGrowth)}%
-            </div>
-            <p className="text-sm text-slate-500 mt-1">전년 대비 증감율 (24년)</p>
-          </div>
 
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-            <div className="flex items-center justify-between mb-4">
-              <div className="p-2 bg-purple-50 rounded-lg text-purple-600">
-                <TrendingUp size={24} />
-              </div>
-              <span className="text-xs font-bold text-slate-400 uppercase">Avg per Year</span>
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="p-2 bg-purple-50 rounded-lg text-purple-600"><i data-lucide="trending-up"></i></div>
+                    <span class="text-xs font-bold text-slate-400 uppercase">Avg per Year</span>
+                </div>
+                <div id="stat-avg" class="text-2xl font-bold">-</div>
+                <p class="text-sm text-slate-500 mt-1">연평균 사고 건수</p>
             </div>
-            <div className="text-2xl font-bold">{(stats.total / 5).toLocaleString()}건</div>
-            <p className="text-sm text-slate-500 mt-1">연평균 사고 건수</p>
-          </div>
         </div>
 
-        {/* Charts Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-          {/* Yearly Trend Chart */}
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-            <h3 className="text-lg font-bold mb-6 flex items-center gap-2">
-              <Calendar size={18} className="text-blue-600" />
-              연도별 전국 사고 발생 추이
-            </h3>
-            <div className="h-80 w-full">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={stats.yearlyTotals}>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                  <XAxis dataKey="year" stroke="#64748b" />
-                  <YAxis stroke="#64748b" />
-                  <Tooltip 
-                    contentStyle={{ backgroundColor: '#fff', borderRadius: '12px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
-                    formatter={(value) => [`${value.toLocaleString()}건`, '발생 건수']}
-                  />
-                  <Line 
-                    type="monotone" 
-                    dataKey="count" 
-                    stroke="#2563eb" 
-                    strokeWidth={3} 
-                    dot={{ r: 6, fill: '#2563eb' }}
-                    activeDot={{ r: 8, strokeWidth: 0 }}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
+        <!-- Charts Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                <h3 class="text-lg font-bold mb-6 flex items-center gap-2">
+                    <i data-lucide="calendar" class="text-blue-600 w-5 h-5"></i>
+                    연도별 전국 사고 발생 추이
+                </h3>
+                <div class="chart-container">
+                    <canvas id="lineChart"></canvas>
+                </div>
             </div>
-          </div>
 
-          {/* Regional Comparison Chart */}
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-            <h3 className="text-lg font-bold mb-6 flex items-center gap-2">
-              <MapPin size={18} className="text-emerald-600" />
-              지역별 누적 사고 발생 비교
-            </h3>
-            <div className="h-80 w-full">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart 
-                  data={rawData.sort((a, b) => b.합계 - a.합계).slice(0, 8)}
-                  layout="vertical"
-                  margin={{ left: 20 }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#f1f5f9" />
-                  <XAxis type="number" hide />
-                  <YAxis dataKey="시도" type="category" stroke="#64748b" width={50} />
-                  <Tooltip 
-                    contentStyle={{ backgroundColor: '#fff', borderRadius: '12px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
-                    formatter={(value) => [`${value.toLocaleString()}건`, '누적 합계']}
-                  />
-                  <Bar dataKey="합계" radius={[0, 4, 4, 0]}>
-                    {rawData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                    ))}
-                  </Bar>
-                </BarChart>
-              </ResponsiveContainer>
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                <h3 class="text-lg font-bold mb-6 flex items-center gap-2">
+                    <i data-lucide="map-pin" class="text-emerald-600 w-5 h-5"></i>
+                    지역별 누적 사고 발생 비교 (Top 8)
+                </h3>
+                <div class="chart-container">
+                    <canvas id="barChart"></canvas>
+                </div>
             </div>
-          </div>
         </div>
 
-        {/* Table Section */}
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
-          <div className="p-6 border-b border-slate-100 flex justify-between items-center">
-            <h3 className="text-lg font-bold flex items-center gap-2">
-              <List size={18} className="text-slate-600" />
-              시도별 상세 데이터 현황
-            </h3>
-            <span className="text-xs text-slate-400">컬럼 제목을 클릭하여 정렬할 수 있습니다.</span>
-          </div>
-          <div className="overflow-x-auto">
-            <table className="w-full text-left">
-              <thead>
-                <tr className="bg-slate-50 text-slate-500 text-xs uppercase font-bold tracking-wider">
-                  {['시도', '합계', '2020', '2021', '2022', '2023', '2024'].map((header) => (
-                    <th 
-                      key={header}
-                      className="px-6 py-4 cursor-pointer hover:text-blue-600 transition-colors"
-                      onClick={() => requestSort(header)}
-                    >
-                      <div className="flex items-center gap-1">
-                        {header}
-                        {sortConfig.key === header && (
-                          sortConfig.direction === 'asc' ? <ChevronUp size={14} /> : <ChevronDown size={14} />
-                        )}
-                      </div>
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100">
-                {sortedData.map((row) => (
-                  <tr key={row.시도} className="hover:bg-slate-50 transition-colors">
-                    <td className="px-6 py-4 font-bold text-slate-700">{row.시도}</td>
-                    <td className="px-6 py-4 font-semibold text-blue-600">{row.합계.toLocaleString()}</td>
-                    <td className="px-6 py-4 text-slate-600">{row["2020"].toLocaleString()}</td>
-                    <td className="px-6 py-4 text-slate-600">{row["2021"].toLocaleString()}</td>
-                    <td className="px-6 py-4 text-slate-600">{row["2022"].toLocaleString()}</td>
-                    <td className="px-6 py-4 text-slate-600">{row["2023"].toLocaleString()}</td>
-                    <td className="px-6 py-4 text-slate-600 font-medium">{row["2024"].toLocaleString()}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+        <!-- Table Section -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+            <div class="p-6 border-b border-slate-100 flex justify-between items-center">
+                <h3 class="text-lg font-bold flex items-center gap-2">
+                    <i data-lucide="list" class="text-slate-600 w-5 h-5"></i>
+                    시도별 상세 데이터 현황
+                </h3>
+                <span class="text-xs text-slate-400">컬럼 제목을 클릭하여 정렬할 수 있습니다.</span>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left" id="data-table">
+                    <thead>
+                        <tr class="bg-slate-50 text-slate-500 text-xs uppercase font-bold tracking-wider">
+                            <th class="px-6 py-4 cursor-pointer hover:text-blue-600 transition-colors" onclick="sortTable('시도')">시도 <span id="sort-icon-시도"></span></th>
+                            <th class="px-6 py-4 cursor-pointer hover:text-blue-600 transition-colors" onclick="sortTable('합계')">합계 <span id="sort-icon-합계"></span></th>
+                            <th class="px-6 py-4 cursor-pointer hover:text-blue-600 transition-colors" onclick="sortTable('2020')">2020 <span id="sort-icon-2020"></span></th>
+                            <th class="px-6 py-4 cursor-pointer hover:text-blue-600 transition-colors" onclick="sortTable('2021')">2021 <span id="sort-icon-2021"></span></th>
+                            <th class="px-6 py-4 cursor-pointer hover:text-blue-600 transition-colors" onclick="sortTable('2022')">2022 <span id="sort-icon-2022"></span></th>
+                            <th class="px-6 py-4 cursor-pointer hover:text-blue-600 transition-colors" onclick="sortTable('2023')">2023 <span id="sort-icon-2023"></span></th>
+                            <th class="px-6 py-4 cursor-pointer hover:text-blue-600 transition-colors" onclick="sortTable('2024')">2024 <span id="sort-icon-2024"></span></th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body" class="divide-y divide-slate-100">
+                        <!-- Data rows will be injected here -->
+                    </tbody>
+                </table>
+            </div>
         </div>
 
-        {/* Footer Note */}
-        <footer className="mt-8 text-center text-slate-400 text-sm pb-8">
-          <p>© 2024 Traffic Accident Statistics Analysis Tool. All data is based on the refined CSV records.</p>
+        <footer class="mt-8 text-center text-slate-400 text-sm pb-8">
+            <p>© 2024 Traffic Accident Statistics Analysis Tool. All data is based on the refined CSV records.</p>
         </footer>
-      </div>
     </div>
-  );
-};
 
-export default App;
+    <script>
+        const rawData = [
+            { 시도: "서울", 합계: 3993, "2020": 751, "2021": 824, "2022": 806, "2023": 863, "2024": 749 },
+            { 시도: "부산", 합계: 2409, "2020": 474, "2021": 521, "2022": 427, "2023": 412, "2024": 575 },
+            { 시도: "대구", 합계: 1959, "2020": 481, "2021": 399, "2022": 469, "2023": 329, "2024": 281 },
+            { 시도: "인천", 합계: 3619, "2020": 630, "2021": 913, "2022": 704, "2023": 688, "2024": 684 },
+            { 시도: "광주", 합계: 1557, "2020": 357, "2021": 263, "2022": 295, "2023": 323, "2024": 319 },
+            { 시도: "대전", 합계: 945, "2020": 194, "2021": 193, "2022": 176, "2023": 199, "2024": 183 },
+            { 시도: "울산", 합계: 655, "2020": 137, "2021": 174, "2022": 130, "2023": 116, "2024": 98 },
+            { 시도: "세종", 합계: 129, "2020": 19, "2021": 21, "2022": 28, "2023": 38, "2024": 23 },
+            { 시도: "경기", 합계: 9705, "2020": 2120, "2021": 2077, "2022": 1834, "2023": 1731, "2024": 1943 },
+            { 시도: "강원", 합계: 851, "2020": 218, "2021": 181, "2022": 151, "2023": 186, "2024": 115 },
+            { 시도: "충북", 합계: 882, "2020": 203, "2021": 179, "2022": 152, "2023": 169, "2024": 179 },
+            { 시도: "충남", 합계: 1943, "2020": 417, "2021": 318, "2022": 332, "2023": 386, "2024": 490 },
+            { 시도: "전북", 합계: 1051, "2020": 219, "2021": 214, "2022": 179, "2023": 234, "2024": 205 },
+            { 시도: "전남", 합계: 1391, "2020": 355, "2021": 306, "2022": 292, "2023": 223, "2024": 215 },
+            { 시도: "경북", 합계: 1921, "2020": 388, "2021": 487, "2022": 408, "2023": 311, "2024": 327 },
+            { 시도: "경남", 합계: 1676, "2020": 350, "2021": 338, "2022": 318, "2023": 391, "2024": 279 },
+            { 시도: "제주", 합계: 480, "2020": 105, "2021": 84, "2022": 77, "2023": 78, "2024": 136 }
+        ];
+
+        let currentSort = { key: '합계', direction: 'desc' };
+
+        function init() {
+            lucide.createIcons();
+            calculateStats();
+            renderCharts();
+            renderTable();
+        }
+
+        function calculateStats() {
+            const total = rawData.reduce((acc, curr) => acc + curr.합계, 0);
+            const topRegion = [...rawData].sort((a, b) => b.합계 - a.합계)[0];
+            
+            const yearlyTotals = ["2020", "2021", "2022", "2023", "2024"].map(year => {
+                return rawData.reduce((acc, curr) => acc + curr[year], 0);
+            });
+
+            const count23 = yearlyTotals[3];
+            const count24 = yearlyTotals[4];
+            const growth = (((count24 - count23) / count23) * 100).toFixed(1);
+
+            document.getElementById('stat-total').innerText = total.toLocaleString() + '건';
+            document.getElementById('stat-top-region').innerText = topRegion.시도;
+            document.getElementById('stat-top-count').innerText = topRegion.합계.toLocaleString() + '건 발생';
+            document.getElementById('stat-avg').innerText = (total / 5).toLocaleString() + '건';
+
+            const growthEl = document.getElementById('stat-growth');
+            const icon = growth > 0 ? '<i data-lucide="trending-up" class="text-red-500"></i>' : '<i data-lucide="trending-down" class="text-blue-500"></i>';
+            growthEl.innerHTML = `${icon} ${Math.abs(growth)}%`;
+            lucide.createIcons();
+        }
+
+        function renderCharts() {
+            const years = ["2020", "2021", "2022", "2023", "2024"];
+            const yearlyTotals = years.map(year => rawData.reduce((acc, curr) => acc + curr[year], 0));
+
+            // Line Chart
+            new Chart(document.getElementById('lineChart'), {
+                type: 'line',
+                data: {
+                    labels: years,
+                    datasets: [{
+                        label: '전국 사고 건수',
+                        data: yearlyTotals,
+                        borderColor: '#2563eb',
+                        backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                        borderWidth: 3,
+                        tension: 0.3,
+                        fill: true,
+                        pointRadius: 5,
+                        pointBackgroundColor: '#2563eb'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: false, grid: { color: '#f1f5f9' } },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+
+            // Bar Chart
+            const sortedForBar = [...rawData].sort((a, b) => b.합계 - a.합계).slice(0, 8);
+            new Chart(document.getElementById('barChart'), {
+                type: 'bar',
+                data: {
+                    labels: sortedForBar.map(d => d.시도),
+                    datasets: [{
+                        label: '누적 사고 건수',
+                        data: sortedForBar.map(d => d.합계),
+                        backgroundColor: [
+                            '#3B82F6', '#10B981', '#F59E0B', '#EF4444', 
+                            '#8B5CF6', '#EC4899', '#06B6D4', '#64748b'
+                        ],
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { grid: { color: '#f1f5f9' } },
+                        y: { grid: { display: false } }
+                    }
+                }
+            });
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('table-body');
+            tbody.innerHTML = '';
+
+            const sortedData = [...rawData].sort((a, b) => {
+                const aVal = a[currentSort.key];
+                const bVal = b[currentSort.key];
+                if (currentSort.direction === 'asc') return aVal > bVal ? 1 : -1;
+                return aVal < bVal ? 1 : -1;
+            });
+
+            sortedData.forEach(row => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-50 transition-colors';
+                tr.innerHTML = `
+                    <td class="px-6 py-4 font-bold text-slate-700">${row.시도}</td>
+                    <td class="px-6 py-4 font-semibold text-blue-600">${row.합계.toLocaleString()}</td>
+                    <td class="px-6 py-4 text-slate-600">${row["2020"].toLocaleString()}</td>
+                    <td class="px-6 py-4 text-slate-600">${row["2021"].toLocaleString()}</td>
+                    <td class="px-6 py-4 text-slate-600">${row["2022"].toLocaleString()}</td>
+                    <td class="px-6 py-4 text-slate-600">${row["2023"].toLocaleString()}</td>
+                    <td class="px-6 py-4 text-slate-600 font-medium">${row["2024"].toLocaleString()}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            // Update Sort Icons
+            ['시도', '합계', '2020', '2021', '2022', '2023', '2024'].forEach(key => {
+                const iconSpan = document.getElementById(`sort-icon-${key}`);
+                if (currentSort.key === key) {
+                    iconSpan.innerHTML = currentSort.direction === 'asc' ? '↑' : '↓';
+                } else {
+                    iconSpan.innerHTML = '';
+                }
+            });
+        }
+
+        function sortTable(key) {
+            if (currentSort.key === key) {
+                currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+            } else {
+                currentSort.key = key;
+                currentSort.direction = 'desc';
+            }
+            renderTable();
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>
