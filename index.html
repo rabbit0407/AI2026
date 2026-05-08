@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Literacy Portfolio</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;800&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
@@ -53,9 +55,10 @@
 </head>
 <body class="bg-gray-50 dark:bg-darkBg text-gray-900 dark:text-gray-100 transition-colors duration-300">
 
+    <!-- Navigation -->
     <nav class="fixed top-0 w-full z-40 glass border-b border-gray-200 dark:border-gray-800">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="text-2xl font-extrabold gradient-text tracking-tighter">AI LITERACY UNDERSTANDING</div>
+            <div class="text-2xl font-extrabold gradient-text tracking-tighter">AI LITERACY</div>
             <div class="flex items-center space-x-6">
                 <button onclick="toggleDarkMode()" class="p-2.5 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-yellow-400 hover:scale-110 transition">
                     <i id="theme-icon" class="fas fa-moon"></i>
@@ -64,21 +67,23 @@
         </div>
     </nav>
 
+    <!-- Hero Section -->
     <header class="pt-32 pb-20 px-4 text-center">
         <div class="container mx-auto">
             <span class="inline-block px-4 py-1.5 mb-6 text-sm font-semibold text-pink-600 dark:text-pink-400 bg-pink-50 dark:bg-pink-900/30 rounded-full">
                 Empowering Minds with AI Literacy
             </span>
             <h1 class="text-4xl md:text-5xl font-extrabold mb-6 tracking-tight leading-tight">
-                <br class="md:hidden"> <span class="gradient-text">AI 리터러시의 이해</span> 수업을 통해 AI를 활용하는 법을 배우다
+                데이터를 읽고, <br class="md:hidden"> <span class="gradient-text">AI 리터러시</span>의 가치를 쓰다
             </h1>
             <p class="max-w-2xl mx-auto text-lg text-gray-600 dark:text-gray-400 leading-relaxed font-medium">
-                1-16주차 강의를 통해, <br class="hidden md:block">
-                AI를 이용하여 멋진 웹페이지를 만드는 것을 목표로 하고 있습니다.
+                숫자와 텍스트 속에 숨겨진 맥락을 파악하고, <br class="hidden md:block">
+                AI 도구를 통해 새로운 통찰을 창조하는 데이터 리터러시 탐구의 기록입니다.
             </p>
         </div>
     </header>
 
+    <!-- Portfolio Cards Grid -->
     <section class="container mx-auto px-6 py-12">
         <div class="flex items-center justify-between mb-12">
             <div class="flex items-center gap-3">
@@ -89,9 +94,11 @@
         </div>
         
         <div id="card-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            </div>
+            <!-- Cards will be dynamically added here -->
+        </div>
     </section>
 
+    <!-- Profile Section -->
     <section class="py-24 bg-white dark:bg-darkBg border-t border-gray-100 dark:border-gray-800">
         <div class="container mx-auto px-6">
             <div class="max-w-4xl mx-auto bg-gray-50 dark:bg-darkCard rounded-[2rem] overflow-hidden shadow-sm flex flex-col md:flex-row border border-gray-200 dark:border-gray-700">
@@ -103,7 +110,7 @@
                              class="relative w-40 h-40 rounded-full object-cover border-4 border-white dark:border-white/10 shadow-2xl">
                     </div>
                     <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-1">하동윤</h2>
-                    <p class="text-pink-500 font-semibold text-sm">공공정책학부</p>
+                    <p class="text-pink-500 font-semibold text-sm">AI Literacy Explorer</p>
                     <div class="flex mt-6 space-x-3">
                         <a href="#" class="w-9 h-9 rounded-full bg-white dark:bg-white/5 flex items-center justify-center text-gray-600 dark:text-white hover:bg-pink-500 hover:text-white transition shadow-sm"><i class="fab fa-github"></i></a>
                         <a href="#" class="w-9 h-9 rounded-full bg-white dark:bg-white/5 flex items-center justify-center text-gray-600 dark:text-white hover:bg-pink-500 hover:text-white transition shadow-sm"><i class="fas fa-envelope"></i></a>
@@ -115,10 +122,10 @@
                     </h3>
                     <div class="space-y-4 text-gray-600 dark:text-gray-300 leading-relaxed">
                         <p>
-                            'AI 리터러시의 이해'라는 수업을 들으며, AI라는 도구를 통해 웹 페이지를 만들고 있습니다.
+                            복잡하게 얽힌 데이터의 실타래를 풀고, AI라는 도구를 통해 그 가치를 증폭시키는 일에 매료되어 있습니다.
                         </p>
                         <p>
-                            <strong>AI 리터러시(Literacy)의 이해</strong>의 수업을 바탕으로 AI의 본질을 이해하고, 인간의 통찰력과 데이터의 논리를 결합하는 과정을 학습합니다.
+                            단순한 사용을 넘어 <strong>AI 리터러시(Literacy)</strong>를 바탕으로 기술의 본질을 이해하고, 인간의 통찰력과 데이터의 논리를 결합하는 과정을 연구합니다.
                         </p>
                         <div class="pt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div class="p-3 bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm flex items-center gap-3">
@@ -136,6 +143,7 @@
         </div>
     </section>
 
+    <!-- Modal -->
     <div id="modal" class="fixed inset-0 z-50 flex items-center justify-center hidden p-4">
         <div onclick="closeModal()" class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
         <div class="relative bg-white dark:bg-darkCard w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden scale-90 transition-transform duration-300" id="modal-content">
@@ -154,7 +162,7 @@
 
     <footer class="py-12 text-center text-gray-400 dark:text-gray-600">
         <p class="text-xs font-bold tracking-widest uppercase mb-2">Designed for the future</p>
-        <p class="text-sm">&copy; 2026 Ha Dongyun. AI Literacy Portfolio</p>
+        <p class="text-sm">&copy; 2024 Ha Dong-yun. AI Literacy Portfolio</p>
     </footer>
 
     <script>
@@ -165,9 +173,9 @@
             { id: 0, title: "AI의 이해", color: "card-blue", grad: "from-blue-500 to-blue-700", icon: "fa-brain", description: "AI의 정의, 역사적 흐름, 생성형 AI의 메커니즘을 분석하고 구글 NotebookLM을 통해 지식 베이스를 구축했습니다.", detail: "이 프로젝트는 AI를 블랙박스가 아닌 이해 가능한 도구로 정의하는 데 집중했습니다. 데이터가 어떻게 지능으로 변모하는지 그 핵심 프로세스를 탐구했습니다.", tech: "Google NotebookLM", link: "./02/index.html" },
             { id: 1, title: "데이터 스토리텔링", color: "card-purple", grad: "from-purple-500 to-purple-700", icon: "fa-book-open", description: "공공 데이터를 분석하고 인사이트를 도출하여 시각적으로 설득력 있는 리포트 작성하여 스토리북으로 만들기", detail: "공공 데이터를 분석하고 인사이트를 도출하여 시각적으로 설득력 있는 리포트 작성하여 스토리북으로 만들기", tech: "Gemini 스토리북", link: "./03/index.html" },
             { id: 2, title: "웹 기술의 이해", color: "card-pink", grad: "from-pink-500 to-pink-700", icon: "fa-code", description: "현대 웹을 구성하는 HTML, CSS, JavaScript의 구조를 이해하고, 사용자가 상호작용할 수 있는 웹 인터페이스의 원리를 학습합니다.", detail: "웹 표준 기술을 바탕으로 직관적인 UI/UX를 설계하는 방법과 브라우저의 렌더링 과정을 탐구하여 웹 프로젝트의 기초를 다졌습니다.", tech: "HTML5 / CSS3 / Tailwind", link: "./04/index.html" },
-            { id: 3, title: "중간과제 : 나와 전공을 연결하는 AI 스토리 웹페이지 제작", color: "card-orange", grad: "from-orange-500 to-orange-700", icon: "fa-id-card-clip", description: "자신의 전공 분야와 AI 기술의 접점을 찾고, 이를 스토리텔링 형식으로 풀어낸 개인 맞춤형 웹페이지를 제작합니다.", detail: "개인 성격과 전공 지식을 AI와 결합하여, 미래의 커리어 비전을 제시하는 중간과제 웹 페이지입니다.", tech: "Web Storytelling / AI Integration", link: "./05/index.html" },
-            { id: 4, title: "멀티모달 AI 리터러시", color: "card-green", grad: "from-green-500 to-green-700", icon: "fa-layer-group", description: "텍스트, 이미지, 오디오 등 다양한 형태의 데이터를 동시에 처리하는 멀티모달 AI의 활용법을 익힙니다.", detail: "이미지를 설명하고 텍스트를 이미지로 변환하는 등 서로 다른 매체 간의 지능적 연결을 실험했습니다.", tech: "Multimodal Models" },
-            { id: 5, title: "데이터 윤리와 AI 거버넌스", color: "card-teal", grad: "from-teal-500 to-teal-700", icon: "fa-shield-halved", description: "AI 사용 시 발생할 수 있는 저작권, 편향성 문제를 인식하고 책임감 있는 기술 사용 원칙을 수립합니다.", detail: "기술의 발전만큼 중요한 윤리적 잣대를 세우고, 사회적으로 이로운 AI 활용 방향을 논의했습니다.", tech: "AI Ethics Guideline" },
+            { id: 3, title: "중간과제 : 나와 전공을 연결하는 AI 스토리 웹페이지 제작", color: "card-orange", grad: "from-orange-500 to-orange-700", icon: "fa-id-card-clip", description: "자신의 전공 분야와 AI 기술의 접점을 찾고, 이를 스토리텔링 형식으로 풀어낸 개인 맞춤형 웹페이지를 제작합니다.", detail: "개인적 배경과 전공 지식을 AI 리터러시와 결합하여, 미래의 커리어 비전을 제시하는 인터랙티브 웹 포트폴리오 프로젝트입니다.", tech: "Web Storytelling / AI Integration", link: "./05/index.html" },
+            { id: 4, title: "데이터분석(고령운전자)", color: "card-green", grad: "from-green-500 to-green-700", icon: "fa-chart-pie", description: "코랩으로 데이터분석", detail: "Google Colab을 활용하여 고령운전자 관련 데이터를 정제하고 시각화하여 유의미한 패턴을 분석하는 실습입니다.", tech: "Google Colab / Pandas / Matplotlib", link: "./06/index.html" },
+            { id: 5, title: "데이터분석(시도별 뺑소니 교통사고)", color: "card-teal", grad: "from-teal-500 to-teal-700", icon: "fa-car-burst", description: "코랩으로 데이터분석", detail: "시도별 뺑소니 교통사고 데이터를 분석하여 통계적 인사이트를 도출하고, 지역별 사고 발생 패턴을 시각화하는 프로젝트입니다.", tech: "Google Colab / Pandas / Seaborn", link: "./07/index.html" },
             { id: 6, title: "GPTs 커스텀 에이전트 설계", color: "card-red", grad: "from-red-500 to-red-700", icon: "fa-robot", description: "특정 목적에 최적화된 나만의 AI 비서를 제작하고 외부 지식을 학습시키는 과정을 경험합니다.", detail: "사용자 요구사항에 맞춤화된 GPTs를 제작하여 특정 도메인 지식을 효과적으로 전달하는 에이전트를 구성했습니다.", tech: "GPT Builder" },
             { id: 7, title: "지능형 정보 검색 실습", color: "card-indigo", grad: "from-indigo-500 to-indigo-700", icon: "fa-magnifying-glass", description: "수많은 정보 속에서 AI를 필터링 도구로 삼아 필요한 정보를 정확하게 찾아내는 검색 리터러시를 강화합니다.", detail: "RAG(검색 증강 생성) 원리를 이해하고 정확한 출처 기반의 답변을 얻어내는 검색 전략을 학습했습니다.", tech: "RAG / Advanced Search" },
             { id: 8, title: "AI 기반 창의적 문제해결", color: "card-amber", grad: "from-amber-500 to-amber-700", icon: "fa-lightbulb", description: "기존의 사고방식을 넘어 AI를 브레인스토밍 파트너로 활용해 혁신적인 해결책을 도출합니다.", detail: "아이디어 확장 단계에서 AI와 대화하며 기존의 한계를 깨뜨리는 창의적 협업 프로세스를 정립했습니다.", tech: "Brainstorming AI" },
@@ -276,7 +284,7 @@
                         ${proj.link ? `
                         <div class="pt-4 border-t border-gray-100 dark:border-gray-800">
                             <a href="${proj.link}" class="inline-flex items-center gap-2 text-blue-600 font-bold hover:underline">
-                                결과물 보기 <i class="fas fa-external-link-alt"></i>
+                                실시간 결과물 확인하기 <i class="fas fa-external-link-alt"></i>
                             </a>
                         </div>` : ''}
                     </div>
