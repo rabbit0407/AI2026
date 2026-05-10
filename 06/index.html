@@ -8,17 +8,46 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Pretendard', sans-serif; background-color: #f8fafc; }
-        .stat-card { transition: transform 0.2s; }
+        body { font-family: 'Pretendard', sans-serif; transition: background-color 0.3s, color 0.3s; }
+        .stat-card { transition: transform 0.2s, background-color 0.3s; }
         .stat-card:hover { transform: translateY(-5px); }
+        
+        /* Dark Mode helper classes */
+        .dark { background-color: #0f172a; color: #f8fafc; }
+        .dark .stat-card { background-color: #1e293b; border-color: #334155; }
+        .dark .text-slate-800 { color: #f1f5f9; }
+        .dark .text-slate-500 { color: #94a3b8; }
+        .dark .bg-white { background-color: #1e293b; }
     </style>
 </head>
-<body class="p-4 md:p-8">
+<body id="app-body" class="p-4 md:p-8 bg-slate-50 text-slate-900">
+    <!-- Top Navigation Bar -->
+    <nav class="max-w-6xl mx-auto flex justify-between items-center mb-6">
+        <a href="../index.html" class="flex items-center gap-2 px-4 py-2 bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700 rounded-lg font-semibold hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l1.293 1.293a1 1 0 001.414-1.414l-7-7z" />
+            </svg>
+            홈
+        </a>
+        <button id="dark-mode-toggle" class="p-2 bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+            <span class="dark:hidden">🌙 다크 모드</span>
+            <span class="hidden dark:inline">☀️ 라이트 모드</span>
+        </button>
+    </nav>
+
     <div class="max-w-6xl mx-auto">
         <!-- Header -->
-        <header class="mb-8 text-center md:text-left">
-            <h1 class="text-3xl font-extrabold text-slate-800 mb-2">고령운전자 교통사고 통계 리포트 (2020-2024)</h1>
-            <p class="text-slate-500">전체 사고는 감소 중이나, 고령운전자 사고 비중은 급격히 증가하고 있습니다.</p>
+        <header class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div>
+                <h1 class="text-3xl font-extrabold text-slate-800 mb-2">고령운전자 교통사고 통계 리포트</h1>
+                <p class="text-slate-500">2020년 - 2024년 전체 교통사고 대비 비중 추이</p>
+            </div>
+            <a href="./AI와 코랩을 활용한 기사와 통계.pdf" target="_blank" class="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-lg shadow-blue-500/30 transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                AI 기사 보기
+            </a>
         </header>
 
         <!-- Summary Cards -->
@@ -45,23 +74,21 @@
                     <span class="text-3xl font-bold text-slate-800">6.3</span>
                     <span class="text-lg text-slate-400 mb-1">% 감소</span>
                 </div>
-                <div class="mt-2 text-xs text-slate-400 font-medium">안전지표 개선 중</div>
+                <div class="mt-2 text-xs text-slate-400 font-medium">일반 안전지표는 개선 중</div>
             </div>
         </div>
 
-        <!-- Main Content -->
+        <!-- Charts Section -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-            <!-- Main Trend Chart -->
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-                <h2 class="text-lg font-bold text-slate-800 mb-6">연도별 사고 건수 추이</h2>
+                <h2 class="text-lg font-bold text-slate-800 mb-6">연도별 고령운전자 사고 건수</h2>
                 <div class="relative h-[300px]">
                     <canvas id="trendChart"></canvas>
                 </div>
             </div>
 
-            <!-- Ratio Chart -->
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-                <h2 class="text-lg font-bold text-slate-800 mb-6">고령운전자 사고 비중 (%)</h2>
+                <h2 class="text-lg font-bold text-slate-800 mb-6">고령운전자 사고 비중 추이 (%)</h2>
                 <div class="relative h-[300px]">
                     <canvas id="ratioChart"></canvas>
                 </div>
@@ -74,106 +101,98 @@
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                데이터 주요 분석 결과
+                데이터 인사이트
             </h2>
-            <ul class="space-y-4 text-slate-300">
-                <li class="flex items-start gap-3">
-                    <span class="bg-red-500/20 text-red-400 px-2 py-0.5 rounded text-sm font-bold mt-0.5">상승</span>
-                    <p>고령운전자 사고는 2020년 3.1만 건에서 2024년 4.2만 건으로 매년 중단 없이 증가했습니다.</p>
-                </li>
-                <li class="flex items-start gap-3">
-                    <span class="bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded text-sm font-bold mt-0.5">역전</span>
-                    <p>전체 사고 건수는 감소세(▼6.3%)를 보이는 반면, 고령운전자 사고는 가파른 증가세(▲36.3%)를 보이며 대조를 이룹니다.</p>
-                </li>
-                <li class="flex items-start gap-3">
-                    <span class="bg-yellow-500/20 text-yellow-400 px-2 py-0.5 rounded text-sm font-bold mt-0.5">경고</span>
-                    <p>전체 사고 중 고령자 비중이 사상 처음으로 20%를 돌파($21.6\%$)하여 사회적 대책이 시급합니다.</p>
-                </li>
-            </ul>
+            <div class="grid md:grid-cols-2 gap-6 text-slate-300">
+                <div class="flex items-start gap-3">
+                    <div class="bg-red-500/20 text-red-400 px-2 py-0.5 rounded text-xs font-bold mt-1">위험</div>
+                    <p>고령운전자 사고는 5년 연속 증가하며 역대 최고치를 경신하고 있습니다.</p>
+                </div>
+                <div class="flex items-start gap-3">
+                    <div class="bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded text-xs font-bold mt-1">대조</div>
+                    <p>전체 교통사고는 감소 추세이나, 고령자 사고만 '역주행' 증가 중입니다.</p>
+                </div>
+            </div>
         </div>
 
-        <footer class="mt-8 text-center text-slate-400 text-sm">
-            데이터 출처: 고령운전자 사고 통계 보고서 (2020-2024)
+        <footer class="mt-8 text-center text-slate-400 text-sm pb-8">
+            &copy; 2026년 AI 리터러시의 이해 수업
         </footer>
     </div>
 
     <script>
+        // Data from CSV
         const years = ['2020년', '2021년', '2022년', '2023년', '2024년'];
-        const totalAccidents = [209654, 203130, 196836, 198296, 196349];
         const elderlyAccidents = [31072, 31841, 34652, 39614, 42369];
         const ratios = [14.82, 15.68, 17.60, 19.98, 21.58];
 
-        // Trend Chart
-        new Chart(document.getElementById('trendChart'), {
-            type: 'bar',
-            data: {
-                labels: years,
-                datasets: [
-                    {
-                        label: '고령운전자 사고',
-                        data: elderlyAccidents,
-                        backgroundColor: '#ef4444',
-                        borderRadius: 8,
-                        order: 2
-                    },
-                    {
-                        label: '추세선',
-                        data: elderlyAccidents,
-                        borderColor: '#dc2626',
-                        type: 'line',
-                        tension: 0.4,
-                        borderWidth: 2,
-                        pointRadius: 4,
-                        order: 1
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { position: 'bottom' }
-                },
-                scales: {
-                    y: { beginAtZero: false, min: 25000 }
-                }
-            }
+        // Dark Mode Logic
+        const toggleBtn = document.getElementById('dark-mode-toggle');
+        const body = document.getElementById('app-body');
+        
+        toggleBtn.addEventListener('click', () => {
+            body.classList.toggle('dark');
+            updateChartTheme();
         });
 
-        // Ratio Chart
-        new Chart(document.getElementById('ratioChart'), {
-            type: 'line',
-            data: {
-                labels: years,
-                datasets: [{
-                    label: '고령자 사고 비중 (%)',
-                    data: ratios,
-                    borderColor: '#3b82f6',
-                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                    fill: true,
-                    tension: 0.4,
-                    pointBackgroundColor: '#3b82f6',
-                    pointRadius: 6,
-                    pointHoverRadius: 8
-                }]
-            },
-            options: {
+        // Charts configuration
+        let trendChart, ratioChart;
+        
+        function initCharts() {
+            const isDark = body.classList.contains('dark');
+            const gridColor = isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)';
+            const labelColor = isDark ? '#94a3b8' : '#64748b';
+
+            const chartOptions = {
                 responsive: true,
                 maintainAspectRatio: false,
-                plugins: {
-                    legend: { display: false }
-                },
+                plugins: { legend: { display: false } },
                 scales: {
-                    y: { 
-                        beginAtZero: false, 
-                        min: 10,
-                        ticks: {
-                            callback: value => value + '%'
-                        }
-                    }
+                    x: { grid: { display: false }, ticks: { color: labelColor } },
+                    y: { grid: { color: gridColor }, ticks: { color: labelColor } }
                 }
-            }
-        });
+            };
+
+            trendChart = new Chart(document.getElementById('trendChart'), {
+                type: 'bar',
+                data: {
+                    labels: years,
+                    datasets: [{
+                        label: '사고 건수',
+                        data: elderlyAccidents,
+                        backgroundColor: '#ef4444',
+                        borderRadius: 6
+                    }]
+                },
+                options: chartOptions
+            });
+
+            ratioChart = new Chart(document.getElementById('ratioChart'), {
+                type: 'line',
+                data: {
+                    labels: years,
+                    datasets: [{
+                        label: '비중 (%)',
+                        data: ratios,
+                        borderColor: '#3b82f6',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 5
+                    }]
+                },
+                options: chartOptions
+            });
+        }
+
+        function updateChartTheme() {
+            trendChart.destroy();
+            ratioChart.destroy();
+            initCharts();
+        }
+
+        // Initialize on load
+        window.onload = initCharts;
     </script>
 </body>
 </html>
