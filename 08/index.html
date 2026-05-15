@@ -47,13 +47,11 @@
         }
 
         .hero-bg {
-            /* 밝은 하늘색 그라데이션으로 오버레이 변경 */
             background-image: linear-gradient(to bottom, rgba(240, 249, 255, 0.2), rgba(240, 249, 255, 0.7)), url('https://images.unsplash.com/photo-1570191913384-6030999086e1?q=80&w=2070&auto=format&fit=crop');
             background-size: cover;
             background-position: center;
         }
         
-        /* 다크모드일 때는 다시 약간 어둡게 조절 */
         .dark .hero-bg {
             background-image: linear-gradient(rgba(8, 18, 33, 0.4), rgba(8, 18, 33, 0.8)), url('https://images.unsplash.com/photo-1570191913384-6030999086e1?q=80&w=2070&auto=format&fit=crop');
         }
@@ -86,7 +84,7 @@
             </a>
             <div class="flex items-center space-x-2">
                 <svg class="w-8 h-8 text-busanBlue" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                <span class="text-xl font-extrabold tracking-tighter uppercase italic dark:text-white text-slate-800">Real Busan</span>
+                <span class="text-xl font-extrabold tracking-tighter uppercase italic dark:text-white text-slate-800">코랩을 활용한 데이터분석</span>
             </div>
         </div>
         
@@ -99,7 +97,7 @@
         <div class="flex items-center space-x-4">
             <!-- Dark Mode Toggle -->
             <button onclick="toggleDarkMode()" class="p-2 hover:bg-sky-100 dark:hover:bg-slate-800 rounded-full transition" title="다크 모드 전환">
-                <svg id="sun-icon" class="w-6 h-6 text-yellow-500 hidden" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4.243 3.05a1 1 0 011.414 0l.707.707a1 1 0 11-1.414 1.414l-.707-.707a1 1 0 010-1.414zM17 10a1 1 0 011 1h1a1 1 0 11-2 0h-1a1 1 0 011-1zM14.243 16.95a1 1 0 010 1.414l-.707.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM10 18a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zm-4.243-3.05a1 1 0 01-1.414 0l-.707-.707a1 1 0 011.414-1.414l.707.707a1 1 0 010 1.414zM3 10a1 1 0 011-1H4a1 1 0 110 2H3a1 1 0 01-1-1zm3.05-4.243a1 1 0 010 1.414l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 0zM10 5a5 5 0 100 10 5 5 0 000-10z" clip-rule="evenodd"></path></svg>
+                <svg id="sun-icon" class="w-6 h-6 text-yellow-500 hidden" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 11-2 0V3a1 1 0 011-1zm4.243 3.05a1 1 0 011.414 0l.707.707a1 1 0 11-1.414 1.414l-.707-.707a1 1 0 010-1.414zM17 10a1 1 0 011 1h1a1 1 0 11-2 0h-1a1 1 0 011-1zM14.243 16.95a1 1 0 010 1.414l-.707.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM10 18a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zm-4.243-3.05a1 1 0 01-1.414 0l-.707-.707a1 1 0 011.414-1.414l.707.707a1 1 0 010 1.414zM3 10a1 1 0 011-1H4a1 1 0 110 2H3a1 1 0 01-1-1zm3.05-4.243a1 1 0 010 1.414l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 0zM10 5a5 5 0 100 10 5 5 0 000-10z" clip-rule="evenodd"></path></svg>
                 <svg id="moon-icon" class="w-6 h-6 text-slate-700" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
             </button>
             <button class="bg-busanBlue text-white px-5 py-2 rounded-full font-bold text-sm shadow-md hover:bg-blue-700 transition">
@@ -108,7 +106,7 @@
         </div>
     </nav>
 
-    <!-- Hero Section (Modified for Brighter Look) -->
+    <!-- Hero Section -->
     <section class="h-screen hero-bg flex items-center justify-center text-center px-4">
         <div class="animate__animated animate__fadeInUp">
             <p class="text-busanBlue dark:text-blue-300 font-bold tracking-widest mb-4 uppercase">Rediscover the Pearl of the East</p>
@@ -184,7 +182,8 @@
             <!-- Tab Contents -->
             <div id="content-trust" class="grid md:grid-cols-2 gap-12 items-center animate__animated animate__fadeIn">
                 <div class="relative">
-                    <img src="https://images.unsplash.com/photo-1547928576-a4a33237ecd3?q=80&w=1964&auto=format&fit=crop" class="rounded-3xl shadow-2xl h-[400px] w-full object-cover" alt="로컬 맛집">
+                    <!-- New Reliable Image for Busan Local Food/Market -->
+                    <img src="https://images.unsplash.com/photo-1616149562385-1d84e79478bb?q=80&w=1974&auto=format&fit=crop" class="rounded-3xl shadow-2xl h-[400px] w-full object-cover" alt="로컬 맛집" onerror="this.src='https://images.unsplash.com/photo-1590602847861-f357a9332bbc?q=80&w=1974&auto=format&fit=crop'">
                     <div class="absolute -bottom-6 -right-6 bg-busanBlue text-white p-6 rounded-2xl shadow-xl">
                         <p class="font-bold text-2xl tracking-tighter">Verified</p>
                         <p class="text-xs opacity-80 uppercase font-bold">Local Standard</p>
@@ -252,28 +251,12 @@
         </div>
     </section>
 
-    <!-- CTA / Join Section -->
-    <section class="py-24 px-6 text-center max-w-4xl mx-auto">
-        <h2 class="text-4xl font-extrabold mb-6 dark:text-white">함께 만들어가는 "진짜 부산"</h2>
-        <p class="text-slate-500 dark:text-blue-200/60 mb-12 text-lg">
-            이 기획은 단순한 관광 홍보를 넘어 부산의 청년들과 시민들이 함께 웃을 수 있는 상생의 생태계를 목표로 합니다.
-        </p>
-        <div class="flex flex-col md:flex-row justify-center gap-6">
-            <button class="bg-busanBlue text-white px-10 py-5 rounded-2xl font-bold text-xl shadow-xl hover:bg-blue-700 transition">
-                프로젝트 서포터즈 가입
-            </button>
-            <button class="bg-white dark:bg-transparent text-busanBlue border-2 border-busanBlue px-10 py-5 rounded-2xl font-bold text-xl shadow-lg hover:bg-sky-50 dark:hover:bg-blue-900/20 transition">
-                로컬 상점 인증 신청
-            </button>
-        </div>
-    </section>
-
     <!-- Footer -->
     <footer class="bg-sky-100 dark:bg-slate-950 border-t border-sky-200 dark:border-slate-800 py-12 px-6 transition-colors">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center opacity-70">
             <div class="flex items-center space-x-2 mb-4 md:mb-0">
-                <span class="text-lg font-extrabold tracking-tighter uppercase italic dark:text-white">Real Busan</span>
-                <span class="text-xs">&copy; 2024 Campaign Project.</span>
+                <span class="text-lg font-extrabold tracking-tighter uppercase italic dark:text-white">코랩을 활용한 데이터분석</span>
+                <span class="text-xs">&copy; 2026 Campaign Project.</span>
             </div>
             <div class="flex space-x-6 text-sm font-semibold">
                 <a href="#" class="hover:text-busanBlue">개인정보 처리방침</a>
@@ -303,7 +286,6 @@
             }
         }
 
-        // Load preferred theme
         window.onload = () => {
             if (localStorage.getItem('theme') === 'dark' || 
                 (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
