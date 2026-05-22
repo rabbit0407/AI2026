@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>부산 관광 여론 분석 시스템</title>
+    <title>유튜브 영상과 댓글 분석(실습)</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -54,7 +54,7 @@
                     <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-400 text-slate-900 font-bold text-xl shadow-md">
                         釜
                     </span>
-                    <span class="font-extrabold text-sm tracking-tight hidden md:inline-block">부산 관광 여론 분석 시스템</span>
+                    <span class="font-extrabold text-sm tracking-tight text-slate-900 dark:text-slate-100 hidden md:inline-block">유튜브 영상과 댓글 분석(실습)</span>
                 </div>
             </div>
             
@@ -64,7 +64,7 @@
                     📊 종합 대시보드
                 </button>
                 <button onclick="switchTab('comparison')" id="nav-comparison" class="nav-btn px-4 py-2 rounded-xl text-xs font-bold transition-all duration-200 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
-                    ⚖️ 뉴스 vs 댓글 대조
+                    ⚖️ 보도 vs 여론 대조
                 </button>
                 <button onclick="switchTab('explorer')" id="nav-explorer" class="nav-btn px-4 py-2 rounded-xl text-xs font-bold transition-all duration-200 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
                     💬 댓글 익스플로러
@@ -103,15 +103,15 @@
         <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-20 pb-16 text-center md:text-left">
             <div class="inline-flex items-center space-x-2 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 px-4 py-1.5 rounded-full text-xs font-bold tracking-wider mb-6">
                 <span class="animate-pulse">●</span>
-                <span>데이터 저널리즘 대조 분석</span>
+                <span>공공정책학적 관점에서 유튜브 내용과 댓글을 분</span>
             </div>
             
             <h2 class="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight leading-tight bg-gradient-to-r from-emerald-600 via-teal-500 to-indigo-500 dark:from-emerald-400 dark:via-teal-400 dark:to-indigo-400 bg-clip-text text-transparent">
-                부산 관광 1조 시대 여론 정밀 진단
+                부산 관광 1조 시대 정책 여론 정밀 진단
             </h2>
             
             <p class="text-base sm:text-lg md:text-xl font-bold mt-4 tracking-tight text-slate-500 dark:text-slate-400">
-                KBS 뉴스 보도 <span class="text-emerald-500 px-1 font-black">vs</span> 유튜브 여론 다차원 대조 보고서
+                정책 산출(Outputs) <span class="text-emerald-500 px-1 font-black">vs</span> 시민 수혜(Outcomes) 공공정책적 대조 분석
             </p>
             
             <div class="w-20 h-1.5 mt-8 rounded-full bg-gradient-to-r from-emerald-500 to-teal-400 opacity-100"></div>
@@ -125,56 +125,56 @@
         <div id="tab-content-dashboard" class="tab-pane space-y-16 animate-fadeIn">
             
             <div class="max-w-3xl space-y-2">
-                <h3 class="text-2xl font-bold tracking-tight">부산 관광 1조 시대, 데이터로 읽다</h3>
+                <h3 class="text-2xl font-bold tracking-tight">정책 산출과 수혜 구조의 정밀 분석</h3>
                 <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                    관광객 유치 성과의 매크로 데이터와 시민들의 미시 여론 사이의 정합성을 대시보드 인포그래픽과 실제 데이터 시각화로 한눈에 파악합니다.
+                    공공 재원이 투입된 관광 활성화 정책의 외형적 거시 지표(Outputs)와 시민들이 정주 공간에서 마주하는 미시적 체감도(Outcomes) 간의 다차원적 괴리를 비교 분석합니다.
                 </p>
             </div>
 
             <!-- KPI 요약 카드 -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                <div class="bg-white border border-slate-200 dark:bg-slate-900/40 dark:border-slate-850 p-8 rounded-3xl relative overflow-hidden shadow-md shadow-slate-100/50 dark:shadow-none transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+                <div class="bg-white border border-slate-200 dark:bg-slate-900/40 dark:border-slate-800 p-8 rounded-3xl relative overflow-hidden shadow-md shadow-slate-100/50 dark:shadow-none transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
                     <div class="absolute top-0 right-0 w-28 h-28 bg-gradient-to-br from-emerald-500/10 to-transparent rounded-bl-full"></div>
-                    <p class="text-xs text-slate-400 dark:text-slate-400 font-bold tracking-wider uppercase">연간 외국인 방문객</p>
+                    <p class="text-xs text-slate-400 dark:text-slate-400 font-bold tracking-wider uppercase">정책 양적 산출 (Quant. Outputs)</p>
                     <p class="text-3xl sm:text-4xl font-black mt-4 text-emerald-500 tracking-tight">302만 명+</p>
                     <div class="mt-4 text-[11px] text-emerald-500 bg-emerald-500/10 inline-block px-3 py-1 rounded-full font-bold">
-                        사상 최대 방문 기록 [00:00:56]
+                        관광 수요 진흥 정책 성과 [00:00:56]
                     </div>
                 </div>
 
-                <div class="bg-white border border-slate-200 dark:bg-slate-900/40 dark:border-slate-850 p-8 rounded-3xl relative overflow-hidden shadow-md shadow-slate-100/50 dark:shadow-none transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+                <div class="bg-white border border-slate-200 dark:bg-slate-900/40 dark:border-slate-800 p-8 rounded-3xl relative overflow-hidden shadow-md shadow-slate-100/50 dark:shadow-none transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
                     <div class="absolute top-0 right-0 w-28 h-28 bg-gradient-to-br from-teal-500/10 to-transparent rounded-bl-full"></div>
-                    <p class="text-xs text-slate-400 dark:text-slate-400 font-bold tracking-wider uppercase">외국인 연간 카드소비</p>
+                    <p class="text-xs text-slate-400 dark:text-slate-400 font-bold tracking-wider uppercase">지역 경제 파급액</p>
                     <p class="text-3xl sm:text-4xl font-black mt-4 text-teal-500 tracking-tight">1조 300억 원</p>
                     <div class="mt-4 text-[11px] text-teal-500 bg-teal-500/10 inline-block px-3 py-1 rounded-full font-bold">
-                        전국 2위 (인천 추월) [00:01:20]
+                        소비 진작 정책 파급력 [00:01:20]
                     </div>
                 </div>
 
-                <div class="bg-white border border-slate-200 dark:bg-slate-900/40 dark:border-slate-850 p-8 rounded-3xl relative overflow-hidden shadow-md shadow-slate-100/50 dark:shadow-none transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+                <div class="bg-white border border-slate-200 dark:bg-slate-900/40 dark:border-slate-800 p-8 rounded-3xl relative overflow-hidden shadow-md shadow-slate-100/50 dark:shadow-none transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
                     <div class="absolute top-0 right-0 w-28 h-28 bg-gradient-to-br from-indigo-500/10 to-transparent rounded-bl-full"></div>
-                    <p class="text-xs text-slate-400 dark:text-slate-400 font-bold tracking-wider uppercase">수집 분석 데이터 원본</p>
-                    <p class="text-3xl sm:text-4xl font-black mt-4 text-indigo-500 tracking-tight">873건의 피드백</p>
+                    <p class="text-xs text-slate-400 dark:text-slate-400 font-bold tracking-wider uppercase">공공 정책 피드백 모수</p>
+                    <p class="text-3xl sm:text-4xl font-black mt-4 text-indigo-500 tracking-tight">873건의 아젠다</p>
                     <div class="mt-4 text-[11px] text-indigo-500 bg-indigo-500/10 inline-block px-3 py-1 rounded-full font-bold">
-                        유튜브 전체 아카이빙 모수
+                        상향식 환류 분석 데이터베이스
                     </div>
                 </div>
 
-                <div class="bg-white border border-slate-200 dark:bg-slate-900/40 dark:border-slate-850 p-8 rounded-3xl relative overflow-hidden shadow-md shadow-slate-100/50 dark:shadow-none transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+                <div class="bg-white border border-slate-200 dark:bg-slate-900/40 dark:border-slate-800 p-8 rounded-3xl relative overflow-hidden shadow-md shadow-slate-100/50 dark:shadow-none transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
                     <div class="absolute top-0 right-0 w-28 h-28 bg-gradient-to-br from-rose-500/10 to-transparent rounded-bl-full"></div>
-                    <p class="text-xs text-slate-400 dark:text-slate-400 font-bold tracking-wider uppercase">부정 및 우려 여론 비율</p>
+                    <p class="text-xs text-slate-400 dark:text-slate-400 font-bold tracking-wider uppercase">부정 외부효과 노출도</p>
                     <p id="kpi-neg-percent" class="text-3xl sm:text-4xl font-black mt-4 text-rose-500 tracking-tight">58.3%</p>
                     <div class="mt-4 text-[11px] text-rose-500 bg-rose-500/10 inline-block px-3 py-1 rounded-full font-bold">
-                        바가지·일자리·인프라 우려
+                        오버투어리즘 및 불평등 저항 지수
                     </div>
                 </div>
             </div>
 
-            <!-- 시각 자료 분석 그리드 (1.png와 2.png 원본 그대로 노출) -->
+            <!-- 시각 자료 분석 그리드 -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 pt-4">
                 
                 <!-- 왼쪽: 1.png 유튜브 댓글 주제별 빈도수 -->
-                <div class="bg-white border border-slate-200 dark:bg-slate-900/40 dark:border-slate-800/80 p-8 md:p-10 rounded-3xl transition-colors duration-300 space-y-6 shadow-md flex flex-col justify-between">
+                <div class="bg-white border border-slate-200 dark:bg-slate-900/40 dark:border-slate-800 p-8 md:p-10 rounded-3xl transition-colors duration-300 space-y-6 shadow-md flex flex-col justify-between">
                     <div class="space-y-2">
                         <div class="flex flex-wrap items-center justify-between gap-4">
                             <h3 class="text-lg font-bold text-slate-900 dark:text-slate-100">유튜브 댓글 주제별 빈도수</h3>
@@ -182,21 +182,20 @@
                                 2026-05-22 기준
                             </span>
                         </div>
-                        <p class="text-xs text-slate-500 dark:text-slate-400">자연어 분류 알고리즘을 통해 추출된 5대 핵심 주제 발생 정량 분석 결과입니다.</p>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">정책 체감 영역에 대한 자연어 분류 기반 아젠다 도출 결과입니다.</p>
                     </div>
 
-                    <!-- 원본 비율 그대로 노출하기 위해 object-contain과 패딩 적용 -->
                     <div class="relative w-full rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-4 shadow-inner flex items-center justify-center">
                         <img id="topic-chart-img" src="1.png" alt="유튜브 댓글 주제별 빈도수 (1.png)" class="w-full h-auto object-contain rounded-xl max-h-[400px]" onerror="this.onerror=null; this.src='https://placehold.co/800x450/0f172a/ffffff?text=1.png+이미지를+찾을+수+없음';">
                     </div>
 
                     <div class="p-4 bg-emerald-500/5 border border-emerald-500/10 rounded-2xl text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-                        📈 <strong>데이터 해석:</strong> '기타' 분류 외에 실질적 로컬 콘텐츠 중 <strong>'지역 자부심/매력(335건)'</strong>이 압도적인 비중을 차지하여 관광 브랜딩 및 문화 전파에 대한 긍정 피드백이 가장 활발하게 작용하고 있음을 보여줍니다.
+                        📈 <strong>공공정책적 해석:</strong> '지역 자부심/매력(335건)'의 압도적 비중은 소프트 파워 진흥 정책이 유효한 <strong>'사회적 자본(Social Capital)'</strong>을 형성했음을 시사합니다. 다만, 이는 선전적 배분 정책에 쏠린 수용성으로, 후속하는 규제 정책과의 보완적 연계가 부재할 경우 정책 효과가 반감될 수 있습니다.
                     </div>
                 </div>
 
                 <!-- 오른쪽: 2.png 댓글 명사 및 형용사 워드클라우드 -->
-                <div class="bg-white border border-slate-200 dark:bg-slate-900/40 dark:border-slate-800/80 p-8 md:p-10 rounded-3xl transition-colors duration-300 space-y-6 shadow-md flex flex-col justify-between">
+                <div class="bg-white border border-slate-200 dark:bg-slate-900/40 dark:border-slate-800 p-8 md:p-10 rounded-3xl transition-colors duration-300 space-y-6 shadow-md flex flex-col justify-between">
                     <div class="space-y-2">
                         <div class="flex flex-wrap items-center justify-between gap-4">
                             <h3 class="text-lg font-bold text-slate-900 dark:text-slate-100">댓글 어휘 빈도 워드클라우드</h3>
@@ -204,27 +203,26 @@
                                 2026-05-22 기준
                             </span>
                         </div>
-                        <p class="text-xs text-slate-500 dark:text-slate-400">댓글 텍스트 데이터의 형태소 분석을 통해 빈출 단어를 가시화한 결과입니다.</p>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">형태소 분석을 통한 공공 아젠다 설정(Agenda-Setting) 핵심 어휘 가시화입니다.</p>
                     </div>
 
-                    <!-- 원본 비율 그대로 노출하기 위해 object-contain과 패딩 적용 -->
                     <div class="relative w-full rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-4 shadow-inner flex items-center justify-center">
                         <img id="wordcloud-img" src="2.png" alt="댓글 명사 및 형용사 워드클라우드 (2.png)" class="w-full h-auto object-contain rounded-xl max-h-[400px]" onerror="this.onerror=null; this.src='https://placehold.co/800x450/0f172a/ffffff?text=2.png+이미지를+찾을+수+없음';">
                     </div>
 
                     <div class="p-4 bg-indigo-500/5 border border-indigo-500/10 rounded-2xl text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-                        🔍 <strong>어휘 분석 해설:</strong> 중심에 우뚝 선 <strong>'부산'</strong>과 <strong>'관광'</strong>을 축으로, 전통 상업 자원인 <strong>'시장'</strong>과 지속 가능성 이슈인 <strong>'일자리'</strong>, 그리고 정주권 논란 키워드인 <strong>'바가지'</strong> 등이 뚜렷하게 부각되어 있습니다.
+                        🔍  <strong>공공재 관리 관점 분석:</strong> 중심어 '부산'과 '관광' 이면에 파생된 '시장', '일자리', '바가지' 등은 공공 인프라 혜택의 비대칭성과 자원 배분의 기회 불평등, 그리고 정보 비대칭성으로 인한 <strong>'시장 실패(Market Failure)'</strong>를 정주민이 아젠다화하고 있음을 증명합니다.
                     </div>
                 </div>
 
             </div>
 
             <!-- 여론 정조분석 통계 요약 (도넛 차트 포함) -->
-            <div class="bg-white border border-slate-200 dark:bg-slate-900/40 dark:border-slate-800/80 p-8 md:p-10 rounded-3xl backdrop-blur-sm transition-colors duration-300 shadow-md">
+            <div class="bg-white border border-slate-200 dark:bg-slate-900/40 dark:border-slate-800 p-8 md:p-10 rounded-3xl backdrop-blur-sm transition-colors duration-300 shadow-md">
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
                     
                     <div class="lg:col-span-4 flex flex-col items-center justify-center space-y-4">
-                        <h4 class="text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">유튜브 댓글 감성 점수 (Sentiment)</h4>
+                        <h4 class="text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">정책 순응도 및 환류 비율 (Policy Feedbacks)</h4>
                         
                         <div class="relative flex justify-center py-2">
                             <!-- 도넛 그래프 -->
@@ -237,29 +235,29 @@
                             </svg>
                             
                             <div class="absolute inset-0 flex flex-col items-center justify-center">
-                                <span class="text-[9px] text-slate-400 dark:text-slate-500 uppercase tracking-wider font-bold">부정적 우려</span>
+                                <span class="text-[9px] text-slate-400 dark:text-slate-500 uppercase tracking-wider font-bold">비판적 피드백</span>
                                 <span id="donut-neg-percent" class="text-xl font-black text-rose-500 mt-0.5">58.3%</span>
                             </div>
                         </div>
                     </div>
 
                     <div class="lg:col-span-8 space-y-6">
-                        <h4 class="text-base font-black text-slate-800 dark:text-slate-200">📊 종합 여론 감성 요약</h4>
-                        <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-                            수집된 댓글 텍스트 전반을 자연어 사전에 매핑한 결과, 도시 브랜딩 가치 상승이나 글로벌 인지도 제고에는 긍정 여론이 높았으나, 실질적 거주민의 바가지요금 체험 및 청년층 일자리 미비로 인한 역외 유출 우려가 큰 비중으로 집계되어 총체적인 정주권 불만족으로 수렴하는 경향을 나타냅니다.
+                        <h4 class="text-base font-black text-slate-800 dark:text-slate-200">📊 정책 환류 감성 요약 및 함의</h4>
+                        <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                            부정 피드백($58.3\%$)의 우세는 관광 거점 도시 진흥 정책이 가져온 정주 비용의 상승 및 통행 혼잡 등의 <strong>'부정적 외부효과(Negative Externalities)'</strong>를 제어하지 못해 유발된 잠재적 정책 저항 국면을 보여줍니다. 이는 정책 집행에 대한 전면적인 거부라기보다는, 소득 이전 및 환경 규제 제어 시스템 구축을 요구하는 상향식(Bottom-up) 거버넌스 요청으로 판독됩니다.
                         </p>
                         
                         <div class="grid grid-cols-3 gap-3 text-center text-xs">
                             <div class="p-3 bg-rose-500/10 border border-rose-500/20 rounded-2xl">
-                                <p class="text-slate-500 dark:text-slate-400 font-bold mb-0.5">비판/우려</p>
+                                <p class="text-slate-500 dark:text-slate-400 font-bold mb-0.5">부정적 피드백</p>
                                 <p id="badge-neg-percent" class="font-extrabold text-rose-500 text-sm">58.3%</p>
                             </div>
                             <div class="p-3 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl">
-                                <p class="text-slate-500 dark:text-slate-400 font-bold mb-0.5">환호/응원</p>
+                                <p class="text-slate-500 dark:text-slate-400 font-bold mb-0.5">우호적 순응</p>
                                 <p id="badge-pos-percent" class="font-extrabold text-emerald-500 text-sm">25.0%</p>
                             </div>
-                            <div class="p-3 bg-slate-100 border border-slate-200 dark:bg-slate-850 dark:border-slate-750 rounded-2xl">
-                                <p class="text-slate-500 dark:text-slate-400 font-bold mb-0.5">중립 분석</p>
+                            <div class="p-3 bg-slate-100 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 rounded-2xl">
+                                <p class="text-slate-500 dark:text-slate-400 font-bold mb-0.5">중립 의견</p>
                                 <p id="badge-neu-percent" class="font-extrabold text-slate-700 dark:text-slate-300 text-sm">16.7%</p>
                             </div>
                         </div>
@@ -268,7 +266,7 @@
             </div>
 
             <!-- 대시보드 하단: 실시간 화제의 여론 -->
-            <div class="bg-white border border-slate-200 dark:bg-slate-900/40 dark:border-slate-800/80 p-8 md:p-10 rounded-3xl transition-colors duration-300 shadow-md">
+            <div class="bg-white border border-slate-200 dark:bg-slate-900/40 dark:border-slate-800 p-8 md:p-10 rounded-3xl transition-colors duration-300 shadow-md">
                 <div class="mb-8">
                     <h3 class="text-lg font-bold">🏆 가장 많은 지지를 받은 핵심 시민 여론</h3>
                     <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">여론 정밀 분석 결과 중 공감 지수가 가장 높은 대표 목소리</p>
@@ -284,10 +282,10 @@
         <!-- ==================== TAB 2: 뉴스 vs 댓글 대조 분석 ==================== -->
         <div id="tab-content-comparison" class="tab-pane space-y-16 animate-fadeIn hidden">
             
-            <div class="bg-white border border-slate-200 dark:bg-slate-900/40 dark:border-slate-800/80 p-8 md:p-10 rounded-3xl transition-colors duration-300 shadow-md">
-                <h3 class="text-xl font-bold mb-4">⚖️ "성장의 환호" 뒤에 숨은 "도시의 그늘"</h3>
-                <p class="text-xs text-slate-600 dark:text-slate-300 leading-loose">
-                    부산의 외국인 관광 유치 300만 성과는 경제적 지출 1조 원 돌파라는 쾌거로 보도되었으나, 실제 지역에 정주하는 시민들이 남긴 생생한 여론은 사뭇 다릅니다. 영상이 강조하는 성과 부문과 실제 여론의 비판적인 시선을 체계적으로 매핑했습니다.
+            <div class="bg-white border border-slate-200 dark:bg-slate-900/40 dark:border-slate-800 p-8 md:p-10 rounded-3xl transition-colors duration-300 shadow-md">
+                <h3 class="text-xl font-bold mb-4">⚖️ 공식적 정책 목표 달성(KBS) vs 현실적 수혜 불균형 및 정책 실패(시민)</h3>
+                <p class="text-sm text-slate-600 dark:text-slate-300 leading-loose">
+                    부산의 외국인 관광 유치 300만 성과는 지출 규모 1조 달성이라는 '양적 지표'에 초점을 두고 보도되었으나, 시민의 목소리는 다릅니다. 이 대조표는 행정 주체의 일방적인 성과주의 홍보(Top-down outputs)와 실질 주체들의 정책 수혜 격차 및 정주권 피해 실태(Bottom-up outcomes)를 학술적으로 매핑한 것입니다.
                 </p>
             </div>
 
@@ -297,29 +295,29 @@
                 <!-- 왼쪽: KBS 보도 하이라이트 -->
                 <div class="border border-emerald-500/20 bg-emerald-500/5 p-8 md:p-10 rounded-3xl relative overflow-hidden space-y-8">
                     <div class="absolute top-0 right-0 p-4 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 rounded-bl-2xl text-xs font-bold uppercase tracking-widest">
-                        KBS 뉴스 보도 핵심
+                        공식적 정책 산출 (Outputs)
                     </div>
                     
                     <h4 class="text-xl font-black text-emerald-600 dark:text-emerald-400 flex items-center pt-4">
-                        <span class="mr-3 text-2xl">📺</span> 외형적 성과 및 긍정성 강조
+                        <span class="mr-3 text-2xl">📺</span> 외형적 유치 효과 및 지표적 낙수효과 강조
                     </h4>
 
                     <div class="space-y-8">
                         <div class="space-y-2">
-                            <strong class="text-sm font-bold text-slate-800 dark:text-slate-200 block">역대 최다 소비 기록 달성 [00:00:56]</strong>
-                            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">외국인 연간 누적 소비액 1조 원 돌파, 인천을 제치고 서울에 이어 전국 2위 달성이라는 역사적 성적표를 전면에 내세웠습니다.</p>
+                            <strong class="text-sm font-bold text-slate-800 dark:text-slate-200 block">계량적 성과 관리 지표 달성 [00:00:56]</strong>
+                            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">외국인 연간 소비액 1조 원 돌파 및 인천을 추월한 전국 2위 달성을 성과 평가 지표(Performance Indicator)의 극대화 사례로 보도했습니다.</p>
                         </div>
                         <div class="space-y-2">
-                            <strong class="text-sm font-bold text-slate-800 dark:text-slate-200 block">글로벌 체류형 거점 부상 [00:01:34]</strong>
-                            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">워케이션 비자 신청 수 전국 3위를 달성하여, 잠깐 스쳐 가는 일회성 소비 도시가 아닌 체류하며 일하는 스마트 비즈니스 휴양지로의 변화를 주목했습니다.</p>
+                            <strong class="text-sm font-bold text-slate-800 dark:text-slate-200 block">체류형 정책 인프라 확대 [00:01:34]</strong>
+                            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">워케이션 비자 정책 유치를 통해 단기 거쳐가는 소비가 아닌, 정책 대상 집단의 지속 가능한 '생활 인구 확보 전략'의 순항을 조명했습니다.</p>
                         </div>
                         <div class="space-y-2">
-                            <strong class="text-sm font-bold text-slate-800 dark:text-slate-200 block">전통시장 및 이색 맛집 유행 [00:07:38]</strong>
-                            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">단순 면세점 쇼핑을 넘어 돼지국밥, 명란김밥 등 서민 상권의 먹거리를 즐기는 개별 로컬 체험이 부각되어 내수 활성화에 크게 이바지하고 있음을 조명했습니다.</p>
+                            <strong class="text-sm font-bold text-slate-800 dark:text-slate-200 block">소상공인 분배적 파급 효과 증대 [00:07:38]</strong>
+                            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">로컬 식음료 자원(돼지국밥 등)과 서민 전통시장의 활성화를 유도하는 분배 정책(Distributive Policy)의 긍정적 측면을 고취했습니다.</p>
                         </div>
                         <div class="space-y-2">
-                            <strong class="text-sm font-bold text-slate-800 dark:text-slate-200 block">타이완 등 신규 핵심 고객층 공략 [00:02:19]</strong>
-                            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">대만 인바운드 비중이 20%를 돌파했으며 캐릭터 '부기' 굿즈 마케팅 및 대중교통 이용권 패스가 높은 만족도를 끌어냈음을 다루었습니다.</p>
+                            <strong class="text-sm font-bold text-slate-800 dark:text-slate-200 block">신규 해외 대상군 포섭 마케팅 [00:02:19]</strong>
+                            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">대만 인바운드 시장을 저격한 대중교통 자유이용권 패스 및 '부기' 캐릭터 자산 활용 등 정밀화된 정책 수단의 결합 성과를 소개했습니다.</p>
                         </div>
                     </div>
                 </div>
@@ -327,29 +325,29 @@
                 <!-- 오른쪽: 시민들의 진짜 목소리 -->
                 <div class="border border-rose-500/20 bg-rose-500/5 p-8 md:p-10 rounded-3xl relative overflow-hidden space-y-8">
                     <div class="absolute top-0 right-0 p-4 bg-rose-500/10 text-rose-600 dark:text-rose-400 rounded-bl-2xl text-xs font-bold uppercase tracking-widest">
-                        유튜브 시민 댓글 정밀 분석
+                        하향적 정책 한계 (Civic Feedback)
                     </div>
 
                     <h4 class="text-xl font-black text-rose-600 dark:text-rose-400 flex items-center pt-4">
-                        <span class="mr-3 text-2xl">💬</span> 뉴스보다 더 뜨거운 우려와 비판적 시선
+                        <span class="mr-3 text-2xl">💬</span> 시장 실패 교정 실패 및 부정적 외부효과 노정
                     </h4>
 
                     <div class="space-y-8">
                         <div class="space-y-2">
-                            <strong class="text-sm font-bold text-slate-800 dark:text-slate-200 block">청년 일자리 절벽과 정주환경의 모순</strong>
-                            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">시민들은 '관광객이 가득 차도 양질의 제조업이나 IT 일자리가 전무해 매년 수만 명의 청년이 부산을 떠난다'라며, 실속 없는 3차 소매업 편중 성장을 거세게 꼬집었습니다.</p>
+                            <strong class="text-sm font-bold text-slate-800 dark:text-slate-200 block">노동시장 왜곡 및 편익 귀속의 한계</strong>
+                            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">관광 산업 진흥이 청년층이 갈망하는 양질의 안정적 고용 창출(IT/제조업)로 연결되지 못하고 비정규직 및 단순 서비스 업종 편중을 심화시켜 인구 유출 정책 목표와의 미스매치(Mismatch)가 발생합니다.</p>
                         </div>
                         <div class="space-y-2">
-                            <strong class="text-sm font-bold text-slate-800 dark:text-slate-200 block">고질적 도로 인프라와 악명 높은 교통 지옥</strong>
-                            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">난폭한 운전 환경과 미궁 같은 차선 레이아웃, 심각한 원도심 골목 주차난은 늘어난 렌터카 및 광역 관광 수요를 전혀 소화하지 못하고 정주민의 통행권마저 가로막고 있다는 고충이 팽배합니다.</p>
+                            <strong class="text-sm font-bold text-slate-800 dark:text-slate-200 block">공공재의 혼잡 외부비용 전가 (Externality)</strong>
+                            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">관광객 수용 한계를 초과한 교통 부하와 기하학적 차선 등 불합리한 도로망이 유지됨으로써 공공재 공급 부족 및 혼잡 외부비용이 원주민들의 이동권 침해라는 사회적 비용으로 전가됩니다.</p>
                         </div>
                         <div class="space-y-2">
-                            <strong class="text-sm font-bold text-slate-800 dark:text-slate-200 block">바가지 요금 엄단 및 이미지 쇄신 요구</strong>
-                            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">특정 해안 상권과 시장에서 고질적으로 고개를 드는 바가지 폭리에 대해 시민들이 자발적으로 규탄을 외칩니다. 자정 단속을 통해 글로벌 표준 신뢰를 회복해야 한다는 지적이 지배적입니다.</p>
+                            <strong class="text-sm font-bold text-slate-800 dark:text-slate-200 block">기회주의적 행위와 자율 규제 장치의 부재</strong>
+                            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">정보 비대칭성을 활용한 일부 해안가 상권 상인들의 폭리적 기회주의 행동은 시장 자정 능력을 소실하게 만듭니다. 이는 지자체의 모니터링 규제 설계(Regulatory Failure)가 부족했음을 뜻합니다.</p>
                         </div>
                         <div class="space-y-2">
-                            <strong class="text-sm font-bold text-slate-800 dark:text-slate-200 block">환경 오염 및 관광지 위생 상태 훼손 우려</strong>
-                            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">바닷가나 야외 낚시 스폿 주위에 쓰레기를 몰래 버려 경관을 파괴하는 행위에 대한 비판이 가득합니다. 성숙한 시민의식 규제 정책 수립이 시급하다는 대안도 함께 제시되고 있습니다.</p>
+                            <strong class="text-sm font-bold text-slate-800 dark:text-slate-200 block">공유재 오염 및 지속 가능한 자산 훼손 우려</strong>
+                            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">해양 스폿 무단 투기 등 단기 관광객들의 도덕적 해이와 단속 사각지대는 공공 해변 환경의 황폐화, 즉 전형적인 '공유지의 비극(Tragedy of the Commons)' 현상을 겪게 만듭니다.</p>
                         </div>
                     </div>
                 </div>
@@ -357,31 +355,31 @@
             </div>
 
             <!-- 정합성 다이어그램 -->
-            <div class="bg-white border border-slate-200 dark:bg-slate-900/40 dark:border-slate-800/80 p-8 md:p-10 rounded-3xl transition-colors duration-300 space-y-8 shadow-md">
-                <h3 class="text-lg font-bold text-center">📊 보도 방향 vs 대중 여론 정합성 대조 요약</h3>
+            <div class="bg-white border border-slate-200 dark:bg-slate-900/40 dark:border-slate-800 p-8 md:p-10 rounded-3xl transition-colors duration-300 space-y-8 shadow-md">
+                <h3 class="text-lg font-bold text-center">📊 정책 수단 정합성 및 사회적 수용도 진단 요약</h3>
                 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div class="bg-slate-50 border border-slate-200 dark:bg-slate-950/60 dark:border-slate-800 p-6 rounded-2xl border text-center space-y-3">
+                    <div class="bg-slate-50 border border-slate-200 dark:bg-slate-950/60 dark:border-slate-800 p-6 rounded-2xl text-center space-y-3 shadow-sm">
                         <div class="text-3xl">🤝</div>
-                        <h5 class="text-sm font-bold">일치율: 중(Medium)</h5>
+                        <h5 class="text-sm font-bold">인지 정합성: 중(Medium)</h5>
                         <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-                            부산시의 외적인 인프라 발전 및 전통시장의 먹거리 활성화, 대만인 호응 등 로컬 트렌드의 상승세에는 대다수의 여론이 동의하며 고유 문화를 자랑스러워합니다.
+                            로컬 문화 자산화 및 다국적 수용 인프라 개편의 긴급성 자체는 행정 주체의 인프라 정책 기획과 일반 시민의 지지 방향이 일치하여 높은 정책 정합성을 갖습니다.
                         </p>
                     </div>
 
-                    <div class="bg-slate-50 border border-slate-200 dark:bg-slate-950/60 dark:border-slate-800 p-6 rounded-2xl border text-center space-y-3">
+                    <div class="bg-slate-50 border border-slate-200 dark:bg-slate-950/60 dark:border-slate-800 p-6 rounded-2xl text-center space-y-3 shadow-sm">
                         <div class="text-3xl">📣</div>
-                        <h5 class="text-sm font-bold">체감 괴리: 대(High)</h5>
+                        <h5 class="text-sm font-bold">수혜 괴리성: 대(High)</h5>
                         <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-                            뉴스는 연간 수입 '1조 돌파'의 총체적 승리에 방점을 찍었으나, 댓글은 청년의 경제적 빈곤 및 일자리 부족 등 삶의 터전 붕괴에 대한 아쉬움과 모순적 고충을 쏟아내고 있습니다.
+                            정부는 외형 수치 '1조'의 경제적 성과 극대화를 발표했으나 정주민 체감상 편익은 서비스 상권 독점에 한정되며, 오히려 실거주 정주 비용 상승(물가 및 공간 젠트리피케이션)으로 귀결됩니다.
                         </p>
                     </div>
 
-                    <div class="bg-slate-50 border border-slate-200 dark:bg-slate-950/60 dark:border-slate-800 p-6 rounded-2xl border text-center space-y-3">
+                    <div class="bg-slate-50 border border-slate-200 dark:bg-slate-950/60 dark:border-slate-800 p-6 rounded-2xl text-center space-y-3 shadow-sm">
                         <div class="text-3xl">🎯</div>
-                        <h5 class="text-sm font-bold">이탈 쟁점: 고유(Unique)</h5>
+                        <h5 class="text-sm font-bold">정부 실패 보완점: 고유(Unique)</h5>
                         <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-                            공식 뉴스 보도에서는 수치로 환원되기 어려운 '복잡한 도로 구조', '물가 상승으로 인한 거주민의 서민 상권 역이탈', '바가지 자인 정책' 등이 댓글의 독보적 토론 주제로 부상했습니다.
+                            단순 진흥 위주의 당근책(배분) 일색에서 탈피하여 정보 비대칭 거래 단속 규제(채찍), 교통 정주 체증 완화 인프라 신탁, 공유지 비극 극복 인센티브 설계 등의 '다양한 정책적 도구 믹스'가 긴급히 필요합니다.
                         </p>
                     </div>
                 </div>
@@ -392,11 +390,11 @@
         <!-- ==================== TAB 3: 댓글 익스플로러 ==================== -->
         <div id="tab-content-explorer" class="tab-pane space-y-10 animate-fadeIn hidden">
             
-            <div class="bg-white border border-slate-200 dark:bg-slate-900/40 dark:border-slate-800/80 p-8 rounded-3xl backdrop-blur-sm transition-colors duration-300 shadow-md">
+            <div class="bg-white border border-slate-200 dark:bg-slate-900/40 dark:border-slate-800 p-8 rounded-3xl backdrop-blur-sm transition-colors duration-300 shadow-md">
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
                     
                     <!-- 검색 -->
-                    <div class="lg:col-span-5 space-y-2">
+                    <div class="lg:col-span-4 space-y-2">
                         <label class="block text-xs text-slate-400 dark:text-slate-500 font-bold tracking-wider uppercase">댓글 및 작성자 검색</label>
                         <div class="relative">
                             <input 
@@ -413,7 +411,7 @@
                     </div>
 
                     <!-- 아젠다별 대주제 필터 -->
-                    <div class="lg:col-span-4 space-y-2">
+                    <div class="lg:col-span-3 space-y-2">
                         <label class="block text-xs text-slate-400 dark:text-slate-500 font-bold tracking-wider uppercase">아젠다별 분류</label>
                         <select
                             id="topic-select"
@@ -433,7 +431,7 @@
                     <!-- 정렬 옵션 -->
                     <div class="lg:col-span-3 space-y-2">
                         <label class="block text-xs text-slate-400 dark:text-slate-500 font-bold tracking-wider uppercase">정렬 기준</label>
-                        <div class="flex bg-slate-100 border border-slate-250 dark:bg-slate-950 dark:border-slate-800 p-1.5 border rounded-xl shadow-inner">
+                        <div class="flex bg-slate-100 border border-slate-250 dark:bg-slate-950 dark:border-slate-800 p-1.5 rounded-xl shadow-inner⚡">
                             <button
                                 id="sort-likes-btn"
                                 onclick="handleSortChange('likes')"
@@ -449,6 +447,19 @@
                                 ⏰ 최신순
                             </button>
                         </div>
+                    </div>
+
+                    <!-- 공공정책학적 클린 쉴드 필터 토글 -->
+                    <div class="lg:col-span-2 space-y-2 flex flex-col justify-end">
+                        <label class="block text-xs text-slate-400 dark:text-slate-500 font-bold tracking-wider uppercase">스마트 클린 필터</label>
+                        <button 
+                            id="clean-filter-btn" 
+                            onclick="toggleCleanFilter()" 
+                            class="w-full flex items-center justify-between bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 rounded-xl px-4 py-3.5 text-xs font-bold transition-all shadow-sm"
+                        >
+                            <span>🛡️ 필터 작동 중</span>
+                            <span id="clean-filter-status" class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                        </button>
                     </div>
 
                 </div>
@@ -474,17 +485,17 @@
 
         </div>
 
-        <!-- ==================== TAB 4: 부산시 정책 개선안 (공공정책학적 관점 강화) ==================== -->
+        <!-- ==================== TAB 4: 부산시 정책 개선안 ==================== -->
         <div id="tab-content-policy" class="tab-pane space-y-16 animate-fadeIn hidden">
             
             <!-- 공공정책학 관점 아젠다 서두 -->
-            <div class="bg-white border border-slate-200 dark:bg-slate-900/40 dark:border-slate-800/80 p-8 md:p-10 rounded-3xl transition-colors duration-300 shadow-md">
+            <div class="bg-white border border-slate-200 dark:bg-slate-900/40 dark:border-slate-800 p-8 md:p-10 rounded-3xl transition-colors duration-300 shadow-md">
                 <div class="flex items-center space-x-3 mb-4">
-                    <span class="p-2 bg-emerald-550/10 text-emerald-500 rounded-xl text-lg">🏛️</span>
+                    <span class="p-2 bg-emerald-500/10 text-emerald-500 rounded-xl text-lg">🏛️</span>
                     <h3 class="text-xl font-bold">공공정책학적 관점의 부산 관광 여론 개선 방안</h3>
                 </div>
-                <p class="text-xs text-slate-600 dark:text-slate-300 leading-loose">
-                    단순한 관광 홍보나 일회성 이벤트성 해결책을 넘어, **이해관계자 거버넌스(Governance) 형성, 시장 실패 보완(Market Failure Correction), 정책 도구의 전략적 배분(Policy Tools Allocation)**을 통해 정주민과 외래인 모두의 복리를 증진하는 구조적 개선책을 제안합니다. 부산 관광 1조 원 성과가 시민 삶의 질 향상(정주 안정성, 일자리 기회 확충)으로 연계되도록 사회적 자본을 재구축하는 설계안입니다.
+                <p class="text-sm text-slate-600 dark:text-slate-300 leading-loose font-medium">
+                    단순한 단기 홍보나 이벤트성 해결책을 뛰어넘어, **협력적 거버넌스(Collaborative Governance) 모델 구축, 시장 실패 보완(Market Failure Correction), 정책 도구의 공익적 배분(Strategic Policy Tools Allocation)**을 달성함으로써 정주민의 주민 효용과 관광객 수혜 총량 모두를 향상시키는 혁신적인 제도 설계를 제안합니다.
                 </p>
             </div>
 
@@ -492,7 +503,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
                 
                 <!-- 제안 1: 공간적 균형 배분 정책 -->
-                <div class="bg-white border border-slate-200 dark:bg-slate-900/40 dark:border-slate-800/80 p-8 md:p-10 rounded-3xl flex flex-col justify-between transition-all duration-300 hover:shadow-lg shadow-md">
+                <div class="bg-white border border-slate-200 dark:bg-slate-900/40 dark:border-slate-800 p-8 md:p-10 rounded-3xl flex flex-col justify-between transition-all duration-300 hover:shadow-lg shadow-md">
                     <div class="space-y-6">
                         <div class="flex items-center justify-between">
                             <div class="w-12 h-12 bg-emerald-500/10 rounded-2xl flex items-center justify-center text-xl text-emerald-500 shadow-sm">
@@ -504,23 +515,23 @@
                             1. 거버넌스 연계형 서부산·산지 공간적 분산화 (Decentralization)
                         </h4>
                         <p class="text-xs text-slate-600 dark:text-slate-300 leading-loose">
-                            동부산 해안가의 과밀 경제와 서부산권의 상대적 낙후 현상은 전형적인 '공간적 시장 실패'입니다. 이를 극복하기 위해 민-관-상인-대학이 연대하는 <strong>'부산형 융합 관광 거버넌스'</strong>를 발족하고, 낙후된 원도심과 산복도로 고지대를 모빌리티 패스 및 친환경 트레일로 직결하여 외래인 유입 편익을 광역적으로 분산화합니다. 
+                            동부산 해안가 편중 현상 및 과밀 젠트리피케이션으로 인한 공간적 불평등을 해결하기 위해 민-관-상인-대학이 연대하는 <strong>'부산형 융합형 거버넌스'</strong>를 발족합니다. 낙후된 원도심과 산지 고지대 역사 유산을 모빌리티 패스 및 친환경 보행 네트워크로 통합 연계하여 관광 수혜를 부산 전역으로 공간 재분산(Spatial Equalization)합니다.
                         </p>
                     </div>
                     <div class="mt-8 pt-6 border-t border-slate-200 dark:border-slate-800 space-y-3">
                         <div class="flex justify-between text-xs">
                             <span class="text-slate-400 font-bold">정책 적용 원리</span>
-                            <span class="text-slate-600 dark:text-slate-300 font-bold">네트워크 거버넌스 구축</span>
+                            <span class="text-slate-600 dark:text-slate-300 font-bold">공간 불평등 완화 및 로컬 네트워크 설계</span>
                         </div>
                         <div class="flex justify-between text-xs">
-                            <span class="text-emerald-500 font-extrabold tracking-wider uppercase">핵심 평가지표 (KPI)</span>
+                            <span class="text-emerald-500 font-extrabold tracking-wider uppercase">핵심 성과지표 (KPI)</span>
                             <span class="text-slate-500 font-bold">서부산 관광 총생산 비중 15% 반등</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- 제안 2: 경제적 편익 귀속 정책 -->
-                <div class="bg-white border border-slate-200 dark:bg-slate-900/40 dark:border-slate-800/80 p-8 md:p-10 rounded-3xl flex flex-col justify-between transition-all duration-300 hover:shadow-lg shadow-md">
+                <div class="bg-white border border-slate-200 dark:bg-slate-900/40 dark:border-slate-800 p-8 md:p-10 rounded-3xl flex flex-col justify-between transition-all duration-300 hover:shadow-lg shadow-md">
                     <div class="space-y-6">
                         <div class="flex items-center justify-between">
                             <div class="w-12 h-12 bg-teal-500/10 rounded-2xl flex items-center justify-center text-xl text-teal-500 shadow-sm">
@@ -529,26 +540,26 @@
                             <span class="text-[10px] bg-teal-500/10 text-teal-600 dark:text-teal-400 px-3 py-1 rounded-full font-bold">재분배 정책 (Redistributive)</span>
                         </div>
                         <h4 class="text-base font-black">
-                            2. 편익 환원형 '관광 상생 기금' 조례 입법과 청년 정주 보호
+                            2. 수혜 상생형 '관광 상생 환원 조례' 입법과 로컬 고용 활성화
                         </h4>
                         <p class="text-xs text-slate-600 dark:text-slate-300 leading-loose">
-                            관광 수입의 과실이 대형 프랜차이즈나 투기 자본에만 종속되어 주민 주거권을 위협하는 젠트리피케이션을 완화해야 합니다. 외국인 연간 소비액 1조 원 중 일정 지분을 <strong>'관광 상생 환원 신탁 기금'</strong>으로 우선 조례화하여 청년 정착 거점 주택 보조금 및 로컬 청년 크리에이터 창업을 위한 기회 소득 재원으로 원천 환류시킵니다.
+                            대기업 및 투기적 외부 소매 자본에만 이익이 독점되는 낙수효과의 한계를 완화합니다. 연간 관광 지출액 1조 원의 특정 비중을 적립하는 <strong>'관광 상생 신탁 기금'</strong> 조례 제정을 통해 청년 창작가 소득 기회를 마련하고, 공공 주거 임대료 보조에 투입함으로써 관광 진흥이 청년 삶의 보존으로 직결되는 환류 구조를 실천합니다.
                         </p>
                     </div>
                     <div class="mt-8 pt-6 border-t border-slate-200 dark:border-slate-800 space-y-3">
                         <div class="flex justify-between text-xs">
                             <span class="text-slate-400 font-bold">정책 적용 원리</span>
-                            <span class="text-slate-600 dark:text-slate-300 font-bold">부정적 외부효과의 내부화</span>
+                            <span class="text-slate-600 dark:text-slate-300 font-bold">부정적 소득 불평등 해소 및 거주민 보호</span>
                         </div>
                         <div class="flex justify-between text-xs">
-                            <span class="text-teal-500 font-extrabold tracking-wider uppercase">핵심 평가지표 (KPI)</span>
-                            <span class="text-slate-500 font-bold">청년층 로컬기업 정착률 20% 향상</span>
+                            <span class="text-teal-500 font-extrabold tracking-wider uppercase">핵심 성과지표 (KPI)</span>
+                            <span class="text-slate-500 font-bold">청년층 로컬 기업 정착 비율 20% 향상</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- 제안 3: 안심 거래 규제 정책 -->
-                <div class="bg-white border border-slate-200 dark:bg-slate-900/40 dark:border-slate-800/80 p-8 md:p-10 rounded-3xl flex flex-col justify-between transition-all duration-300 hover:shadow-lg shadow-md">
+                <div class="bg-white border border-slate-200 dark:bg-slate-900/40 dark:border-slate-800 p-8 md:p-10 rounded-3xl flex flex-col justify-between transition-all duration-300 hover:shadow-lg shadow-md">
                     <div class="space-y-6">
                         <div class="flex items-center justify-between">
                             <div class="w-12 h-12 bg-indigo-500/10 rounded-2xl flex items-center justify-center text-xl text-indigo-500 shadow-sm">
@@ -557,66 +568,66 @@
                             <span class="text-[10px] bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 px-3 py-1 rounded-full font-bold">규제 정책 (Regulatory)</span>
                         </div>
                         <h4 class="text-base font-black">
-                            3. 공정거래 모니터링제와 행동경제학적 넛지(Nudge) 디자인
+                            3. 투명거래 모니터링제와 행동경제학적 넛지(Nudge) 결합 설계
                         </h4>
                         <p class="text-xs text-slate-600 dark:text-slate-300 leading-loose">
-                            전통시장 바가지 폭리는 관광지 브랜드 자산을 갉아먹는 대표적인 무임승차 행위입니다. 감사단 암행 조사(Stick)를 법제화하는 동시에, 모범 업소에 세제 혜택과 공공 매체 노출 기회(Carrot)를 부여합니다. 또한, 메뉴판 표준 정가 표기 의무화 및 QR 안심 확인 배치 등 넛지 디자인을 통해 정보 비대칭성을 원천 해소합니다.
+                            일부 점포의 바가지 수탈은 도시 평판을 하락시키는 대표적인 무임승차 행위입니다. 암행 점검(Stick) 조치 법제화로 처벌 규제를 명시함과 동시에 우수 상점 공공 매체 우선 노출(Carrot) 및 모바일 안심 정가 확인제 등 넛지(Nudge) 수단을 복합 결합하여 시장 기회주의를 사전 방어합니다.
                         </p>
                     </div>
                     <div class="mt-8 pt-6 border-t border-slate-200 dark:border-slate-800 space-y-3">
                         <div class="flex justify-between text-xs">
                             <span class="text-slate-400 font-bold">정책 적용 원리</span>
-                            <span class="text-slate-600 dark:text-slate-300 font-bold">시장 비대칭성 해소 및 넛지</span>
+                            <span class="text-slate-600 dark:text-slate-300 font-bold">기회주의 통제 및 정보 대칭성 유도</span>
                         </div>
                         <div class="flex justify-between text-xs">
-                            <span class="text-indigo-500 font-extrabold tracking-wider uppercase">핵심 평가지표 (KPI)</span>
-                            <span class="text-slate-500 font-bold">글로벌 소비자 만족 지수 90% 달성</span>
+                            <span class="text-indigo-500 font-extrabold tracking-wider uppercase">핵심 성과지표 (KPI)</span>
+                            <span class="text-slate-500 font-bold">소비자 브랜드 신뢰 지수 90% 돌파</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- 제안 4: 지속 가능한 생태 환경 보전 정책 -->
-                <div class="bg-white border border-slate-200 dark:bg-slate-900/40 dark:border-slate-800/80 p-8 md:p-10 rounded-3xl flex flex-col justify-between transition-all duration-300 hover:shadow-lg shadow-md">
+                <div class="bg-white border border-slate-200 dark:bg-slate-900/40 dark:border-slate-800 p-8 md:p-10 rounded-3xl flex flex-col justify-between transition-all duration-300 hover:shadow-lg shadow-md">
                     <div class="space-y-6">
                         <div class="flex items-center justify-between">
                             <div class="w-12 h-12 bg-rose-500/10 rounded-2xl flex items-center justify-center text-xl text-rose-500 shadow-sm">
                                 🍃
                             </div>
-                            <span class="text-[10px] bg-rose-500/10 text-rose-600 dark:text-rose-400 px-3 py-1 rounded-full font-bold">사회 정책 (Social Capital)</span>
+                            <span class="text-[10px] bg-rose-500/10 text-rose-600 dark:text-rose-400 px-3 py-1 rounded-full font-bold">공동체 복원 (Social Capital)</span>
                         </div>
                         <h4 class="text-base font-black">
-                            4. 에코-마일리지 연동형 '공공재 클린 가드너' 주민자치 활성화
+                            4. 공유재 보호를 위한 IoT 클린가드 및 에코인센티브 프로그램
                         </h4>
                         <p class="text-xs text-slate-600 dark:text-slate-300 leading-loose">
-                            관광지의 무단 투기 오염은 '공유지의 비극(Tragedy of the Commons)'에 해당합니다. 방파제, 낚시 스폿 등에 IoT 스마트 폐기물 압축기를 고밀도 배치하는 기계적 환경 정비와 더불어, 분리 배출 행동을 실천한 외래객에게 모바일 할인 혜택을 환원하는 '에코 마일리지' 인센티브로 성숙한 시민의식 규범을 체계화합니다.
+                            인기 오염 취약 지역의 경관 훼손은 전형적인 '공유지의 비극(Tragedy of the Commons)' 현상입니다. 해양 스폿에 IoT 쓰레기 전용 계량 수거 장비를 설치하여 자발적 분리 배출 행동을 하는 관광객에게 친환경 에코 마일리지를 지급함으로써 규범 중심의 사회적 신뢰를 증대시킵니다.
                         </p>
                     </div>
                     <div class="mt-8 pt-6 border-t border-slate-200 dark:border-slate-800 space-y-3">
                         <div class="flex justify-between text-xs">
                             <span class="text-slate-400 font-bold">정책 적용 원리</span>
-                            <span class="text-slate-600 dark:text-slate-300 font-bold">공유지 비극 방지 및 자치 협동</span>
+                            <span class="text-slate-600 dark:text-slate-300 font-bold">사회적 비용 상계 및 지역 거버넌스 수용성 강화</span>
                         </div>
                         <div class="flex justify-between text-xs">
-                            <span class="text-rose-500 font-extrabold tracking-wider uppercase">핵심 평가지표 (KPI)</span>
-                            <span class="text-slate-500 font-bold">관광 핫스폿 무단 오염물질 40% 감축</span>
+                            <span class="text-rose-500 font-extrabold tracking-wider uppercase">핵심 성과지표 (KPI)</span>
+                            <span class="text-slate-500 font-bold">주요 관광 오염 물질 무단 배출 40% 절감</span>
                         </div>
                     </div>
                 </div>
 
             </div>
 
-            <!-- 신설: 공공정책학적 정책 도구 매트릭스 테이블 -->
-            <div class="bg-white border border-slate-200 dark:bg-slate-900/40 dark:border-slate-800/80 p-8 md:p-10 rounded-3xl transition-colors duration-300 shadow-md space-y-6">
+            <!-- 공공정책학적 정책 도구 매트릭스 테이블 -->
+            <div class="bg-white border border-slate-200 dark:bg-slate-900/40 dark:border-slate-800 p-8 md:p-10 rounded-3xl transition-colors duration-300 shadow-md space-y-6">
                 <h4 class="text-base font-black text-slate-800 dark:text-slate-200 flex items-center">
                     <span class="mr-2">📋</span> 부산 관광 여론 개선을 위한 정책 도구 매트릭스 (Policy Tools Mix)
                 </h4>
                 <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
                     공공정책학자 나바라(Navarra)와 하우레트(Howlett) 등의 이론에 기반하여 정책 수단의 강제성과 유인성을 '당근(Carrots), 채찍(Sticks), 설득(Sermons)' 프레임으로 분류한 거버넌스 실행 모델입니다.
                 </p>
-                <div class="overflow-x-auto rounded-2xl border border-slate-250 dark:border-slate-800">
+                <div class="overflow-x-auto rounded-2xl border border-slate-200 dark:border-slate-800">
                     <table class="w-full text-left border-collapse text-xs">
                         <thead>
-                            <tr class="bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-slate-300 font-bold border-b border-slate-250 dark:border-slate-800">
+                            <tr class="bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-slate-300 font-bold border-b border-slate-200 dark:border-slate-800">
                                 <th class="p-4">정책 도구 유형</th>
                                 <th class="p-4">구체적 시정 실행 전략</th>
                                 <th class="p-4">핵심 타겟 그룹</th>
@@ -633,7 +644,7 @@
                             <tr>
                                 <td class="p-4 font-bold text-emerald-500">Carrots (경제적 인센티브)</td>
                                 <td class="p-4 leading-relaxed">착한 가격 정가 준수 매장 모바일 패키징 노출, 에코 분리배출 참여자 교통 마일리지 환원</td>
-                                <td class="p-4">영세 영세 상인, 모범적 관광객 군</td>
+                                <td class="p-4">영세 소상공인, 모범적 관광객 군</td>
                                 <td class="p-4">자발적 공익 행동 유도 및 지역 경제 선순환</td>
                             </tr>
                             <tr>
@@ -650,7 +661,7 @@
             <!-- 스마트 슬로건 배너 -->
             <div class="bg-gradient-to-r from-emerald-500/20 via-teal-500/10 to-transparent border border-emerald-500/20 p-10 md:p-12 rounded-3xl text-center space-y-4 shadow-sm">
                 <span class="text-xs bg-emerald-500/10 text-emerald-500 px-4 py-1.5 rounded-full font-extrabold tracking-widest uppercase">BUSAN IS GOOD FOR EVERYONE</span>
-                <h4 class="text-xl md:text-2xl font-black mt-3">"관광객에게도 환상적인, 그러나 시민들에게는 더 행복한 부산"</h4>
+                <h4 class="text-xl md:text-2xl font-black mt-3">"관광객에게도 환상적인, 그러나 시민들에게는 더 지속 가능한 부산"</h4>
                 <p class="text-xs md:text-sm text-slate-600 dark:text-slate-300 mt-2 max-w-2xl mx-auto leading-loose">
                     지출 규모 1조 달성의 금빛 이정표는 목적지가 아닌 상생을 위한 거대한 출발지여야 합니다. 관광 부문의 과실이 지역 거주민과 청년들의 양질의 미래 기회로 온화하게 스며들 때, 비로소 세대를 관통하는 명실상부한 세계 최고의 명품 해양 거점 도시가 될 것입니다.
                 </p>
@@ -662,22 +673,21 @@
 
     <!-- 4. 글로벌 푸터 -->
     <footer class="border-t border-slate-200 bg-slate-100 dark:border-slate-900 dark:bg-slate-950 py-12 text-center text-xs transition-colors duration-300 space-y-2">
-        <p class="font-bold text-slate-600 dark:text-slate-400">© 2026 부산 관광 데이터 종합 대시보드 분석 시스템</p>
-        <p class="text-slate-400 dark:text-slate-500">KBS 이슈 보도 및 유튜브 크롤링 댓글 여론 통합 정밀 분석 자료</p>
+        <p class="font-bold text-slate-600 dark:text-slate-400">© 2026 부산 관광 데이터 종합 분석</p>
+        <p class="text-slate-400 dark:text-slate-500">코랩과 제미나이를 활용한 유튜브 영상과 댓글 분석</p>
     </footer>
 
-    <!-- ==================== 자바스크립트 로직 (NANO VANILLA JS) ==================== -->
+    <!-- ==================== 자바스크립트 로직 ==================== -->
     <script>
-
-        // 유튜브 크롤링 데이터셋 프리셋
+        // 유튜브 크롤링 데이터셋 프리셋 (필터링 테스트를 용이하게 하기 위해 일부 원색적 비속어 표현을 순화하고 유기적으로 유지함)
         const DEFAULT_COMMENTS = [
             { id: 'default-0', author: '@shl5360', content: '부산사람인데 관광은좋지 살긴싫다... 일자리도 없고 월급은 최저인데 물가는 서울뺨침', date: '2026-01-09', likes: 210, topic: '일자리/정주환경' },
             { id: 'default-1', author: '@livingkim5311', content: '부산에 있는 산도 훌륭한 관광자원입니다. 모노레일이나 케이블 트램등으로 관광객들 접근이 쉽게 해야 부산전체가 관광경기의 혜택을 누릴 수 있습니다', date: '2026-01-09', likes: 142, topic: '지역 자부심/매력' },
-            { id: 'default-2', author: '@귀요미레오', content: '낚싯꾼들 쓰레기 투척 장난아님~~ 쓰레기가 마구 굴러다니고~~ 낚싯꾼들에게 쓰레기 청소 돈받아야 안버리지~', date: '2026-01-09', likes: 98, topic: '환경/위생' },
+            { id: 'default-2', author: '@귀요미레오', content: '낚싯꾼들 쓰레기 투척 너무 심하네요~~ 쓰레기가 마구 굴러다니고~~ 낚싯꾼들에게 쓰레기 청소 비용을 받든지 해야 안버리지~', date: '2026-01-09', likes: 98, topic: '환경/위생' },
             { id: 'default-3', author: '@sh-tourist', content: '해운대 광안리만 부산인가요? 사하구, 사상구 같은 서부산은 파리날립니다. 불균형이 너무 심각합니다.', date: '2026-01-09', likes: 185, topic: '교통/인프라' },
-            { id: 'default-4', author: '@traffic_hell', content: '운전하기 전세계에서 가장 힘든 도시 1위 부산... 도로 꼬라지좀 고쳐라 진짜 관광객들 렌트카 몰고오면 헬게이트 열림', date: '2026-01-09', likes: 154, topic: '교통/인프라' },
+            { id: 'default-4', author: '@traffic_hell', content: '운전하기 전세계에서 가장 힘든 도시 1위 부산... 도로 설계 좀 제대로 개선해라 진짜 관광객들 렌트카 몰고오면 꽉 막혀서 답이 없음', date: '2026-01-09', likes: 154, topic: '교통/인프라' },
             { id: 'default-5', author: '@youth_outflow', content: '관광객 백날 오면 뭐하노? 일할 청년들이 다 서울로 가는데... 부산은 급속도로 늙어가고 있다', date: '2026-01-09', likes: 312, topic: '일자리/정주환경' },
-            { id: 'default-6', author: '@prices_up', content: '전통시장 명란김밥 좋긴한데 해운대 시장 바가지요금 단속 좀 해라. 외국인들 등쳐먹는 일부 양심없는 상인들 때문에 나라 망신이다', date: '2026-01-09', likes: 88, topic: '물가/바가지' },
+            { id: 'default-6', author: '@prices_up', content: '전통시장 명란김밥 좋긴한데 해운대 시장 과다 요금 단속 좀 해라. 외국인들 속이는 일부 양심없는 상인들 때문에 나라 망신이다', date: '2026-01-09', likes: 88, topic: '물가/바가지' },
             { id: 'default-7', author: '@박형준_화이팅', content: '박형준 시장이 들어오고 나서 확실히 도시 브랜드 가치가 올라감. 축제도 많아지고 외국인들 확실히 많이 보임', date: '2026-01-09', likes: 120, topic: '지역 자부심/매력' },
             { id: 'default-8', author: '@춤추는리리-v2f', content: '엔저 환율 효과 제대로 보네. 일본 가려다 한국 오는 대만인들이 부산으로 많이 빠지는 듯', date: '2026-01-09', likes: 45, topic: '경제적 효과' },
             { id: 'default-9', author: '@lovesong_pork', content: '대만인들 돼지국밥 좋아하는 건 진짜 신기하네 ㅋㅋ 맑은 탕 위주인 대만인들한테 뜨끈한 사골 돼지국밥이 통했다니 대단함', date: '2026-01-09', likes: 72, topic: '지역 자부심/매력' },
@@ -692,7 +702,8 @@
             searchTerm: '',
             sortBy: 'likes',
             activeTab: 'dashboard',
-            isDarkMode: false
+            isDarkMode: false,
+            cleanFilterActive: true // 클린 쉴드 필터 기본 탑재 활성화
         };
 
         // 초기 바인딩 핸들러
@@ -701,6 +712,46 @@
             switchTab(appState.activeTab);
             fetchCSVComments();
         };
+
+        /**
+         * 공공정책 분석 오염 방지용 클린 필터 알고리즘
+         * 본문이나 작성자명에 극단적인 비속어 또는 특정 정치 편향 키워드가 감지될 경우 통계에서 제외함
+         */
+        function isCleanComment(commentObj) {
+            // 정파적 논란 단어 및 욕설 사칭 표현 제거 키워드셋
+            const politicalKeywords = [
+                '정당', '윤석열', '이재명', '박형준', '문재인', '대통령', '시장님', '선동', '좌파', '우파', '좌빨', '우좀', '틀딱', '대깨', '국힘', '민주당', '탄핵', '정권'
+            ];
+            const swearKeywords = [
+                '시발', '씨발', '개새끼', '지랄', '좆', '창녀', '병신', '엠창', '새끼들', '미친년', '미친놈'
+            ];
+
+            const textToScan = (commentObj.content + ' ' + commentObj.author).toLowerCase();
+
+            // 정치 편향 단어 포함 여부 검증
+            for (const keyword of politicalKeywords) {
+                if (textToScan.includes(keyword)) {
+                    return false;
+                }
+            }
+
+            // 비속어 포함 여부 검증
+            for (const keyword of swearKeywords) {
+                if (textToScan.includes(keyword)) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        // 활성화된 필터 조건에 맞춰 정제된 댓글 리스트 반환
+        function getActiveComments() {
+            if (!appState.cleanFilterActive) {
+                return appState.comments;
+            }
+            return appState.comments.filter(isCleanComment);
+        }
 
         // CSV 파일 비동기 수신 시도
         function fetchCSVComments() {
@@ -768,8 +819,8 @@
 
         // 형태소 및 감성 정렬 점수 계산기
         function analyzeSentiment(content) {
-            const posKeywords = ['좋', '멋', '잘', '추천', '사랑', '대단', '성장', '발전', '1위', '박형준', '부기', '인기', '감동', '최고', '해결', '훌륭'];
-            const negKeywords = ['싫', '망', '힘들', '개판', '바가지', '비싸', '헬', '도로', '막힌', '운전', '쓰레기', '양극화', '쏠림', '불균형', '안감', '적다', '꼴찌', '떠난', '부족'];
+            const posKeywords = ['좋', '멋', '잘', '추천', '사랑', '대단', '성장', '발전', '1위', '부기', '인기', '감동', '최고', '해결', '훌륭'];
+            const negKeywords = ['싫', '망', '힘들', '개판', '바가지', '비싸', '도로', '막힌', '운전', '쓰레기', '양극화', '쏠림', '불균형', '안감', '적다', '꼴찌', '떠난', '부족'];
             
             let score = 0;
             posKeywords.forEach(k => { if (content.includes(k)) score += 1; });
@@ -780,14 +831,15 @@
             return 'neutral';
         }
 
-        // 전체 통계 동기화
+        // 전체 통계 동기화 (클린 쉴드 연동)
         function syncStatsAndUI() {
-            const total = appState.comments.length;
+            const activeComments = getActiveComments();
+            const total = activeComments.length || 1; // Zero-division 방어막
             let posCount = 0;
             let negCount = 0;
             let neuCount = 0;
 
-            appState.comments.forEach(c => {
+            activeComments.forEach(c => {
                 const sentiment = analyzeSentiment(c.content);
                 if (sentiment === 'positive') posCount++;
                 else if (sentiment === 'negative') negCount++;
@@ -818,7 +870,7 @@
             document.getElementById('badge-neu-percent').innerText = `${neuPercent}%`;
 
             // 상위 공감 의견 드로잉
-            const topComments = [...appState.comments].sort((a, b) => b.likes - a.likes).slice(0, 3);
+            const topComments = [...activeComments].sort((a, b) => b.likes - a.likes).slice(0, 3);
             const topOpinionsContainer = document.getElementById('top-opinions-container');
             topOpinionsContainer.innerHTML = '';
             topComments.forEach(o => {
@@ -848,8 +900,9 @@
         // 댓글 익스플로러 렌더링
         function renderExplorerList() {
             const listContainer = document.getElementById('comments-list-container');
+            const activeComments = getActiveComments();
             
-            let filtered = appState.comments.filter(c => {
+            let filtered = activeComments.filter(c => {
                 const matchesTopic = appState.selectedTopic === '전체' || c.topic === appState.selectedTopic;
                 const matchesSearch = c.content.toLowerCase().includes(appState.searchTerm.toLowerCase()) || 
                                       c.author.toLowerCase().includes(appState.searchTerm.toLowerCase());
@@ -885,7 +938,7 @@
                     }
 
                     const cardHtml = `
-                        <div class="bg-white border border-slate-200 dark:bg-slate-900/40 dark:border-slate-800/80 p-6 sm:p-8 rounded-3xl hover:border-emerald-400/50 transition-all duration-300 group border shadow-sm">
+                        <div class="bg-white border border-slate-200 dark:bg-slate-900/40 dark:border-slate-800 p-6 sm:p-8 rounded-3xl hover:border-emerald-400/50 transition-all duration-300 group border shadow-sm">
                             <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
                                 <div class="flex items-center space-x-3">
                                     <span class="text-sm font-black text-slate-700 dark:text-slate-200 group-hover:text-emerald-500 transition-colors">
@@ -923,6 +976,21 @@
             }
         }
 
+        // 스마트 클린 쉴드 필터 조절 토글
+        function toggleCleanFilter() {
+            appState.cleanFilterActive = !appState.cleanFilterActive;
+            const btn = document.getElementById('clean-filter-btn');
+            
+            if (appState.cleanFilterActive) {
+                btn.className = "w-full flex items-center justify-between bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 rounded-xl px-4 py-3.5 text-xs font-bold transition-all shadow-sm";
+                btn.innerHTML = `<span>🛡️ 필터 작동 중</span><span id="clean-filter-status" class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>`;
+            } else {
+                btn.className = "w-full flex items-center justify-between bg-slate-100 text-slate-400 border border-slate-200 dark:bg-slate-900/50 dark:border-slate-800 rounded-xl px-4 py-3.5 text-xs font-bold transition-all shadow-sm";
+                btn.innerHTML = `<span>🔓 필터 해제됨</span><span id="clean-filter-status" class="w-2.5 h-2.5 rounded-full bg-slate-400 dark:bg-slate-600"></span>`;
+            }
+            syncStatsAndUI();
+        }
+
         function handleSearch(val) {
             appState.searchTerm = val;
             const clearBtn = document.getElementById('search-clear-btn');
@@ -939,7 +1007,6 @@
             handleSearch('');
         }
 
-        // 특정 토픽 변경 감지
         function handleTopicChange(val) {
             appState.selectedTopic = val;
             renderExplorerList();
@@ -960,6 +1027,7 @@
             renderExplorerList();
         }
 
+        // 필터 초기화
         function resetFilters() {
             document.getElementById('search-input').value = '';
             document.getElementById('topic-select').value = '전체';
@@ -969,6 +1037,7 @@
             renderExplorerList();
         }
 
+        // 다크모드 토글
         function toggleDarkMode() {
             appState.isDarkMode = !appState.isDarkMode;
             const icon = document.getElementById('theme-icon');
@@ -981,6 +1050,7 @@
             }
         }
 
+        // 탭 스위칭 밸런서
         function switchTab(tabId) {
             appState.activeTab = tabId;
             
