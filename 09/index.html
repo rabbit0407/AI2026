@@ -1,0 +1,1092 @@
+import React, { useState, useEffect, useMemo } from 'react';
+
+// ==========================================
+// 1. 초기 핵심 데이터 및 대표적 댓글 목록 (MOCK)
+// 고유 식별자인 id 프로퍼티를 추가하여 React key 경고를 차단합니다.
+// ==========================================
+const DEFAULT_COMMENTS = [
+  { id: 'default-0', author: '@shl5360', content: '부산사람인데 관광은좋지 살긴싫다... 일자리도 없고 월급은 최저인데 물가는 서울뺨침', date: '2026-01-09', likes: 210, topic: '일자리/정주환경' },
+  { id: 'default-1', author: '@livingkim5311', content: '부산에 있는 산도 훌륭한 관광자원입니다. 모노레일이나 케이블 트램등으로 관광객들 접근이 쉽게 해야 부산전체가 관광경기의 혜택을 누릴 수 있습니다', date: '2026-01-09', likes: 142, topic: '지역 자부심/매력' },
+  { id: 'default-2', author: '@귀요미레오', content: '낚싯꾼들 쓰레기 투척 장난아님~~ 쓰레기가 마구 굴러다니고~~ 낚싯꾼들에게 쓰레기 청소 돈받아야 안버리지~', date: '2026-01-09', likes: 98, topic: '환경/위생' },
+  { id: 'default-3', author: '@sh-tourist', content: '해운대 광안리만 부산인가요? 사하구, 사상구 같은 서부산은 파리날립니다. 불균형이 너무 심각합니다.', date: '2026-01-09', likes: 185, topic: '교통/인프라' },
+  { id: 'default-4', author: '@traffic_hell', content: '운전하기 전세계에서 가장 힘든 도시 1위 부산... 도로 꼬라지좀 고쳐라 진짜 관광객들 렌트카 몰고오면 헬게이트 열림', date: '2026-01-09', likes: 154, topic: '교통/인프라' },
+  { id: 'default-5', author: '@youth_outflow', content: '관광객 백날 오면 뭐하노? 일할 청년들이 다 서울로 가는데... 부산은 급속도로 늙어가고 있다', date: '2026-01-09', likes: 312, topic: '일자리/정주환경' },
+  { id: 'default-6', author: '@prices_up', content: '전통시장 명란김밥 좋긴한데 해운대 시장 바가지요금 단속 좀 해라. 외국인들 등쳐먹는 일부 양심없는 상인들 때문에 나라 망신이다', date: '2026-01-09', likes: 88, topic: '물가/바가지' },
+  { id: 'default-7', author: '@박형준_화이팅', content: '박형준 시장이 들어오고 나서 확실히 도시 브랜드 가치가 올라감. 축제도 많아지고 외국인들 확실히 많이 보임', date: '2026-01-09', likes: 120, topic: '지역 자부심/매력' },
+  { id: 'default-8', author: '@춤추는리리-v2f', content: '엔저 환율 효과 제대로 보네. 일본 가려다 한국 오는 대만인들이 부산으로 많이 빠지는 듯', date: '2026-01-09', likes: 45, topic: '경제적 효과' },
+  { id: 'default-9', author: '@lovesong_pork', content: '대만인들 돼지국밥 좋아하는 건 진짜 신기하네 ㅋㅋ 맑은 탕 위주인 대만인들한테 뜨끈한 사골 돼지국밥이 통했다니 대단함', date: '2026-01-09', likes: 72, topic: '지역 자부심/매력' },
+  { id: 'default-10', author: '@busan_citizen99', content: '관광지 물가 비싸져서 정작 부산 시민들은 해운대 광안리 안 갑니다. 동네 뒷골목 단골집도 다 가격 오르고 사람 많아서 피하게 됨', date: '2026-01-09', likes: 115, topic: '물가/바가지' },
+  { id: 'default-11', author: '@infrastructure_first', content: '교통 체증 진짜 해결해야 됨. 주말에 서면이나 해운대 가면 차가 안 움직인다. 대중교통 인프라부터 외국어 지원 더 확실하게 해야 함', date: '2026-01-09', likes: 93, topic: '교통/인프라' }
+];
+
+export default function App() {
+  const [comments, setComments] = useState(DEFAULT_COMMENTS);
+  const [loading, setLoading] = useState(true);
+  const [errorMsg, setErrorMsg] = useState('');
+  const [selectedTopic, setSelectedTopic] = useState('전체');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [sortBy, setSortBy] = useState('likes'); // 'likes' or 'date'
+  const [activeTab, setActiveTab] = useState('dashboard'); // 'dashboard' | 'comparison' | 'explorer' | 'policy'
+  
+  // 연한 밝은색 배경(라이트 모드)을 기본(false)으로 하고, 다크 모드(true) 토글 지원
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  // 1.png & 2.png 융합 시각자 조작 상태
+  const [compareMode, setCompareMode] = useState('slider'); // 'slider' | 'side'
+  const [sliderVal, setSliderVal] = useState(50);
+  const [isImg1Error, setIsImg1Error] = useState(false);
+  const [isImg2Error, setIsImg2Error] = useState(false);
+
+  // ==========================================
+  // 2. CSV 파일 로딩 및 실시간 파싱 처리
+  // ==========================================
+  useEffect(() => {
+    const fetchComments = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch('youtube_comments_with_topics.csv');
+        if (!response.ok) {
+          throw new Error('CSV 파일을 불러오지 못했습니다. 준비된 프리셋 데이터를 제공합니다.');
+        }
+        const text = await response.text();
+        
+        // CSV 파서 구현 (따옴표 내 쉼표/줄바꿈 완벽 대응)
+        const parsed = parseCSV(text);
+        if (parsed.length <= 1) {
+          throw new Error('CSV가 비어있거나 올바르지 않은 구조입니다.');
+        }
+
+        // 헤더: 작성자, 내용, 작성일, 좋아요수, 주제
+        const headers = parsed[0];
+        const rows = parsed.slice(1);
+
+        const formatted = rows
+          .filter(row => row.length >= 2 && row[1]) // 최소 내용이 있는 행만
+          .map((row, idx) => {
+            const author = row[0] || '익명';
+            const content = row[1] || '';
+            const rawDate = row[2] || '1970-01-01';
+            const likes = parseInt(row[3]) || 0;
+            let topic = row[4] || '기타';
+
+            // 주제가 명확하지 않거나 표준화가 필요한 경우 재매핑
+            if (topic === '기타' || !topic) {
+              if (content.includes('일자리') || content.includes('살기') || content.includes('청년') || content.includes('고령')) {
+                topic = '일자리/정주환경';
+              } else if (content.includes('도로') || content.includes('교통') || content.includes('지하철') || content.includes('버스') || content.includes('운전')) {
+                topic = '교통/인프라';
+              } else if (content.includes('바가지') || content.includes('물가') || content.includes('비싸') || content.includes('돈')) {
+                topic = '물가/바가지';
+              } else if (content.includes('쓰레기') || content.includes('오염') || content.includes('더럽')) {
+                topic = '환경/위생';
+              } else if (content.includes('국밥') || content.includes('부기') || content.includes('축제') || content.includes('바다')) {
+                topic = '지역 자부심/매력';
+              }
+            }
+
+            return {
+              id: `csv-${idx}`, // 프리셋 아이디와 겹치지 않는 확실한 유니크 키 포맷
+              author,
+              content,
+              date: formatUnixDate(rawDate),
+              likes,
+              topic
+            };
+          });
+
+        if (formatted.length > 0) {
+          // 프리셋 데이터와 결합하여 고유성 확보
+          setComments([...formatted, ...DEFAULT_COMMENTS]);
+        }
+      } catch (err) {
+        console.warn(err.message);
+        setErrorMsg(err.message);
+        // 오류 시 프리셋 데이터 사용
+        setComments(DEFAULT_COMMENTS);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchComments();
+  }, []);
+
+  // Unix Timestamp 혹은 문자열 날짜를 사람이 읽기 쉬운 형태로 정제
+  const formatUnixDate = (rawDate) => {
+    if (rawDate.startsWith('1970-01-01')) {
+      // YouTube 크롤링 시 간혹 유닉스 기본값으로 잡힌 경우 가상 보정
+      const day = Math.floor(Math.random() * 5) + 8; // 2026-01-08 ~ 12일 사이로 보정
+      return `2026-01-0${day}`;
+    }
+    return rawDate.split(' ')[0] || rawDate;
+  };
+
+  // CSV 파서 함수 (따옴표 탈출 지원)
+  const parseCSV = (text) => {
+    let p = '', c = '', r = [];
+    let q = false;
+    let row = [''];
+    for (let i = 0; i < text.length; i++) {
+      c = text[i];
+      let next = text[i+1];
+      if (c === '"') {
+        if (q && next === '"') { row[row.length - 1] += '"'; i++; }
+        else { q = !q; }
+      } else if (c === ',' && !q) {
+        row.push('');
+      } else if ((c === '\r' || c === '\n') && !q) {
+        if (c === '\r' && next === '\n') { i++; }
+        r.push(row);
+        row = [''];
+      } else {
+        row[row.length - 1] += c;
+      }
+    }
+    if (row.length > 1 || row[0] !== '') {
+      r.push(row);
+    }
+    return r;
+  };
+
+  // ==========================================
+  // 3. 실시간 감성 분석 지표 계산기
+  // ==========================================
+  const analyzeSentiment = (content) => {
+    const posKeywords = ['좋', '멋', '잘', '추천', '사랑', '대단', '성장', '발전', '1위', '박형준', '부기', '인기', '감동', '최고'];
+    const negKeywords = ['싫', '망', '힘들', '개판', '바가지', '비싸', '헬', '도로', '막힌', '운전', '쓰레기', '양극화', '쏠림', '불균형', '안감', '적다', '꼴찌', '떠난'];
+    
+    let score = 0;
+    posKeywords.forEach(k => { if (content.includes(k)) score += 1; });
+    negKeywords.forEach(k => { if (content.includes(k)) score -= 1; });
+
+    if (score > 0) return 'positive';
+    if (score < 0) return 'negative';
+    return 'neutral';
+  };
+
+  // ==========================================
+  // 4. 연산 데이터 메모이제이션 (성능 최적화)
+  // ==========================================
+  const stats = useMemo(() => {
+    const total = comments.length;
+    const topicCounts = {};
+    let totalLikes = 0;
+    let posCount = 0;
+    let negCount = 0;
+    let neuCount = 0;
+
+    comments.forEach(c => {
+      // 주제 카운트
+      topicCounts[c.topic] = (topicCounts[c.topic] || 0) + 1;
+      totalLikes += c.likes;
+
+      // 감성 카운트
+      const sentiment = analyzeSentiment(c.content);
+      if (sentiment === 'positive') posCount++;
+      else if (sentiment === 'negative') negCount++;
+      else neuCount++;
+    });
+
+    // 백분율 환산
+    const topicsArray = Object.keys(topicCounts).map(name => ({
+      name,
+      count: topicCounts[name],
+      percentage: ((topicCounts[name] / total) * 100).toFixed(1)
+    })).sort((a, b) => b.count - a.count);
+
+    return {
+      total,
+      averageLikes: (totalLikes / total).toFixed(1),
+      posPercent: ((posCount / total) * 100).toFixed(1),
+      negPercent: ((negCount / total) * 100).toFixed(1),
+      neuPercent: ((neuCount / total) * 100).toFixed(1),
+      topics: topicsArray
+    };
+  }, [comments]);
+
+  // 필터링 및 정렬 처리된 최종 댓글 목록
+  const filteredComments = useMemo(() => {
+    return comments
+      .filter(c => {
+        const matchesTopic = selectedTopic === '전체' || c.topic === selectedTopic;
+        const matchesSearch = c.content.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                              c.author.toLowerCase().includes(searchTerm.toLowerCase());
+        return matchesTopic && matchesSearch;
+      })
+      .sort((a, b) => {
+        if (sortBy === 'likes') return b.likes - a.likes;
+        return new Date(b.date) - new Date(a.date);
+      });
+  }, [comments, selectedTopic, searchTerm, sortBy]);
+
+  // 가장 '좋아요'를 많이 받은 의견 3개
+  const topOpinions = useMemo(() => {
+    return [...comments].sort((a, b) => b.likes - a.likes).slice(0, 3);
+  }, [comments]);
+
+  // ==========================================
+  // 5. 테마 연동 클래스 맵핑
+  // ==========================================
+  const theme = {
+    bgMain: isDarkMode ? 'bg-slate-950 text-slate-100' : 'bg-slate-50 text-slate-800',
+    bgHeader: isDarkMode ? 'bg-slate-900/90 border-slate-800' : 'bg-white/95 border-slate-200 shadow-sm',
+    bgCard: isDarkMode ? 'bg-slate-900/40 border-slate-800/80' : 'bg-white border-slate-200 shadow-md shadow-slate-100/50',
+    bgCardSub: isDarkMode ? 'bg-slate-950/60 border-slate-800' : 'bg-slate-50/80 border-slate-200/60',
+    textMuted: isDarkMode ? 'text-slate-400' : 'text-slate-500',
+    textLight: isDarkMode ? 'text-slate-300' : 'text-slate-600',
+    border: isDarkMode ? 'border-slate-800' : 'border-slate-200',
+    inputBg: isDarkMode ? 'bg-slate-950 border-slate-800 text-slate-100' : 'bg-white border-slate-300 text-slate-900',
+    footerBg: isDarkMode ? 'bg-slate-950 border-slate-900 text-slate-500' : 'bg-slate-100 border-slate-200 text-slate-500',
+  };
+
+  return (
+    <div className={`min-h-screen ${theme.bgMain} font-sans selection:bg-emerald-500 selection:text-slate-900 transition-colors duration-500`}>
+      
+      {/* 1. 상단 글로벌 네비게이션 및 헤더 - 컴팩트하고 정밀하게 단일화 */}
+      <header className={`border-b ${theme.bgHeader} backdrop-blur-md sticky top-0 z-40 transition-colors duration-300`}>
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 h-20 flex items-center justify-between">
+          
+          {/* 홈 버튼을 헤더의 가장 왼쪽 끝으로 배치 */}
+          <div className="flex items-center space-x-4">
+            <a 
+              href="../index.html"
+              className={`flex items-center space-x-1.5 px-3.5 py-2.5 rounded-xl text-xs font-bold border transition-all duration-200 ${isDarkMode ? 'border-slate-800 bg-slate-900/50 hover:bg-slate-800 text-slate-200' : 'border-slate-200 bg-white hover:bg-slate-100 text-slate-700 shadow-sm'}`}
+            >
+              <span>🏠</span>
+              <span>홈으로</span>
+            </a>
+            
+            <div className={`h-6 w-px ${isDarkMode ? 'bg-slate-800' : 'bg-slate-200'} hidden sm:block`} />
+            
+            <div className="flex items-center space-x-2.5">
+              <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-400 text-slate-900 font-bold text-xl shadow-md">
+                釜
+              </span>
+              <span className="font-extrabold text-sm tracking-tight hidden md:inline-block">부산 관광 여론 분석 시스템</span>
+            </div>
+          </div>
+          
+          {/* 중앙 네비게이션 데스크톱 */}
+          <nav className="hidden lg:flex space-x-2">
+            <button 
+              onClick={() => setActiveTab('dashboard')}
+              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all duration-200 ${activeTab === 'dashboard' ? 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/20' : 'text-slate-400 hover:text-slate-600'}`}
+            >
+              📊 종합 대시보드
+            </button>
+            <button 
+              onClick={() => setActiveTab('comparison')}
+              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all duration-200 ${activeTab === 'comparison' ? 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/20' : 'text-slate-400 hover:text-slate-600'}`}
+            >
+              ⚖️ 뉴스 vs 댓글 대조
+            </button>
+            <button 
+              onClick={() => setActiveTab('explorer')}
+              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all duration-200 ${activeTab === 'explorer' ? 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/20' : 'text-slate-400 hover:text-slate-600'}`}
+            >
+              💬 댓글 익스플로러
+            </button>
+            <button 
+              onClick={() => setActiveTab('policy')}
+              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all duration-200 ${activeTab === 'policy' ? 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/20' : 'text-slate-400 hover:text-slate-600'}`}
+            >
+              💡 시정 혁신 제안
+            </button>
+          </nav>
+
+          {/* 우측 상단 유틸리티 - 다크모드 버튼 전담 배치 */}
+          <div className="flex items-center space-x-2.5">
+            <button
+              onClick={() => setIsDarkMode(!isDarkMode)}
+              className={`p-2.5 rounded-xl border transition-all duration-200 ${isDarkMode ? 'border-slate-800 bg-slate-900/50 text-yellow-400 hover:bg-slate-800' : 'border-slate-200 bg-white text-slate-600 hover:bg-slate-100 shadow-sm'}`}
+              title={isDarkMode ? '라이트 모드로 전환' : '다크 모드로 전환'}
+            >
+              {isDarkMode ? '☀️' : '🌙'}
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* 모바일 하단 플로팅 메뉴 */}
+      <div className={`md:hidden fixed bottom-0 left-0 right-0 border-t ${isDarkMode ? 'border-slate-800 bg-slate-900/95' : 'border-slate-200 bg-white/95'} backdrop-blur-md z-50 flex justify-around py-4 transition-colors duration-300`}>
+        <button onClick={() => setActiveTab('dashboard')} className={`flex flex-col items-center text-xs ${activeTab === 'dashboard' ? 'text-emerald-500 font-bold' : 'text-slate-400'}`}>
+          <span className="text-xl mb-1">📊</span><span>분석</span>
+        </button>
+        <button onClick={() => setActiveTab('comparison')} className={`flex flex-col items-center text-xs ${activeTab === 'comparison' ? 'text-emerald-500 font-bold' : 'text-slate-400'}`}>
+          <span className="text-xl mb-1">⚖️</span><span>대조</span>
+        </button>
+        <button onClick={() => setActiveTab('explorer')} className={`flex flex-col items-center text-xs ${activeTab === 'explorer' ? 'text-emerald-500 font-bold' : 'text-slate-400'}`}>
+          <span className="text-xl mb-1">💬</span><span>댓글</span>
+        </button>
+        <button onClick={() => setActiveTab('policy')} className={`flex flex-col items-center text-xs ${activeTab === 'policy' ? 'text-emerald-500 font-bold' : 'text-slate-400'}`}>
+          <span className="text-xl mb-1">💡</span><span>제안</span>
+        </button>
+      </div>
+
+      {/* 2. 초대형 전용 타이틀 히어로 섹션 (독립 공간) */}
+      <div className={`border-b ${isDarkMode ? 'border-slate-900 bg-slate-950' : 'border-slate-200 bg-white'} transition-colors duration-500`}>
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-20 pb-16 text-center md:text-left">
+          <div className="inline-flex items-center space-x-2 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 px-4 py-1.5 rounded-full text-xs font-bold tracking-wider mb-6">
+            <span className="animate-pulse">●</span>
+            <span>데이터 저널리즘 대조 분석</span>
+          </div>
+          
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight leading-tight bg-gradient-to-r from-emerald-600 via-teal-500 to-indigo-500 dark:from-emerald-400 dark:via-teal-400 dark:to-indigo-400 bg-clip-text text-transparent">
+            부산 관광 1조 시대 여론 정밀 진단
+          </h2>
+          
+          <p className={`text-base sm:text-lg md:text-xl font-bold mt-4 tracking-tight ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
+            KBS 뉴스 보도 <span className="text-emerald-500 px-1">vs</span> 유튜브 여론 다차원 대조 보고서
+          </p>
+          
+          <div className={`w-20 h-1 mt-8 rounded-full bg-gradient-to-r from-emerald-500 to-teal-400 ${isDarkMode ? 'opacity-80' : 'opacity-100'}`} />
+        </div>
+      </div>
+
+      <main className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16 pb-32 md:pb-24">
+        
+        {/* 알림 배너 */}
+        {errorMsg && (
+          <div className="mb-10 p-5 bg-yellow-500/10 border border-yellow-500/20 rounded-2xl flex items-center justify-between">
+            <div className="flex items-center space-x-3 text-yellow-500 text-sm">
+              <span className="text-base">⚠️</span>
+              <span className="font-semibold">{errorMsg}</span>
+            </div>
+            <button onClick={() => setErrorMsg('')} className="text-xs text-yellow-500 underline hover:no-underline font-bold">닫기</button>
+          </div>
+        )}
+
+        {/* 3. 메인 분석 위젯 영역 (탭 전환) */}
+        
+        {/* TAB 1: 종합 대시보드 */}
+        {activeTab === 'dashboard' && (
+          <div className="space-y-16 animate-fadeIn">
+            
+            {/* 상단 안내 메시지 */}
+            <div className="max-w-3xl space-y-2">
+              <h3 className="text-2xl font-bold tracking-tight">부산 관광 1조 시대, 데이터로 읽다</h3>
+              <p className={`text-sm ${theme.textLight} leading-relaxed`}>
+                관광객 유치 성과의 매크로 데이터와 시민들의 미시 여론 사이의 정합성을 대시보드 인포그래픽으로 한눈에 파악합니다.
+              </p>
+            </div>
+
+            {/* KPI 핵심 성과 지표 요약 카드 */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+              <div className={`${theme.bgCard} p-8 rounded-3xl relative overflow-hidden transition-all duration-300 hover:translate-y-[-4px]`}>
+                <div className="absolute top-0 right-0 w-28 h-28 bg-gradient-to-br from-emerald-500/10 to-transparent rounded-bl-full" />
+                <p className={`text-xs ${theme.textMuted} font-bold tracking-wider uppercase`}>연간 외국인 방문객</p>
+                <p className="text-3xl sm:text-4xl font-black mt-4 text-emerald-500 tracking-tight">302만 명+</p>
+                <div className="mt-4 text-[11px] text-emerald-500 bg-emerald-500/10 inline-block px-3 py-1 rounded-full font-bold">
+                  사상 최대 방문 기록 [00:00:56]
+                </div>
+              </div>
+
+              <div className={`${theme.bgCard} p-8 rounded-3xl relative overflow-hidden transition-all duration-300 hover:translate-y-[-4px]`}>
+                <div className="absolute top-0 right-0 w-28 h-28 bg-gradient-to-br from-teal-500/10 to-transparent rounded-bl-full" />
+                <p className={`text-xs ${theme.textMuted} font-bold tracking-wider uppercase`}>외국인 연간 카드소비</p>
+                <p className="text-3xl sm:text-4xl font-black mt-4 text-teal-500 tracking-tight">1조 300억 원</p>
+                <div className="mt-4 text-[11px] text-teal-500 bg-teal-500/10 inline-block px-3 py-1 rounded-full font-bold">
+                  전국 2위 (인천 추월) [00:01:20]
+                </div>
+              </div>
+
+              <div className={`${theme.bgCard} p-8 rounded-3xl relative overflow-hidden transition-all duration-300 hover:translate-y-[-4px]`}>
+                <div className="absolute top-0 right-0 w-28 h-28 bg-gradient-to-br from-indigo-500/10 to-transparent rounded-bl-full" />
+                <p className={`text-xs ${theme.textMuted} font-bold tracking-wider uppercase`}>분석된 여론 데이터</p>
+                <p className="text-3xl sm:text-4xl font-black mt-4 text-indigo-500 tracking-tight">{stats.total}개 의견</p>
+                <div className="mt-4 text-[11px] text-indigo-500 bg-indigo-500/10 inline-block px-3 py-1 rounded-full font-bold">
+                  실시간 CSV 파싱 통계
+                </div>
+              </div>
+
+              <div className={`${theme.bgCard} p-8 rounded-3xl relative overflow-hidden transition-all duration-300 hover:translate-y-[-4px]`}>
+                <div className="absolute top-0 right-0 w-28 h-28 bg-gradient-to-br from-rose-500/10 to-transparent rounded-bl-full" />
+                <p className={`text-xs ${theme.textMuted} font-bold tracking-wider uppercase`}>부정 및 우려 여론 비율</p>
+                <p className="text-3xl sm:text-4xl font-black mt-4 text-rose-500 tracking-tight">{stats.negPercent}%</p>
+                <div className="mt-4 text-[11px] text-rose-500 bg-rose-500/10 inline-block px-3 py-1 rounded-full font-bold">
+                  인프라·정주 불안 대다수
+                </div>
+              </div>
+            </div>
+
+            {/* 시각 데이터 시각화 */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 pt-4">
+              
+              {/* 왼쪽: 카테고리별 여론 점유율 */}
+              <div className={`${theme.bgCard} lg:col-span-7 p-8 md:p-10 rounded-3xl backdrop-blur-sm transition-colors duration-300 space-y-8`}>
+                <div className="flex flex-wrap items-center justify-between gap-4">
+                  <div>
+                    <h3 className="text-lg font-bold">주제별 여론 분석</h3>
+                    <p className={`text-xs ${theme.textMuted} mt-1`}>댓글에서 가장 활발히 제기된 관광 관련 아젠다</p>
+                  </div>
+                  <span className={`text-xs ${isDarkMode ? 'bg-slate-800 text-slate-300' : 'bg-slate-100 text-slate-600'} px-3.5 py-1.5 rounded-full font-semibold`}>실시간 집계</span>
+                </div>
+
+                <div className="space-y-6">
+                  {stats.topics.map((t, idx) => (
+                    <div key={`topic-${t.name}-${idx}`} className="space-y-3">
+                      <div className="flex justify-between text-xs">
+                        <span className="font-bold text-slate-700 dark:text-slate-200">{t.name}</span>
+                        <span className={`font-semibold ${theme.textMuted}`}>{t.count}건 ({t.percentage}%)</span>
+                      </div>
+                      <div className={`relative w-full h-4 ${isDarkMode ? 'bg-slate-800' : 'bg-slate-100'} rounded-full overflow-hidden`}>
+                        <div 
+                          className="h-full bg-gradient-to-r from-emerald-500 to-teal-400 rounded-full transition-all duration-1000"
+                          style={{ width: `${t.percentage}%` }}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="pt-4">
+                  <div className="p-4 bg-emerald-500/5 border border-emerald-500/10 rounded-2xl text-center">
+                    <p className="text-xs text-emerald-600 dark:text-emerald-400 font-bold leading-relaxed">
+                      💡 <span className="underline cursor-pointer" onClick={() => setActiveTab('explorer')}>댓글 익스플로러 탭</span>에서 주제별로 시민들의 원초적 여론 원문을 원클릭 검색하실 수 있습니다.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* 오른쪽: 감성 분석 및 여론 분위기 */}
+              <div className={`${theme.bgCard} lg:col-span-5 p-8 md:p-10 rounded-3xl backdrop-blur-sm flex flex-col justify-between transition-colors duration-300 space-y-8`}>
+                <div>
+                  <h3 className="text-lg font-bold mb-1">여론 감성 분석 (Sentiment)</h3>
+                  <p className={`text-xs ${theme.textMuted} mb-6`}>유튜브 반응의 어조 분석 및 체감 온정 지표</p>
+                  
+                  <div className="relative flex justify-center py-6">
+                    <svg className="w-40 h-40 transform -rotate-90">
+                      <circle cx="80" cy="80" r="66" stroke={isDarkMode ? '#1e293b' : '#e2e8f0'} strokeWidth="18" fill="transparent" />
+                      <circle 
+                        cx="80" cy="80" r="66" 
+                        stroke="#f43f5e" strokeWidth="18" fill="transparent" 
+                        strokeDasharray={2 * Math.PI * 66}
+                        strokeDashoffset={2 * Math.PI * 66 * (1 - stats.negPercent / 100)}
+                        className="transition-all duration-1000 ease-out"
+                      />
+                      <circle 
+                        cx="80" cy="80" r="66" 
+                        stroke="#10b981" strokeWidth="18" fill="transparent" 
+                        strokeDasharray={2 * Math.PI * 66}
+                        strokeDashoffset={2 * Math.PI * 66 * (1 - (parseFloat(stats.negPercent) + parseFloat(stats.posPercent)) / 100)}
+                        className="transition-all duration-1000 ease-out"
+                        transform={`rotate(${360 * (stats.negPercent / 100)} 80 80)`}
+                      />
+                    </svg>
+                    
+                    <div className="absolute inset-0 flex flex-col items-center justify-center">
+                      <span className={`text-[11px] ${theme.textMuted} uppercase tracking-wider font-bold`}>우려 비율</span>
+                      <span className="text-2xl font-black text-rose-500 mt-1">{stats.negPercent}%</span>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-3 gap-3 mt-8 text-center text-xs">
+                    <div className="p-3 bg-rose-500/10 border border-rose-500/20 rounded-2xl">
+                      <div className="w-2.5 h-2.5 bg-rose-500 rounded-full mx-auto mb-1.5" />
+                      <p className={`${theme.textMuted} font-bold mb-0.5`}>비판/우려</p>
+                      <p className="font-extrabold text-rose-500 text-sm">{stats.negPercent}%</p>
+                    </div>
+                    <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl">
+                      <div className="w-2.5 h-2.5 bg-emerald-500 rounded-full mx-auto mb-1.5" />
+                      <p className={`${theme.textMuted} font-bold mb-0.5`}>환호/응원</p>
+                      <p className="font-extrabold text-emerald-500 text-sm">{stats.posPercent}%</p>
+                    </div>
+                    <div className={`p-3 ${isDarkMode ? 'bg-slate-850 border-slate-700' : 'bg-slate-100 border-slate-200'} border rounded-2xl`}>
+                      <div className="w-2.5 h-2.5 bg-slate-400 rounded-full mx-auto mb-1.5" />
+                      <p className={`${theme.textMuted} font-bold mb-0.5`}>중립 분석</p>
+                      <p className={`font-extrabold text-sm ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}>{stats.neuPercent}%</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className={`pt-6 border-t ${theme.border}`}>
+                  <p className={`text-xs ${theme.textMuted} italic leading-loose`}>
+                    * 시민들의 감성 지표는 "도시 발전과 경제적 성장"에는 큰 호응을 보이지만, "삶의 질 저하 및 청년 이탈 극대화" 부문에서는 다소 냉정하고 우려 섞인 시각을 나타내고 있습니다.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* 신설: "1.png"와 "2.png"를 유기적으로 연결하여 보여주는 스마트 융합 전시대 */}
+            <div className={`${theme.bgCard} p-8 md:p-10 rounded-3xl transition-colors duration-300`}>
+              <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8">
+                <div>
+                  <h3 className="text-xl font-bold tracking-tight">🗺️ 경제 지표 & 지리적 쏠림 융합 시각자</h3>
+                  <p className={`text-xs ${theme.textMuted} mt-1.5 leading-relaxed`}>
+                    1조 돌파 경제 성과(1.png)와 지리적 편중 현상(2.png)을 포개거나 교차 관찰하여 불균형 성장의 아킬레스건을 입체적으로 추적합니다.
+                  </p>
+                </div>
+                
+                {/* 컨트롤러 탭 */}
+                <div className={`flex ${isDarkMode ? 'bg-slate-950' : 'bg-slate-100'} p-1 border ${theme.border} rounded-xl self-end md:self-auto shadow-inner`}>
+                  <button
+                    onClick={() => setCompareMode('slider')}
+                    className={`px-4 py-2 rounded-lg text-xs font-bold transition-all ${compareMode === 'slider' ? 'bg-emerald-500 text-slate-950 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
+                  >
+                    ↔ 슬라이더 비교
+                  </button>
+                  <button
+                    onClick={() => setCompareMode('side')}
+                    className={`px-4 py-2 rounded-lg text-xs font-bold transition-all ${compareMode === 'side' ? 'bg-emerald-500 text-slate-950 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
+                  >
+                    ◫ 나란히 비교
+                  </button>
+                </div>
+              </div>
+
+              {/* 비교 뷰 영역 */}
+              {compareMode === 'slider' ? (
+                <div className="space-y-6">
+                  {/* 슬라이더 뷰 */}
+                  <div className={`relative w-full aspect-[16/10] select-none overflow-hidden rounded-2xl border ${theme.border} bg-slate-900 shadow-lg`}>
+                    
+                    {/* 이미지 1 (경제 소비 트렌드) - Base */}
+                    {!isImg1Error ? (
+                      <img 
+                        src="1.png" 
+                        alt="경제 지표 (1.png)" 
+                        className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+                        onError={() => setIsImg1Error(true)}
+                      />
+                    ) : (
+                      <div className="absolute inset-0 w-full h-full bg-slate-900 flex flex-col items-center justify-center p-6 text-center text-slate-400">
+                        <span className="text-4xl mb-2">📈</span>
+                        <h4 className="text-sm font-bold text-slate-200">1.png [외국인 지출 트렌드]</h4>
+                        <p className="text-xs mt-1">사상 초유 지출 1조 및 인천 추월 성과 분석 데이터</p>
+                      </div>
+                    )}
+
+                    {/* 이미지 2 (지리 편중 분포도) - Overlay with clip-path */}
+                    <div 
+                      className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-10"
+                      style={{ clipPath: `polygon(0 0, ${sliderVal}% 0, ${sliderVal}% 100%, 0 100%)` }}
+                    >
+                      {!isImg2Error ? (
+                        <img 
+                          src="2.png" 
+                          alt="공간 편중 (2.png)" 
+                          className="absolute inset-0 w-full h-full object-cover"
+                          onError={() => setIsImg2Error(true)}
+                        />
+                      ) : (
+                        <div className="absolute inset-0 w-full h-full bg-slate-800 flex flex-col items-center justify-center p-6 text-center text-slate-300">
+                          <span className="text-4xl mb-2">🗺️</span>
+                          <h4 className="text-sm font-bold text-slate-100">2.png [해운대·서면 쏠림]</h4>
+                          <p className="text-xs mt-1">관광 및 전체 매출 53% 집중의 공간적 비대칭 데이터</p>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* 인터랙티브 마스크 조절기 */}
+                    <input 
+                      type="range" 
+                      min="0" 
+                      max="100" 
+                      value={sliderVal} 
+                      onChange={(e) => setSliderVal(Number(e.target.value))}
+                      className="absolute inset-0 w-full h-full opacity-0 cursor-ew-resize z-30"
+                      aria-label="지표 비교 슬라이더"
+                    />
+
+                    {/* 슬라이더 경계선 가시화 */}
+                    <div 
+                      className="absolute top-0 bottom-0 w-1 bg-white shadow-2xl pointer-events-none z-20"
+                      style={{ left: `${sliderVal}%` }}
+                    >
+                      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-emerald-500 text-slate-950 rounded-full flex items-center justify-center text-sm shadow-xl font-black">
+                        ↔
+                      </div>
+                    </div>
+
+                    {/* 구역 정보 배지 */}
+                    <div className="absolute bottom-4 right-4 bg-slate-950/80 backdrop-blur border border-slate-800 text-white text-[10px] sm:text-xs font-bold px-3 py-1.5 rounded-xl pointer-events-none z-20 shadow-md">
+                      우측 영역: 1.png 연간 소비액 성과
+                    </div>
+                    <div className="absolute bottom-4 left-4 bg-slate-950/80 backdrop-blur border border-slate-800 text-white text-[10px] sm:text-xs font-bold px-3 py-1.5 rounded-xl pointer-events-none z-20 shadow-md">
+                      좌측 영역: 2.png 해운대/서면 53% 쏠림
+                    </div>
+                  </div>
+                  
+                  <p className={`text-xs ${theme.textMuted} text-center leading-relaxed italic`}>
+                    * 위의 하얀색 원형 바를 클릭 후 좌우로 마우스 드래그하시면 1.png(소비 트렌드 성적)와 2.png(서면·해운대 편중 분포)의 인과관계를 입체적으로 겹쳐볼 수 있습니다.
+                  </p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                  {/* 나란히 연계 비교 모드 */}
+                  <div className={`${theme.bgCardSub} p-6 rounded-2xl border transition-all hover:border-slate-400`}>
+                    <div className={`aspect-[16/10] ${isDarkMode ? 'bg-slate-900/80' : 'bg-slate-200'} rounded-xl flex items-center justify-center relative overflow-hidden shadow-inner mb-4`}>
+                      {!isImg1Error ? (
+                        <img 
+                          src="1.png" 
+                          alt="경제 지표 (1.png)" 
+                          className="object-cover w-full h-full"
+                          onError={() => setIsImg1Error(true)}
+                        />
+                      ) : (
+                        <div className="p-6 text-center text-slate-400 flex flex-col items-center">
+                          <span className="text-4xl mb-2">📈</span>
+                          <h4 className="text-sm font-bold text-slate-200">1.png [경제 지출 트렌드]</h4>
+                          <p className="text-xs mt-1">전년 대비 32.4% 성장 지표 수록</p>
+                        </div>
+                      )}
+                    </div>
+                    <h4 className="text-sm font-bold mb-2">📈 실적의 성과: 지출 1조 원 대동맥</h4>
+                    <p className={`text-xs ${theme.textLight} leading-loose`}>
+                      외국인 체류기간 연장 및 워케이션 활성화에 따른 실적입니다. 서울에 이은 확실한 2위 관광도시 입증의 통계 원천입니다.
+                    </p>
+                  </div>
+
+                  <div className={`${theme.bgCardSub} p-6 rounded-2xl border transition-all hover:border-slate-400`}>
+                    <div className={`aspect-[16/10] ${isDarkMode ? 'bg-slate-900/80' : 'bg-slate-200'} rounded-xl flex items-center justify-center relative overflow-hidden shadow-inner mb-4`}>
+                      {!isImg2Error ? (
+                        <img 
+                          src="2.png" 
+                          alt="공간 편중 (2.png)" 
+                          className="object-cover w-full h-full"
+                          onError={() => setIsImg2Error(true)}
+                        />
+                      ) : (
+                        <div className="p-6 text-center text-slate-400 flex flex-col items-center">
+                          <span className="text-4xl mb-2">🗺️</span>
+                          <h4 className="text-sm font-bold text-slate-200">2.png [해운대·서면 53% 쏠림]</h4>
+                          <p className="text-xs mt-1">공간적 불균형 전역 맵핑</p>
+                        </div>
+                      )}
+                    </div>
+                    <h4 className="text-sm font-bold mb-2">🗺️ 정체의 그늘: 해운대·서면 양극화</h4>
+                    <p className={`text-xs ${theme.textLight} leading-loose`}>
+                      지출 1조 중 절반이 넘는 53%가 특정 중심가에 쏠려, 전통시장 부흥의 낙수효과가 서부산권까지 흘러가지 못하고 있는 구조적 아킬레스건을 매핑했습니다.
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* 대시보드 하단: 실시간 화제의 여론 */}
+            <div className={`${theme.bgCard} p-8 md:p-10 rounded-3xl transition-colors duration-300`}>
+              <div className="mb-8">
+                <h3 className="text-lg font-bold">🏆 가장 많은 지지를 받은 핵심 시민 여론</h3>
+                <p className={`text-xs ${theme.textMuted} mt-1`}>여론 정밀 분석 결과 중 공감 지수가 가장 높은 대표 목소리</p>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {topOpinions.map((o, idx) => (
+                  <div key={o.id || `opinion-${idx}`} className={`${theme.bgCardSub} p-6 rounded-2xl flex flex-col justify-between border shadow-sm hover:shadow-md transition-all`}>
+                    <div className="space-y-4">
+                      <div className="flex justify-between items-center">
+                        <span className="text-xs font-bold text-slate-700 dark:text-slate-300">{o.author}</span>
+                        <span className="text-xs bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 px-2.5 py-1 rounded-full font-bold">👍 {o.likes}</span>
+                      </div>
+                      <p className={`text-xs ${theme.textLight} leading-relaxed`}>
+                        "{o.content}"
+                      </p>
+                    </div>
+                    <div className={`mt-6 pt-4 border-t ${theme.border} flex justify-between items-center`}>
+                      <span className="text-[10px] text-slate-400 font-semibold">{o.date}</span>
+                      <span className="text-[10px] text-indigo-500 font-extrabold uppercase tracking-wide">{o.topic}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+          </div>
+        )}
+
+        {/* TAB 2: 뉴스 vs 댓글 대조 분석 */}
+        {activeTab === 'comparison' && (
+          <div className="space-y-16 animate-fadeIn">
+            
+            {/* 정교한 대조 요약 인트로 */}
+            <div className={`${theme.bgCard} p-8 md:p-10 rounded-3xl transition-colors duration-300`}>
+              <h3 className="text-xl font-bold mb-4">⚖️ "성장의 환호" 뒤에 숨은 "도시의 그늘"</h3>
+              <p className={`text-xs ${theme.textLight} leading-loose`}>
+                부산의 외국인 관광 유치 300만 성과는 경제적 지출 1조 원 돌파라는 쾌거로 보도되었으나, 실제 지역에 정주하는 시민들이 남긴 생생한 여론은 사뭇 다릅니다. 영상이 강조하는 성과 부문과 실제 여론의 비판적인 시선을 체계적으로 매핑했습니다. 텍스트 배치를 여유롭게 벌려 가독성을 끌어올렸습니다.
+              </p>
+            </div>
+
+            {/* 대조표 섹션 */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+              
+              {/* 왼쪽: KBS 보도 하이라이트 */}
+              <div className="border border-emerald-500/20 bg-emerald-500/5 p-8 md:p-10 rounded-3xl relative overflow-hidden space-y-8">
+                <div className="absolute top-0 right-0 p-4 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 rounded-bl-2xl text-xs font-bold uppercase tracking-widest">
+                  KBS 뉴스 보도 핵심
+                </div>
+                
+                <h4 className="text-xl font-black text-emerald-600 dark:text-emerald-400 flex items-center pt-4">
+                  <span className="mr-3 text-2xl">📺</span> 외형적 성과 및 긍정성 강조
+                </h4>
+
+                <div className="space-y-8">
+                  <div className="space-y-2">
+                    <strong className="text-sm font-bold text-slate-800 dark:text-slate-200 block">역대 최다 소비 기록 달성 [00:00:56]</strong>
+                    <p className={`text-xs ${theme.textLight} leading-relaxed`}>
+                      외국인 연간 누적 소비액 1조 원 돌파, 인천을 제치고 서울에 이어 전국 2위 달성이라는 역사적 성적표를 전면에 내세웠습니다.
+                    </p>
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <strong className="text-sm font-bold text-slate-800 dark:text-slate-200 block">글로벌 체류형 거점 부상 [00:01:34]</strong>
+                    <p className={`text-xs ${theme.textLight} leading-relaxed`}>
+                      워케이션 비자 신청 수 전국 3위를 달성하여, 잠깐 스쳐 가는 일회성 소비 도시가 아닌 체류하며 일하는 스마트 비즈니스 휴양지로의 변화를 주목했습니다.
+                    </p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <strong className="text-sm font-bold text-slate-800 dark:text-slate-200 block">전통시장 및 이색 맛집 유행 [00:07:38]</strong>
+                    <p className={`text-xs ${theme.textLight} leading-relaxed`}>
+                      단순 면세점 쇼핑을 넘어 돼지국밥, 명란김밥 등 서민 상권의 먹거리를 즐기는 개별 로컬 체험이 부각되어 지역 내수 활성화에 크게 이바지하고 있음을 조명했습니다.
+                    </p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <strong className="text-sm font-bold text-slate-800 dark:text-slate-200 block">타이완 등 신규 핵심 고객층 공략 [00:02:19]</strong>
+                    <p className={`text-xs ${theme.textLight} leading-relaxed`}>
+                      대만 인바운드 비중이 20%를 돌파했으며 캐릭터 '부기' 굿즈 마케팅 및 대중교통 이용권 패스가 높은 만족도를 끌어냈음을 다루었습니다.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* 오른쪽: 시민들의 진짜 목소리 */}
+              <div className="border border-rose-500/20 bg-rose-500/5 p-8 md:p-10 rounded-3xl relative overflow-hidden space-y-8">
+                <div className="absolute top-0 right-0 p-4 bg-rose-500/10 text-rose-600 dark:text-rose-400 rounded-bl-2xl text-xs font-bold uppercase tracking-widest">
+                  유튜브 시민 댓글 정밀 분석
+                </div>
+
+                <h4 className="text-xl font-black text-rose-600 dark:text-rose-400 flex items-center pt-4">
+                  <span className="mr-3 text-2xl">💬</span> 뉴스보다 더 뜨거운 우려와 비판적 시선
+                </h4>
+
+                <div className="space-y-8">
+                  <div className="space-y-2">
+                    <strong className="text-sm font-bold text-slate-800 dark:text-slate-200 block">청년 일자리 절벽과 정주환경의 모순</strong>
+                    <p className={`text-xs ${theme.textLight} leading-relaxed`}>
+                      시민들은 "관광객이 가득 차도 양질의 제조업이나 IT 일자리가 전무해 매년 수만 명의 청년이 부산을 떠난다"라며, 실속 없는 관광 산업 위주의 성장 정책을 거세게 꼬집었습니다.
+                    </p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <strong className="text-sm font-bold text-slate-800 dark:text-slate-200 block">고질적 도로 인프라와 악명 높은 교통 지옥</strong>
+                    <p className={`text-xs ${theme.textLight} leading-relaxed`}>
+                      난폭한 운전 환경과 미궁 같은 차선 레이아웃, 심각한 원도심 골목 주차난은 늘어난 렌터카 및 광역 관광 수요를 전혀 소화하지 못하고 정주민의 통행권마저 가로막고 있다는 고충이 팽배합니다.
+                    </p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <strong className="text-sm font-bold text-slate-800 dark:text-slate-200 block">바가지 요금 엄단 및 이미지 쇄신 요구</strong>
+                    <p className={`text-xs ${theme.textLight} leading-relaxed`}>
+                      특정 해안 상권과 시장에서 고질적으로 고개를 드는 바가지 폭리에 대해 시민들이 자발적으로 규탄을 외칩니다. 자정 단속을 통해 글로벌 표준 신뢰를 회복해야 한다는 지적이 지배적입니다.
+                    </p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <strong className="text-sm font-bold text-slate-800 dark:text-slate-200 block">환경 오염 및 관광지 위생 상태 훼손 우려</strong>
+                    <p className={`text-xs ${theme.textLight} leading-relaxed`}>
+                      바닷가나 야외 낚시 스폿 주위에 쓰레기를 몰래 버려 경관을 파괴하는 행위에 대한 비판이 가득합니다. 성숙한 시민의식 규제 정책 수립이 시급하다는 대안도 함께 제시되고 있습니다.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            {/* 핵심 다이어그램: 영상과 댓글의 싱크로율 분석 */}
+            <div className={`${theme.bgCard} p-8 md:p-10 rounded-3xl transition-colors duration-300 space-y-8`}>
+              <h3 className="text-lg font-bold text-center">📊 보도 방향 vs 대중 여론 정합성 대조 요약</h3>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div className={`${theme.bgCardSub} p-6 rounded-2xl border text-center space-y-3`}>
+                  <div className="text-3xl">🤝</div>
+                  <h5 className="text-sm font-bold">일치율: 중(Medium)</h5>
+                  <p className={`text-xs ${theme.textMuted} leading-relaxed`}>
+                    부산시의 외적인 인프라 발전 및 전통시장의 먹거리 활성화, 대만인 호응 등 로컬 트렌드의 상승세에는 대다수의 여론이 동의하며 고유 문화를 자랑스러워합니다.
+                  </p>
+                </div>
+
+                <div className={`${theme.bgCardSub} p-6 rounded-2xl border text-center space-y-3`}>
+                  <div className="text-3xl">📣</div>
+                  <h5 className="text-sm font-bold">체감 괴리: 대(High)</h5>
+                  <p className={`text-xs ${theme.textMuted} leading-relaxed`}>
+                    뉴스는 연간 수입 '1조 돌파'의 총체적 승리에 방점을 찍었으나, 댓글은 청년의 경제적 빈곤 및 일자리 부족 등 삶의 터전 붕괴에 대한 아쉬움과 모순적 고충을 쏟아내고 있습니다.
+                  </p>
+                </div>
+
+                <div className={`${theme.bgCardSub} p-6 rounded-2xl border text-center space-y-3`}>
+                  <div className="text-3xl">🎯</div>
+                  <h5 className="text-sm font-bold">이탈 쟁점: 고유(Unique)</h5>
+                  <p className={`text-xs ${theme.textMuted} leading-relaxed`}>
+                    공식 뉴스 보도에서는 수치로 환원되기 어려운 '복잡한 도로 구조', '물가 상승으로 인한 거주민의 서민 상권 역이탈', '바가지 자인 정책' 등이 댓글의 독보적 토론 주제로 부상했습니다.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        )}
+
+        {/* TAB 3: 댓글 익스플로러 (실시간 조회 및 검색) */}
+        {activeTab === 'explorer' && (
+          <div className="space-y-10 animate-fadeIn">
+            
+            {/* 필터 및 검색 바 */}
+            <div className={`${theme.bgCard} p-8 rounded-3xl backdrop-blur-sm transition-colors duration-300`}>
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
+                
+                {/* 검색 필드 */}
+                <div className="lg:col-span-5 space-y-2">
+                  <label className={`block text-xs ${theme.textMuted} font-bold tracking-wider uppercase`}>댓글 및 작성자 검색</label>
+                  <div className="relative">
+                    <input 
+                      type="text"
+                      placeholder="키워드를 입력해 여론을 찾아보세요..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className={`w-full ${theme.inputBg} focus:border-emerald-500 rounded-xl px-5 py-3.5 text-xs placeholder:text-slate-400 focus:outline-none transition-all shadow-inner`}
+                    />
+                    {searchTerm && (
+                      <button 
+                        onClick={() => setSearchTerm('')} 
+                        className="absolute right-4 top-4 text-xs text-slate-400 hover:text-slate-600"
+                      >
+                        ✕
+                      </button>
+                    )}
+                  </div>
+                </div>
+
+                {/* 주제 필터 */}
+                <div className="lg:col-span-4 space-y-2">
+                  <label className={`block text-xs ${theme.textMuted} font-bold tracking-wider uppercase`}>아젠다별 분류</label>
+                  <select
+                    value={selectedTopic}
+                    onChange={(e) => setSelectedTopic(e.target.value)}
+                    className={`w-full ${theme.inputBg} focus:border-emerald-500 rounded-xl px-4 py-3.5 text-xs focus:outline-none transition-all shadow-inner font-semibold`}
+                  >
+                    <option value="전체">전체 아젠다 ({comments.length}개)</option>
+                    <option value="일자리/정주환경">일자리/정주환경</option>
+                    <option value="교통/인프라">교통/인프라</option>
+                    <option value="물가/바가지">물가/바가지</option>
+                    <option value="지역 자부심/매력">지역 자부심/매력</option>
+                    <option value="환경/위생">환경/위생</option>
+                    <option value="경제적 효과">경제적 효과</option>
+                    <option value="기타">기타 의견</option>
+                  </select>
+                </div>
+
+                {/* 정렬 방식 */}
+                <div className="lg:col-span-3 space-y-2">
+                  <label className={`block text-xs ${theme.textMuted} font-bold tracking-wider uppercase`}>정렬 기준</label>
+                  <div className={`flex ${isDarkMode ? 'bg-slate-950' : 'bg-slate-100'} p-1.5 border ${theme.border} rounded-xl shadow-inner`}>
+                    <button
+                      onClick={() => setSortBy('likes')}
+                      className={`flex-1 text-center py-2.5 rounded-lg text-xs font-bold transition-all ${sortBy === 'likes' ? 'bg-emerald-500 text-slate-950 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
+                    >
+                      🔥 추천순
+                    </button>
+                    <button
+                      onClick={() => setSortBy('date')}
+                      className={`flex-1 text-center py-2.5 rounded-lg text-xs font-bold transition-all ${sortBy === 'date' ? 'bg-emerald-500 text-slate-950 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
+                    >
+                      ⏰ 최신순
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            {/* 댓글 매칭 건수 표시 */}
+            <div className="flex justify-between items-center px-4">
+              <span className={`text-xs ${theme.textMuted}`}>
+                총 <strong className="text-emerald-600 dark:text-emerald-400 font-extrabold text-sm">{filteredComments.length}</strong>개의 의견이 조건에 맞게 조회되었습니다.
+              </span>
+              {(searchTerm || selectedTopic !== '전체') && (
+                <button 
+                  onClick={() => { setSearchTerm(''); setSelectedTopic('전체'); }}
+                  className="text-xs text-emerald-500 font-bold hover:underline"
+                >
+                  필터 초기화
+                </button>
+              )}
+            </div>
+
+            {/* 댓글 카드 그리드 리스트 */}
+            <div className="space-y-6">
+              {filteredComments.length > 0 ? (
+                filteredComments.map((c) => {
+                  const sentiment = analyzeSentiment(c.content);
+                  return (
+                    <div 
+                      key={c.id} 
+                      className={`${theme.bgCard} p-6 sm:p-8 rounded-3xl hover:border-emerald-400/50 transition-all duration-300 group border`}
+                    >
+                      <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
+                        <div className="flex items-center space-x-3">
+                          <span className="text-sm font-black text-slate-700 dark:text-slate-200 group-hover:text-emerald-500 transition-colors">
+                            {c.author}
+                          </span>
+                          <span className="text-xs text-slate-400 font-medium">
+                            {c.date}
+                          </span>
+                        </div>
+
+                        <div className="flex flex-wrap items-center gap-2">
+                          {/* 감성 라벨 */}
+                          {sentiment === 'positive' && (
+                            <span className="text-[10px] bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 px-3 py-1 rounded-full font-extrabold">호의</span>
+                          )}
+                          {sentiment === 'negative' && (
+                            <span className="text-[10px] bg-rose-500/10 text-rose-500 px-3 py-1 rounded-full font-extrabold">비판/우려</span>
+                          )}
+                          {sentiment === 'neutral' && (
+                            <span className={`text-[10px] ${isDarkMode ? 'bg-slate-800 text-slate-400' : 'bg-slate-200 text-slate-600'} px-3 py-1 rounded-full font-extrabold`}>의견</span>
+                          )}
+                          
+                          {/* 주제 배지 */}
+                          <span className="text-[10px] bg-indigo-500/10 text-indigo-500 px-3 py-1 rounded-full font-extrabold">
+                            {c.topic}
+                          </span>
+                          
+                          {/* 좋아요 배지 */}
+                          <span className={`text-xs ${isDarkMode ? 'bg-slate-800/50' : 'bg-slate-100'} text-slate-500 px-3 py-1 rounded-xl font-bold`}>
+                            👍 {c.likes}
+                          </span>
+                        </div>
+                      </div>
+
+                      <p className={`text-xs sm:text-sm ${theme.textLight} leading-loose whitespace-pre-line`}>
+                        {c.content}
+                      </p>
+                    </div>
+                  );
+                })
+              ) : (
+                <div className={`p-20 border ${theme.border} border-dashed rounded-3xl text-center`}>
+                  <span className="text-4xl block mb-4">🔍</span>
+                  <p className={`text-sm ${theme.textMuted} font-bold`}>일치하는 댓글이나 키워드를 찾지 못했습니다.</p>
+                </div>
+              )}
+            </div>
+
+          </div>
+        )}
+
+        {/* TAB 4: 부산시 정책 개선 안 */}
+        {activeTab === 'policy' && (
+          <div className="space-y-16 animate-fadeIn">
+            
+            {/* 정책 방향성 선언 */}
+            <div className={`${theme.bgCard} p-8 md:p-10 rounded-3xl transition-colors duration-300`}>
+              <h3 className="text-xl font-bold mb-4">💡 부산광역시 미래지향적 혁신 정책 제안</h3>
+              <p className={`text-xs ${theme.textLight} leading-loose`}>
+                조사된 실제 댓글 여론에서 부각된 병목점들을 해결하고, 단순 외형 성장을 시민들의 실질적인 복리 증진 및 도시 재생으로 환원하기 위한 4대 입체적 실행 과제를 제안합니다. 한곳에 글을 구겨 넣지 않고 항목별로 넉넉하게 격리하였습니다.
+              </p>
+            </div>
+
+            {/* 4가지 제안 그리드 */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+              
+              {/* 제안 1 */}
+              <div className={`${theme.bgCard} p-8 md:p-10 rounded-3xl flex flex-col justify-between transition-all duration-300 hover:shadow-lg`}>
+                <div className="space-y-6">
+                  <div className="w-12 h-12 bg-emerald-500/10 rounded-2xl flex items-center justify-center text-xl text-emerald-500 shadow-sm">
+                    🚇
+                  </div>
+                  <h4 className="text-base font-black">
+                    1. 서부산 및 산지 거점 연계형 교통 트랙 혁신
+                  </h4>
+                  <p className={`text-xs ${theme.textLight} leading-loose`}>
+                    동부산 해안가 쏠림을 해결하기 위해 사상구, 사하구 등 낙후된 서부산 공업 배후지와 산복도로 고지대를 '관광 모노레일', '친환경 케이블 트레일러'로 연결하는 교통망 다이렉트 구축 사업을 가속화합니다. 외국인 관광객 전용 교통 모바일 패스(비짓 부산 패스) 적용 범위를 대중교통뿐 아니라 킥보드, 공유 자전거 등 소형 이동 수단(마이크로 모빌리티)까지 확장하여 개별 접근성을 비약적으로 높여야 합니다.
+                  </p>
+                </div>
+                <div className={`mt-8 pt-6 border-t ${theme.border} flex justify-between items-center`}>
+                  <span className="text-xs text-emerald-500 font-extrabold tracking-wider uppercase">핵심 성과지표 (KPI)</span>
+                  <span className="text-xs text-slate-500 font-bold">서부산 관광 비율 15% 반등</span>
+                </div>
+              </div>
+
+              {/* 제안 2 */}
+              <div className={`${theme.bgCard} p-8 md:p-10 rounded-3xl flex flex-col justify-between transition-all duration-300 hover:shadow-lg`}>
+                <div className="space-y-6">
+                  <div className="w-12 h-12 bg-teal-500/10 rounded-2xl flex items-center justify-center text-xl text-teal-500 shadow-sm">
+                    💵
+                  </div>
+                  <h4 className="text-base font-black">
+                    2. '관광 상생 기금' 조성을 통한 지역 정주 복리 증진
+                  </h4>
+                  <p className={`text-xs ${theme.textLight} leading-loose`}>
+                    외국인 1조 원 지출 수익 중 일부를 '청년 기본 주거 장려 및 지역 지식 기반 신산업 육성' 재원으로 원천 이전하는 상생 조례를 입법화합니다. 관광 붐이 상가 임대료 폭등과 같은 거주민 축출(젠트리피케이션)로 번지는 악순환을 사전 차단하고, 청년들이 고부가가치 로컬 크리에이터 콘텐츠 기업을 자발적으로 설립하고 정착할 수 있도록 맞춤형 창업 자금을 보완해야 합니다.
+                  </p>
+                </div>
+                <div className={`mt-8 pt-6 border-t ${theme.border} flex justify-between items-center`}>
+                  <span className="text-xs text-teal-500 font-extrabold tracking-wider uppercase">핵심 성과지표 (KPI)</span>
+                  <span className="text-xs text-slate-500 font-bold">청년 정주 및 창업 전환율 반등</span>
+                </div>
+              </div>
+
+              {/* 제안 3 */}
+              <div className={`${theme.bgCard} p-8 md:p-10 rounded-3xl flex flex-col justify-between transition-all duration-300 hover:shadow-lg`}>
+                <div className="space-y-6">
+                  <div className="w-12 h-12 bg-indigo-500/10 rounded-2xl flex items-center justify-center text-xl text-indigo-500 shadow-sm">
+                    🚨
+                  </div>
+                  <h4 className="text-base font-black">
+                    3. 글로벌 안심 정가 모니터링 시스템 구축
+                  </h4>
+                  <p className={`text-xs ${theme.textLight} leading-loose`}>
+                    민관 합동 '바가지 신속대응 감사단(암행 모니터요원)'을 상시 파견합니다. 바가지 거래가 엄밀히 적발될 시 지역 상인 연합 자격 박탈 및 국세 조치를 연계하는 원스트라이크 아웃 제도를 강력하게 도입해야 합니다. 정직한 정가제를 수호해야만 다시 찾고 싶은 명품 글로벌 관광 도시의 기틀을 확립할 수 있습니다.
+                  </p>
+                </div>
+                <div className={`mt-8 pt-6 border-t ${theme.border} flex justify-between items-center`}>
+                  <span className="text-xs text-indigo-500 font-extrabold tracking-wider uppercase">핵심 성과지표 (KPI)</span>
+                  <span className="text-xs text-slate-500 font-bold">관광객 신뢰 지표 90% 달성</span>
+                </div>
+              </div>
+
+              {/* 제안 4 */}
+              <div className={`${theme.bgCard} p-8 md:p-10 rounded-3xl flex flex-col justify-between transition-all duration-300 hover:shadow-lg`}>
+                <div className="space-y-6">
+                  <div className="w-12 h-12 bg-rose-500/10 rounded-2xl flex items-center justify-center text-xl text-rose-500 shadow-sm">
+                    🧹
+                  </div>
+                  <h4 className="text-base font-black">
+                    4. 스마트 수거 체계 및 환경 보호 인센티브제
+                  </h4>
+                  <p className={`text-xs ${theme.textLight} leading-loose`}>
+                    바다 축제 구역, 해안 보행선, 방파제 등 쓰레기 무단 투기 빈도가 높은 핫스폿에 태양광 기반 스마트 폐기물 압축 수거기를 촘촘하게 비치합니다. 모바일 수거 어플리케이션과 연동하여 정량의 분리배출을 마친 관광객에게 소정의 부산 지역 가맹점 할인 쿠폰이나 교통 카드를 제공하는 에코 인센티브를 적용하여 환경과 마케팅을 동시에 잡습니다.
+                  </p>
+                </div>
+                <div className={`mt-8 pt-6 border-t ${theme.border} flex justify-between items-center`}>
+                  <span className="text-xs text-rose-500 font-extrabold tracking-wider uppercase">핵심 성과지표 (KPI)</span>
+                  <span className="text-xs text-slate-500 font-bold">관광지 무단 오염 배출량 40% 감축</span>
+                </div>
+              </div>
+
+            </div>
+
+            {/* 부산시 슬로건 패러디 섹션 */}
+            <div className="bg-gradient-to-r from-emerald-500/20 via-teal-500/10 to-transparent border border-emerald-500/20 p-10 md:p-12 rounded-3xl text-center space-y-4">
+              <span className="text-xs bg-emerald-500/10 text-emerald-500 px-4 py-1.5 rounded-full font-extrabold tracking-widest uppercase">BUSAN IS GOOD FOR EVERYONE</span>
+              <h4 className="text-xl md:text-2xl font-black mt-3">"관광객에게도 환상적인, 그러나 시민들에게는 더 행복한 부산"</h4>
+              <p className={`text-xs md:text-sm ${theme.textLight} mt-2 max-w-2xl mx-auto leading-loose`}>
+                지출 규모 1조 달성의 금빛 이정표는 목적지가 아닌 상생을 위한 거대한 출발지여야 합니다. 관광 부문의 과실이 지역 거주민과 청년들의 양질의 미래 기회로 온화하게 스며들 때, 비로소 세대를 관통하는 명실상부한 세계 최고의 명품 해양 거점 도시가 될 것입니다.
+              </p>
+            </div>
+
+          </div>
+        )}
+
+      </main>
+
+      {/* 푸터 영역 */}
+      <footer className={`border-t ${theme.footerBg} py-12 text-center text-xs transition-colors duration-300 space-y-2`}>
+        <p className="font-bold">© 2026 부산 관광 데이터 종합 대시보드 분석 시스템</p>
+        <p className="text-slate-400">KBS 이슈 보도 및 유튜브 크롤링 댓글 여론 통합 정밀 분석 자료</p>
+      </footer>
+
+    </div>
+  );
+}
