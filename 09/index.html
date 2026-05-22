@@ -121,15 +121,6 @@
     <!-- 메인 레이아웃 및 탭 내용 -->
     <main class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16 pb-32 md:pb-24 flex-grow w-full">
         
-        <!-- 데이터 안내 배너 -->
-        <div id="info-banner" class="mb-10 p-5 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl flex items-center justify-between shadow-sm">
-            <div class="flex items-center space-x-3 text-emerald-600 dark:text-emerald-400 text-xs sm:text-sm">
-                <span class="text-base">📢</span>
-                <span class="font-semibold">시스템 정보: 실제 업로드해주신 유튜브 댓글 분석 차트(1.png) 및 워드클라우드(2.png) 시각자료를 그대로 바인딩하였습니다.</span>
-            </div>
-            <button onclick="document.getElementById('info-banner').remove()" class="text-xs text-emerald-500 underline hover:no-underline font-bold">닫기</button>
-        </div>
-
         <!-- ==================== TAB 1: 종합 대시보드 ==================== -->
         <div id="tab-content-dashboard" class="tab-pane space-y-16 animate-fadeIn">
             
@@ -188,7 +179,7 @@
                         <div class="flex flex-wrap items-center justify-between gap-4">
                             <h3 class="text-lg font-bold text-slate-900 dark:text-slate-100">유튜브 댓글 주제별 빈도수</h3>
                             <span class="text-xs bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 px-3.5 py-1.5 rounded-full font-bold">
-                                2026-05-22 기준 [1.png]
+                                2026-05-22 기준
                             </span>
                         </div>
                         <p class="text-xs text-slate-500 dark:text-slate-400">자연어 분류 알고리즘을 통해 추출된 5대 핵심 주제 발생 정량 분석 결과입니다.</p>
@@ -208,9 +199,9 @@
                 <div class="bg-white border border-slate-200 dark:bg-slate-900/40 dark:border-slate-800/80 p-8 md:p-10 rounded-3xl transition-colors duration-300 space-y-6 shadow-md flex flex-col justify-between">
                     <div class="space-y-2">
                         <div class="flex flex-wrap items-center justify-between gap-4">
-                            <h3 class="text-lg font-bold text-slate-900 dark:text-slate-100">댓글 명사 및 형용사 워드클라우드</h3>
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-slate-100">댓글 어휘 빈도 워드클라우드</h3>
                             <span class="text-xs bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 px-3.5 py-1.5 rounded-full font-bold">
-                                어휘 빈도 분석 [2.png]
+                                2026-05-22 기준
                             </span>
                         </div>
                         <p class="text-xs text-slate-500 dark:text-slate-400">댓글 텍스트 데이터의 형태소 분석을 통해 빈출 단어를 가시화한 결과입니다.</p>
