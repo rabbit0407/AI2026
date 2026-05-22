@@ -27,23 +27,12 @@
             }
         }
     </script>
-    <!-- 구글 폰트 (Inter) -->
+    <!-- 구글 폰트 -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <style>
-        /* 미세한 브라우저 스크롤 및 포커스 스타일링 */
         body {
             font-family: 'Inter', 'Noto Sans KR', sans-serif;
             transition: background-color 0.3s ease, color 0.3s ease;
-        }
-        /* 레인지 입력슬라이더 커스텀 스타일 초기화 */
-        .slider-input::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: transparent;
-            cursor: ew-resize;
         }
     </style>
 </head>
@@ -54,7 +43,7 @@
         <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 h-20 flex items-center justify-between">
             
             <div class="flex items-center space-x-4">
-                <a href="../index.html" class="flex items-center space-x-1.5 px-3.5 py-2.5 rounded-xl text-xs font-bold border border-slate-200 bg-white hover:bg-slate-100 text-slate-700 dark:border-slate-800 dark:bg-slate-900/50 dark:hover:bg-slate-800 dark:text-slate-200 transition-all duration-200 shadow-sm">
+                <a href="../index.html" class="flex items-center space-x-1.5 px-3.5 py-2.5 rounded-xl text-xs font-bold border border-slate-200 bg-white hover:bg-slate-100 text-slate-700 dark:border-slate-880 dark:bg-slate-900/50 dark:hover:bg-slate-800 dark:text-slate-200 transition-all duration-200 shadow-sm">
                     <span>🏠</span>
                     <span>홈으로</span>
                 </a>
@@ -132,11 +121,11 @@
     <!-- 메인 레이아웃 및 탭 내용 -->
     <main class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16 pb-32 md:pb-24 flex-grow w-full">
         
-        <!-- 가상 데이터 프리셋 알림 배너 -->
-        <div id="info-banner" class="mb-10 p-5 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl flex items-center justify-between">
+        <!-- 데이터 안내 배너 -->
+        <div id="info-banner" class="mb-10 p-5 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl flex items-center justify-between shadow-sm">
             <div class="flex items-center space-x-3 text-emerald-600 dark:text-emerald-400 text-xs sm:text-sm">
                 <span class="text-base">📢</span>
-                <span class="font-semibold">시스템 정보: 실시간 수집된 CSV 통신을 우회하여 보정 및 기획된 가상 데이터 프리셋(12개 고유 검증 의견)을 제공합니다.</span>
+                <span class="font-semibold">시스템 정보: 실제 업로드해주신 유튜브 댓글 분석 차트(1.png) 및 워드클라우드(2.png) 시각자료를 그대로 바인딩하였습니다.</span>
             </div>
             <button onclick="document.getElementById('info-banner').remove()" class="text-xs text-emerald-500 underline hover:no-underline font-bold">닫기</button>
         </div>
@@ -147,13 +136,13 @@
             <div class="max-w-3xl space-y-2">
                 <h3 class="text-2xl font-bold tracking-tight">부산 관광 1조 시대, 데이터로 읽다</h3>
                 <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                    관광객 유치 성과의 매크로 데이터와 시민들의 미시 여론 사이의 정합성을 대시보드 인포그래픽으로 한눈에 파악합니다.
+                    관광객 유치 성과의 매크로 데이터와 시민들의 미시 여론 사이의 정합성을 대시보드 인포그래픽과 실제 데이터 시각화로 한눈에 파악합니다.
                 </p>
             </div>
 
             <!-- KPI 요약 카드 -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                <div class="bg-white border border-slate-250 dark:bg-slate-900/40 dark:border-slate-850 p-8 rounded-3xl relative overflow-hidden shadow-md shadow-slate-100/50 dark:shadow-none transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+                <div class="bg-white border border-slate-200 dark:bg-slate-900/40 dark:border-slate-850 p-8 rounded-3xl relative overflow-hidden shadow-md shadow-slate-100/50 dark:shadow-none transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
                     <div class="absolute top-0 right-0 w-28 h-28 bg-gradient-to-br from-emerald-500/10 to-transparent rounded-bl-full"></div>
                     <p class="text-xs text-slate-400 dark:text-slate-400 font-bold tracking-wider uppercase">연간 외국인 방문객</p>
                     <p class="text-3xl sm:text-4xl font-black mt-4 text-emerald-500 tracking-tight">302만 명+</p>
@@ -162,7 +151,7 @@
                     </div>
                 </div>
 
-                <div class="bg-white border border-slate-250 dark:bg-slate-900/40 dark:border-slate-850 p-8 rounded-3xl relative overflow-hidden shadow-md shadow-slate-100/50 dark:shadow-none transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+                <div class="bg-white border border-slate-200 dark:bg-slate-900/40 dark:border-slate-850 p-8 rounded-3xl relative overflow-hidden shadow-md shadow-slate-100/50 dark:shadow-none transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
                     <div class="absolute top-0 right-0 w-28 h-28 bg-gradient-to-br from-teal-500/10 to-transparent rounded-bl-full"></div>
                     <p class="text-xs text-slate-400 dark:text-slate-400 font-bold tracking-wider uppercase">외국인 연간 카드소비</p>
                     <p class="text-3xl sm:text-4xl font-black mt-4 text-teal-500 tracking-tight">1조 300억 원</p>
@@ -171,207 +160,118 @@
                     </div>
                 </div>
 
-                <div class="bg-white border border-slate-250 dark:bg-slate-900/40 dark:border-slate-850 p-8 rounded-3xl relative overflow-hidden shadow-md shadow-slate-100/50 dark:shadow-none transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+                <div class="bg-white border border-slate-200 dark:bg-slate-900/40 dark:border-slate-850 p-8 rounded-3xl relative overflow-hidden shadow-md shadow-slate-100/50 dark:shadow-none transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
                     <div class="absolute top-0 right-0 w-28 h-28 bg-gradient-to-br from-indigo-500/10 to-transparent rounded-bl-full"></div>
-                    <p class="text-xs text-slate-400 dark:text-slate-400 font-bold tracking-wider uppercase">분석된 여론 데이터</p>
-                    <p id="kpi-total-comments" class="text-3xl sm:text-4xl font-black mt-4 text-indigo-500 tracking-tight">12개 의견</p>
+                    <p class="text-xs text-slate-400 dark:text-slate-400 font-bold tracking-wider uppercase">수집 분석 데이터 원본</p>
+                    <p class="text-3xl sm:text-4xl font-black mt-4 text-indigo-500 tracking-tight">873건의 피드백</p>
                     <div class="mt-4 text-[11px] text-indigo-500 bg-indigo-500/10 inline-block px-3 py-1 rounded-full font-bold">
-                        실시간 파싱 통계
+                        유튜브 전체 아카이빙 모수
                     </div>
                 </div>
 
-                <div class="bg-white border border-slate-250 dark:bg-slate-900/40 dark:border-slate-850 p-8 rounded-3xl relative overflow-hidden shadow-md shadow-slate-100/50 dark:shadow-none transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+                <div class="bg-white border border-slate-200 dark:bg-slate-900/40 dark:border-slate-850 p-8 rounded-3xl relative overflow-hidden shadow-md shadow-slate-100/50 dark:shadow-none transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
                     <div class="absolute top-0 right-0 w-28 h-28 bg-gradient-to-br from-rose-500/10 to-transparent rounded-bl-full"></div>
                     <p class="text-xs text-slate-400 dark:text-slate-400 font-bold tracking-wider uppercase">부정 및 우려 여론 비율</p>
                     <p id="kpi-neg-percent" class="text-3xl sm:text-4xl font-black mt-4 text-rose-500 tracking-tight">58.3%</p>
                     <div class="mt-4 text-[11px] text-rose-500 bg-rose-500/10 inline-block px-3 py-1 rounded-full font-bold">
-                        인프라·정주 불안 대다수
+                        바가지·일자리·인프라 우려
                     </div>
                 </div>
             </div>
 
-            <!-- 1.png와 2.png 데이터 분석 전시대 (나란히 병렬 배치) -->
-            <div class="bg-white border border-slate-200 dark:bg-slate-900/40 dark:border-slate-800/80 p-8 md:p-10 rounded-3xl transition-colors duration-300 shadow-md">
-                <div class="mb-8">
-                    <h3 class="text-xl font-bold tracking-tight flex items-center gap-2">
-                        <span>🗺️</span> 경제 지표(1.png) & 지리적 쏠림(2.png) 종합 관측
-                    </h3>
-                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1.5 leading-relaxed">
-                        1조 돌파 경제 성과 지표(1.png)와 공간적 편중 실태(2.png)를 포개거나 가리지 않고, 독립된 리포트로 직접 대조하여 불균형 성장의 원인을 정밀하게 분석합니다.
-                    </p>
-                </div>
-
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    <!-- 왼쪽: 1.png 시뮬레이션 SVG (지출 성과) -->
-                    <div class="bg-slate-900 text-white p-6 rounded-2xl flex flex-col justify-between shadow-lg min-h-[360px] border border-slate-800 relative overflow-hidden">
-                        <!-- 이미지 로딩 시도 (실제 이미지가 존재할 경우 표시, 실패 시 숨겨짐) -->
-                        <img src="1.png" alt="경제 지표 (1.png)" class="absolute inset-0 w-full h-full object-cover rounded-2xl z-10 hidden" onload="this.classList.remove('hidden')">
-                        
-                        <div class="space-y-1 relative z-0">
-                            <div class="flex items-center space-x-2">
-                                <span class="text-emerald-400">📈</span>
-                                <span class="text-xs font-bold text-slate-400 tracking-wider">ANNUAL TOURISM REPORT</span>
-                            </div>
-                            <h4 class="text-base sm:text-lg font-extrabold tracking-tight">외국인 관광객 신용카드 소비 추이 [1.png]</h4>
-                            <p class="text-slate-400 text-[10px] sm:text-xs">인천광역시 돌파, 전국 2위 광역 거점 증명 통계</p>
-                        </div>
-
-                        <div class="my-4 flex-1 flex flex-col justify-center relative z-0">
-                            <div class="relative h-28 sm:h-36 w-full">
-                                <svg class="w-full h-full" viewBox="0 0 400 150">
-                                    <line x1="40" y1="20" x2="380" y2="20" stroke="#334155" stroke-width="1" stroke-dasharray="4" />
-                                    <line x1="40" y1="60" x2="380" y2="60" stroke="#334155" stroke-width="1" stroke-dasharray="4" />
-                                    <line x1="40" y1="100" x2="380" y2="100" stroke="#334155" stroke-width="1" stroke-dasharray="4" />
-                                    <line x1="40" y1="130" x2="380" y2="130" stroke="#475569" stroke-width="1.5" />
-                                    <path d="M 50 120 L 120 100 L 190 75 L 260 45 L 350 25" fill="none" stroke="url(#gradient-emerald)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
-                                    <circle cx="50" cy="120" r="4" fill="#10b981" />
-                                    <circle cx="120" cy="100" r="4" fill="#10b981" />
-                                    <circle cx="190" cy="75" r="4" fill="#10b981" />
-                                    <circle cx="260" cy="45" r="4" fill="#10b981" />
-                                    <circle cx="350" cy="25" r="5" fill="#34d399" class="animate-pulse" />
-                                    <text x="50" y="145" fill="#94a3b8" font-size="10" text-anchor="middle">2022</text>
-                                    <text x="120" y="145" fill="#94a3b8" font-size="10" text-anchor="middle">2023</text>
-                                    <text x="190" y="145" fill="#94a3b8" font-size="10" text-anchor="middle">2024</text>
-                                    <text x="260" y="145" fill="#94a3b8" font-size="10" text-anchor="middle">2025</text>
-                                    <text x="350" y="145" fill="#34d399" font-size="10" font-weight="bold" text-anchor="middle">2026 (1.3조)</text>
-                                    <text x="50" y="110" fill="#cbd5e1" font-size="9" text-anchor="middle">4,800억</text>
-                                    <text x="120" y="90" fill="#cbd5e1" font-size="9" text-anchor="middle">7,100억</text>
-                                    <text x="190" y="65" fill="#cbd5e1" font-size="9" text-anchor="middle">9,200억</text>
-                                    <text x="260" y="35" fill="#cbd5e1" font-size="9" text-anchor="middle">1.03조</text>
-                                    <text x="350" y="15" fill="#34d399" font-size="10" font-weight="extrabold" text-anchor="middle">1.3조 돌파!</text>
-                                    <defs>
-                                        <linearGradient id="gradient-emerald" x1="0%" y1="0%" x2="100%" y2="100%">
-                                            <stop offset="0%" stop-color="#059669" />
-                                            <stop offset="100%" stop-color="#34d399" />
-                                        </linearGradient>
-                                    </defs>
-                                </svg>
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-3 gap-2 pt-2 border-t border-slate-800 text-[10px] sm:text-xs text-slate-400 relative z-0">
-                            <div><span class="block font-semibold text-slate-300">신용카드 소비액</span><span class="text-emerald-400 font-bold">전국 2위 달성</span></div>
-                            <div><span class="block font-semibold text-slate-300">핵심 주 소비국</span><span class="text-slate-200">대만(24%) / 일본(18%)</span></div>
-                            <div><span class="block font-semibold text-slate-300">성장 원동력</span><span class="text-slate-200">워케이션 및 체류형 인프라</span></div>
-                        </div>
-                    </div>
-
-                    <!-- 오른쪽: 2.png 시뮬레이션 SVG (지리적 편중 분포도) -->
-                    <div class="bg-slate-950 text-white p-6 rounded-2xl flex flex-col justify-between shadow-lg min-h-[360px] border border-slate-800 relative overflow-hidden">
-                        <!-- 이미지 로딩 시도 (실제 이미지가 존재할 경우 표시, 실패 시 숨겨짐) -->
-                        <img src="2.png" alt="공간 편중 (2.png)" class="absolute inset-0 w-full h-full object-cover rounded-2xl z-10 hidden" onload="this.classList.remove('hidden')">
-
-                        <div class="space-y-1 relative z-0">
-                            <div class="flex items-center space-x-2">
-                                <span class="text-rose-500">📍</span>
-                                <span class="text-xs font-bold text-rose-400 tracking-wider">GEOGRAPHICAL IMBALANCE MAP</span>
-                            </div>
-                            <h4 class="text-base sm:text-lg font-extrabold tracking-tight">지리적 관광 소비 집중 분포도 [2.png]</h4>
-                            <p class="text-slate-400 text-[10px] sm:text-xs">동부산 해안가 쏠림 및 서부산 배후지 소외의 양극화 실태</p>
-                        </div>
-
-                        <div class="my-4 flex-1 flex items-center justify-center relative bg-slate-950/40 rounded-xl p-4 min-h-[140px] relative z-0">
-                            <svg class="w-full h-full max-h-[180px]" viewBox="0 0 320 180">
-                                <path d="M 30 110 Q 70 80 120 100 T 200 80 T 290 90" fill="none" stroke="#1e293b" stroke-width="12" stroke-linecap="round" />
-                                <path d="M 30 110 Q 70 80 120 100 T 200 80 T 290 90" fill="none" stroke="#475569" stroke-width="2" stroke-linecap="round" stroke-dasharray="3" />
-                                <circle cx="70" cy="95" r="14" fill="#3b82f6" fill-opacity="0.15" stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="2" />
-                                <text x="70" y="100" fill="#60a5fa" font-size="8" font-weight="bold" text-anchor="middle">서부산권 (5%)</text>
-                                <line x1="70" y1="110" x2="70" y2="130" stroke="#3b82f6" stroke-width="1" />
-                                <text x="70" y="142" fill="#93c5fd" font-size="8" text-anchor="middle">사하·사상구 파리날림</text>
-                                <circle cx="160" cy="85" r="22" fill="#ef4444" fill-opacity="0.25" stroke="#f87171" stroke-width="2" class="animate-pulse" />
-                                <circle cx="160" cy="85" r="4" fill="#ef4444" />
-                                <text x="160" y="70" fill="#f87171" font-size="9" font-weight="extrabold" text-anchor="middle">서면/진구 (18%)</text>
-                                <circle cx="240" cy="75" r="32" fill="#f43f5e" fill-opacity="0.35" stroke="#fb7185" stroke-width="2" class="animate-pulse" />
-                                <circle cx="240" cy="75" r="5" fill="#e11d48" />
-                                <text x="240" y="52" fill="#f43f5e" font-size="10" font-weight="extrabold" text-anchor="middle">해운대/광안리 (35%)</text>
-                                <rect x="230" y="125" width="80" height="45" rx="6" fill="#0f172a" fill-opacity="0.8" stroke="#1e293b" stroke-width="1" />
-                                <circle cx="240" cy="135" r="3" fill="#ef4444" />
-                                <text x="248" y="138" fill="#e2e8f0" font-size="7">동부권: 고온화 (Hot)</text>
-                                <circle cx="240" cy="145" r="3" fill="#3b82f6" />
-                                <text x="248" y="148" fill="#e2e8f0" font-size="7">서부권: 저온화 (Cold)</text>
-                                <text x="240" y="162" fill="#f43f5e" font-size="7.5" font-weight="black">양대구역 집중률 53%</text>
-                            </svg>
-                        </div>
-
-                        <div class="grid grid-cols-2 gap-4 pt-2 border-t border-slate-800 text-[10px] sm:text-xs text-slate-400 relative z-0">
-                            <div><span class="block font-semibold text-slate-300">해운대·서면 매출 쏠림</span><span class="text-rose-400 font-bold">전체 매출의 53% 집중</span></div>
-                            <div><span class="block font-semibold text-slate-300">지역 아젠다</span><span class="text-slate-200">서부산권 관광 상권 연계 필요</span></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 시각 데이터 및 감성 분석 -->
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 pt-4">
+            <!-- 시각 자료 분석 그리드 (1.png와 2.png 원본 그대로 노출) -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 pt-4">
                 
-                <!-- 왼쪽: 카테고리별 여론 점유율 -->
-                <div class="bg-white border border-slate-200 dark:bg-slate-900/40 dark:border-slate-800/80 lg:col-span-7 p-8 md:p-10 rounded-3xl backdrop-blur-sm transition-colors duration-300 space-y-8 shadow-md">
-                    <div class="flex flex-wrap items-center justify-between gap-4">
-                        <div>
-                            <h3 class="text-lg font-bold">주제별 여론 분석</h3>
-                            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">댓글에서 가장 활발히 제기된 관광 관련 아젠다</p>
+                <!-- 왼쪽: 1.png 유튜브 댓글 주제별 빈도수 -->
+                <div class="bg-white border border-slate-200 dark:bg-slate-900/40 dark:border-slate-800/80 p-8 md:p-10 rounded-3xl transition-colors duration-300 space-y-6 shadow-md flex flex-col justify-between">
+                    <div class="space-y-2">
+                        <div class="flex flex-wrap items-center justify-between gap-4">
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-slate-100">유튜브 댓글 주제별 빈도수</h3>
+                            <span class="text-xs bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 px-3.5 py-1.5 rounded-full font-bold">
+                                2026-05-22 기준 [1.png]
+                            </span>
                         </div>
-                        <span class="text-xs bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300 px-3.5 py-1.5 rounded-full font-semibold">실시간 집계</span>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">자연어 분류 알고리즘을 통해 추출된 5대 핵심 주제 발생 정량 분석 결과입니다.</p>
                     </div>
 
-                    <div id="topics-bars-container" class="space-y-6">
-                        <!-- 동적으로 주입될 프로그레스 바 목록 -->
+                    <!-- 원본 비율 그대로 노출하기 위해 object-contain과 패딩 적용 -->
+                    <div class="relative w-full rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-4 shadow-inner flex items-center justify-center">
+                        <img id="topic-chart-img" src="1.png" alt="유튜브 댓글 주제별 빈도수 (1.png)" class="w-full h-auto object-contain rounded-xl max-h-[400px]" onerror="this.onerror=null; this.src='https://placehold.co/800x450/0f172a/ffffff?text=1.png+이미지를+찾을+수+없음';">
                     </div>
 
-                    <div class="pt-4">
-                        <div class="p-4 bg-emerald-500/5 border border-emerald-500/10 rounded-2xl text-center">
-                            <p class="text-xs text-emerald-600 dark:text-emerald-400 font-bold leading-relaxed">
-                                💡 <span class="underline cursor-pointer" onclick="switchTab('explorer')">댓글 익스플로러 탭</span>에서 주제별로 시민들의 원초적 여론 원문을 원클릭 검색하실 수 있습니다.
-                            </p>
-                        </div>
+                    <div class="p-4 bg-emerald-500/5 border border-emerald-500/10 rounded-2xl text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                        📈 <strong>데이터 해석:</strong> '기타' 분류 외에 실질적 로컬 콘텐츠 중 <strong>'지역 자부심/매력(335건)'</strong>이 압도적인 비중을 차지하여 관광 브랜딩 및 문화 전파에 대한 긍정 피드백이 가장 활발하게 작용하고 있음을 보여줍니다.
                     </div>
                 </div>
 
-                <!-- 오른쪽: 감성 분석 및 여론 분위기 -->
-                <div class="bg-white border border-slate-200 dark:bg-slate-900/40 dark:border-slate-800/80 lg:col-span-5 p-8 md:p-10 rounded-3xl backdrop-blur-sm flex flex-col justify-between transition-colors duration-300 space-y-8 shadow-md">
-                    <div>
-                        <h3 class="text-lg font-bold mb-1">여론 감성 분석 (Sentiment)</h3>
-                        <p class="text-xs text-slate-400 dark:text-slate-500 mb-6">유튜브 반응의 어조 분석 및 체감 온정 지표</p>
+                <!-- 오른쪽: 2.png 댓글 명사 및 형용사 워드클라우드 -->
+                <div class="bg-white border border-slate-200 dark:bg-slate-900/40 dark:border-slate-800/80 p-8 md:p-10 rounded-3xl transition-colors duration-300 space-y-6 shadow-md flex flex-col justify-between">
+                    <div class="space-y-2">
+                        <div class="flex flex-wrap items-center justify-between gap-4">
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-slate-100">댓글 명사 및 형용사 워드클라우드</h3>
+                            <span class="text-xs bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 px-3.5 py-1.5 rounded-full font-bold">
+                                어휘 빈도 분석 [2.png]
+                            </span>
+                        </div>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">댓글 텍스트 데이터의 형태소 분석을 통해 빈출 단어를 가시화한 결과입니다.</p>
+                    </div>
+
+                    <!-- 원본 비율 그대로 노출하기 위해 object-contain과 패딩 적용 -->
+                    <div class="relative w-full rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-4 shadow-inner flex items-center justify-center">
+                        <img id="wordcloud-img" src="2.png" alt="댓글 명사 및 형용사 워드클라우드 (2.png)" class="w-full h-auto object-contain rounded-xl max-h-[400px]" onerror="this.onerror=null; this.src='https://placehold.co/800x450/0f172a/ffffff?text=2.png+이미지를+찾을+수+없음';">
+                    </div>
+
+                    <div class="p-4 bg-indigo-500/5 border border-indigo-500/10 rounded-2xl text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                        🔍 <strong>어휘 분석 해설:</strong> 중심에 우뚝 선 <strong>'부산'</strong>과 <strong>'관광'</strong>을 축으로, 전통 상업 자원인 <strong>'시장'</strong>과 지속 가능성 이슈인 <strong>'일자리'</strong>, 그리고 정주권 논란 키워드인 <strong>'바가지'</strong> 등이 뚜렷하게 부각되어 있습니다.
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- 여론 정조분석 통계 요약 (도넛 차트 포함) -->
+            <div class="bg-white border border-slate-200 dark:bg-slate-900/40 dark:border-slate-800/80 p-8 md:p-10 rounded-3xl backdrop-blur-sm transition-colors duration-300 shadow-md">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    
+                    <div class="lg:col-span-4 flex flex-col items-center justify-center space-y-4">
+                        <h4 class="text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">유튜브 댓글 감성 점수 (Sentiment)</h4>
                         
-                        <div class="relative flex justify-center py-6">
+                        <div class="relative flex justify-center py-2">
                             <!-- 도넛 그래프 -->
-                            <svg class="w-40 h-40 transform -rotate-90">
-                                <circle cx="80" cy="80" r="66" stroke="#e2e8f0" stroke-width="18" fill="transparent" class="dark:stroke-slate-800" />
+                            <svg class="w-36 h-36 transform -rotate-90">
+                                <circle cx="72" cy="72" r="58" stroke="#e2e8f0" stroke-width="14" fill="transparent" class="dark:stroke-slate-800" />
                                 <!-- 부정 (Rose) -->
-                                <circle id="sentiment-ring-neg" cx="80" cy="80" r="66" stroke="#f43f5e" stroke-width="18" fill="transparent" stroke-dasharray="414.69" stroke-dashoffset="172.9" class="transition-all duration-1000 ease-out" />
+                                <circle id="sentiment-ring-neg" cx="72" cy="72" r="58" stroke="#f43f5e" stroke-width="14" fill="transparent" stroke-dasharray="364.42" stroke-dashoffset="151.9" class="transition-all duration-1000 ease-out" />
                                 <!-- 긍정 (Emerald) -->
-                                <circle id="sentiment-ring-pos" cx="80" cy="80" r="66" stroke="#10b981" stroke-width="18" fill="transparent" stroke-dasharray="414.69" stroke-dashoffset="290.3" class="transition-all duration-1000 ease-out" />
+                                <circle id="sentiment-ring-pos" cx="72" cy="72" r="58" stroke="#10b981" stroke-width="14" fill="transparent" stroke-dasharray="364.42" stroke-dashoffset="255.1" class="transition-all duration-1000 ease-out" />
                             </svg>
                             
                             <div class="absolute inset-0 flex flex-col items-center justify-center">
-                                <span class="text-[10px] text-slate-400 dark:text-slate-500 uppercase tracking-wider font-bold">우려 비율</span>
-                                <span id="donut-neg-percent" class="text-2xl font-black text-rose-500 mt-1">58.3%</span>
+                                <span class="text-[9px] text-slate-400 dark:text-slate-500 uppercase tracking-wider font-bold">부정적 우려</span>
+                                <span id="donut-neg-percent" class="text-xl font-black text-rose-500 mt-0.5">58.3%</span>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="grid grid-cols-3 gap-3 mt-8 text-center text-xs">
+                    <div class="lg:col-span-8 space-y-6">
+                        <h4 class="text-base font-black text-slate-800 dark:text-slate-200">📊 종합 여론 감성 요약</h4>
+                        <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                            수집된 댓글 텍스트 전반을 자연어 사전에 매핑한 결과, 도시 브랜딩 가치 상승이나 글로벌 인지도 제고에는 긍정 여론이 높았으나, 실질적 거주민의 바가지요금 체험 및 청년층 일자리 미비로 인한 역외 유출 우려가 큰 비중으로 집계되어 총체적인 정주권 불만족으로 수렴하는 경향을 나타냅니다.
+                        </p>
+                        
+                        <div class="grid grid-cols-3 gap-3 text-center text-xs">
                             <div class="p-3 bg-rose-500/10 border border-rose-500/20 rounded-2xl">
-                                <div class="w-2.5 h-2.5 bg-rose-500 rounded-full mx-auto mb-1.5"></div>
                                 <p class="text-slate-500 dark:text-slate-400 font-bold mb-0.5">비판/우려</p>
                                 <p id="badge-neg-percent" class="font-extrabold text-rose-500 text-sm">58.3%</p>
                             </div>
                             <div class="p-3 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl">
-                                <div class="w-2.5 h-2.5 bg-emerald-500 rounded-full mx-auto mb-1.5"></div>
                                 <p class="text-slate-500 dark:text-slate-400 font-bold mb-0.5">환호/응원</p>
                                 <p id="badge-pos-percent" class="font-extrabold text-emerald-500 text-sm">25.0%</p>
                             </div>
-                            <div class="p-3 bg-slate-100 border border-slate-200 dark:bg-slate-850 dark:border-slate-700 rounded-2xl">
-                                <div class="w-2.5 h-2.5 bg-slate-400 rounded-full mx-auto mb-1.5"></div>
+                            <div class="p-3 bg-slate-100 border border-slate-200 dark:bg-slate-850 dark:border-slate-750 rounded-2xl">
                                 <p class="text-slate-500 dark:text-slate-400 font-bold mb-0.5">중립 분석</p>
                                 <p id="badge-neu-percent" class="font-extrabold text-slate-700 dark:text-slate-300 text-sm">16.7%</p>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="pt-6 border-t border-slate-200 dark:border-slate-800">
-                        <p class="text-xs text-slate-400 dark:text-slate-500 italic leading-loose">
-                            * 시민들의 감성 지표는 "도시 발전과 경제적 성장"에는 환호하지만, "서민 정주권 침해 및 생활 물가 교란"에서는 차분하고도 우려 섞인 시각을 나타냅니다.
-                        </p>
                     </div>
                 </div>
             </div>
@@ -690,6 +590,7 @@
 
     <!-- ==================== 자바스크립트 로직 (NANO VANILLA JS) ==================== -->
     <script>
+
         // 유튜브 크롤링 데이터셋 프리셋
         const DEFAULT_COMMENTS = [
             { id: 'default-0', author: '@shl5360', content: '부산사람인데 관광은좋지 살긴싫다... 일자리도 없고 월급은 최저인데 물가는 서울뺨침', date: '2026-01-09', likes: 210, topic: '일자리/정주환경' },
@@ -706,7 +607,7 @@
             { id: 'default-11', author: '@infrastructure_first', content: '교통 체증 진짜 해결해야 됨. 주말에 서면이나 해운대 가면 차가 안 움직인다. 대중교통 인프라부터 외국어 지원 더 확실하게 해야 함', date: '2026-01-09', likes: 93, topic: '교통/인프라' }
         ];
 
-        // 글로벌 애플리케이션 상태(State)
+        // 글로벌 애플리케이션 상태
         let appState = {
             comments: [...DEFAULT_COMMENTS],
             selectedTopic: '전체',
@@ -716,17 +617,14 @@
             isDarkMode: false
         };
 
-        // 웹 실행 초기 핸들러
+        // 초기 바인딩 핸들러
         window.onload = function() {
-            // 초기 시스템 렌더링
             syncStatsAndUI();
             switchTab(appState.activeTab);
-            
-            // CSV 로드 시도
             fetchCSVComments();
         };
 
-        // CSV 데이터 크롤링 시뮬레이션 및 로드 처리
+        // CSV 파일 비동기 수신 시도
         function fetchCSVComments() {
             fetch('youtube_comments_with_topics.csv')
                 .then(response => {
@@ -741,7 +639,6 @@
                             .map((row, idx) => {
                                 let topic = row[4] || '기타';
                                 const content = row[1];
-                                // 간단한 아젠다 분류
                                 if (topic === '기타' || !topic) {
                                     if (content.includes('일자리') || content.includes('살기')) topic = '일자리/정주환경';
                                     else if (content.includes('도로') || content.includes('교통')) topic = '교통/인프라';
@@ -761,7 +658,7 @@
                     }
                 })
                 .catch(err => {
-                    console.log('실시간 CSV 우회 -> 가상 완성 프리셋 작동 중');
+                    console.log('가상 통계 모드 순항 중');
                 });
         }
 
@@ -791,7 +688,7 @@
             return r;
         }
 
-        // 단어 빈도수 및 감성 지표 계산기
+        // 형태소 및 감성 정렬 점수 계산기
         function analyzeSentiment(content) {
             const posKeywords = ['좋', '멋', '잘', '추천', '사랑', '대단', '성장', '발전', '1위', '박형준', '부기', '인기', '감동', '최고', '해결', '훌륭'];
             const negKeywords = ['싫', '망', '힘들', '개판', '바가지', '비싸', '헬', '도로', '막힌', '운전', '쓰레기', '양극화', '쏠림', '불균형', '안감', '적다', '꼴찌', '떠난', '부족'];
@@ -805,33 +702,28 @@
             return 'neutral';
         }
 
-        // 통계 갱신 및 UI 싱크로나이저
+        // 전체 통계 동기화
         function syncStatsAndUI() {
             const total = appState.comments.length;
             let posCount = 0;
             let negCount = 0;
             let neuCount = 0;
-            let topicCounts = {};
 
             appState.comments.forEach(c => {
                 const sentiment = analyzeSentiment(c.content);
                 if (sentiment === 'positive') posCount++;
                 else if (sentiment === 'negative') negCount++;
                 else neuCount++;
-
-                topicCounts[c.topic] = (topicCounts[c.topic] || 0) + 1;
             });
 
             const negPercent = ((negCount / total) * 100).toFixed(1);
             const posPercent = ((posCount / total) * 100).toFixed(1);
             const neuPercent = ((neuCount / total) * 100).toFixed(1);
 
-            // KPI 업데이트
-            document.getElementById('kpi-total-comments').innerText = `${total}개 의견`;
             document.getElementById('kpi-neg-percent').innerText = `${negPercent}%`;
 
-            // SVG 감성 링 크기 조절 계산 (도넛 그래프 전체 둘레 = 2 * Math.PI * 66 = 414.69)
-            const circumference = 414.69;
+            // SVG 도넛 드로잉 보간
+            const circumference = 364.42;
             const negOffset = circumference * (1 - (parseFloat(negPercent) / 100));
             const posOffset = circumference * (1 - ((parseFloat(negPercent) + parseFloat(posPercent)) / 100));
 
@@ -840,40 +732,14 @@
             
             ringNeg.setAttribute('stroke-dashoffset', negOffset);
             ringPos.setAttribute('stroke-dashoffset', posOffset);
-            // 긍정 링 시작위치 정합성 (부정이 끝나는 각도만큼 회전)
-            ringPos.setAttribute('transform', `rotate(${360 * (parseFloat(negPercent) / 100)} 80 80)`);
+            ringPos.setAttribute('transform', `rotate(${360 * (parseFloat(negPercent) / 100)} 72 72)`);
 
-            // 텍스트 수치 반영
             document.getElementById('donut-neg-percent').innerText = `${negPercent}%`;
             document.getElementById('badge-neg-percent').innerText = `${negPercent}%`;
             document.getElementById('badge-pos-percent').innerText = `${posPercent}%`;
             document.getElementById('badge-neu-percent').innerText = `${neuPercent}%`;
 
-            // 아젠다별 그래프 렌더링
-            const topicsArray = Object.keys(topicCounts).map(name => ({
-                name,
-                count: topicCounts[name],
-                percentage: ((topicCounts[name] / total) * 100).toFixed(1)
-            })).sort((a, b) => b.count - a.count);
-
-            const topicsBarsContainer = document.getElementById('topics-bars-container');
-            topicsBarsContainer.innerHTML = '';
-            topicsArray.forEach(t => {
-                const barHtml = `
-                    <div class="space-y-3">
-                        <div class="flex justify-between text-xs">
-                            <span class="font-bold text-slate-700 dark:text-slate-200">${t.name}</span>
-                            <span class="font-semibold text-slate-500 dark:text-slate-400">${t.count}건 (${t.percentage}%)</span>
-                        </div>
-                        <div class="relative w-full h-4 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
-                            <div class="h-full bg-gradient-to-r from-emerald-500 to-teal-400 rounded-full transition-all duration-1000" style="width: ${t.percentage}%;"></div>
-                        </div>
-                    </div>
-                `;
-                topicsBarsContainer.insertAdjacentHTML('beforeend', barHtml);
-            });
-
-            // 화제의 여론 (좋아요 상위 3개)
+            // 상위 공감 의견 드로잉
             const topComments = [...appState.comments].sort((a, b) => b.likes - a.likes).slice(0, 3);
             const topOpinionsContainer = document.getElementById('top-opinions-container');
             topOpinionsContainer.innerHTML = '';
@@ -898,15 +764,13 @@
                 topOpinionsContainer.insertAdjacentHTML('beforeend', opinionHtml);
             });
 
-            // 댓글 익스플로러 렌더링 동기화
             renderExplorerList();
         }
 
-        // 댓글 익스플로러 리스트 필터 및 정렬 그리기
+        // 댓글 익스플로러 렌더링
         function renderExplorerList() {
             const listContainer = document.getElementById('comments-list-container');
             
-            // 1. 검색 및 아젠다 주제 필터링
             let filtered = appState.comments.filter(c => {
                 const matchesTopic = appState.selectedTopic === '전체' || c.topic === appState.selectedTopic;
                 const matchesSearch = c.content.toLowerCase().includes(appState.searchTerm.toLowerCase()) || 
@@ -914,16 +778,13 @@
                 return matchesTopic && matchesSearch;
             });
 
-            // 2. 추천수 및 최신순 정렬
             filtered.sort((a, b) => {
                 if (appState.sortBy === 'likes') return b.likes - a.likes;
                 return new Date(b.date) - new Date(a.date);
             });
 
-            // 일치하는 목록 개수 동기화
             document.getElementById('explorer-comments-count').innerText = filtered.length;
 
-            // 필터 초기화 버튼 보임 처리
             const resetBtn = document.getElementById('filter-reset-btn');
             if (appState.searchTerm !== '' || appState.selectedTopic !== '전체') {
                 resetBtn.classList.remove('hidden');
@@ -984,7 +845,6 @@
             }
         }
 
-        // 실시간 검색 트리거
         function handleSearch(val) {
             appState.searchTerm = val;
             const clearBtn = document.getElementById('search-clear-btn');
@@ -1001,13 +861,12 @@
             handleSearch('');
         }
 
-        // 대주제 아젠다 분류 트리거
+        // 특정 토픽 변경 감지
         function handleTopicChange(val) {
             appState.selectedTopic = val;
             renderExplorerList();
         }
 
-        // 추천순 & 최신순 정렬 변경
         function handleSortChange(type) {
             appState.sortBy = type;
             const likesBtn = document.getElementById('sort-likes-btn');
@@ -1023,7 +882,6 @@
             renderExplorerList();
         }
 
-        // 필터 전역 초기화
         function resetFilters() {
             document.getElementById('search-input').value = '';
             document.getElementById('topic-select').value = '전체';
@@ -1033,7 +891,6 @@
             renderExplorerList();
         }
 
-        // 라이트/다크모드 토글 스위치
         function toggleDarkMode() {
             appState.isDarkMode = !appState.isDarkMode;
             const icon = document.getElementById('theme-icon');
@@ -1046,18 +903,14 @@
             }
         }
 
-        // 메인 탭 네비게이션 스위칭 기능
         function switchTab(tabId) {
             appState.activeTab = tabId;
             
-            // 모든 탭 섹션 숨김 처리
             document.querySelectorAll('.tab-pane').forEach(el => el.classList.add('hidden'));
             
-            // 대상 탭 보임 처리
             const targetTab = document.getElementById(`tab-content-${tabId}`);
             if (targetTab) targetTab.classList.remove('hidden');
 
-            // 데스크톱 네비게이션 활성화 이펙트 적용
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 btn.className = "nav-btn px-4 py-2 rounded-xl text-xs font-bold transition-all duration-200 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200";
             });
@@ -1066,7 +919,6 @@
                 activeNav.className = "nav-btn px-4 py-2 rounded-xl text-xs font-bold transition-all duration-200 bg-emerald-500/10 text-emerald-500 border border-emerald-500/20";
             }
 
-            // 모바일 하단 플로팅 메뉴 활성화 이펙트 적용
             document.querySelectorAll('.mob-btn').forEach(btn => {
                 btn.className = "mob-btn flex flex-col items-center text-xs text-slate-400 transition-all";
             });
@@ -1075,7 +927,6 @@
                 activeMob.className = "mob-btn flex flex-col items-center text-xs text-emerald-500 font-extrabold scale-105 transition-all";
             }
 
-            // 탭 변경 시 화면 맨 위로 스크롤
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
