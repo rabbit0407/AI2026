@@ -10,6 +10,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
   
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- KaTeX for high-quality mathematical notations -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+  
   <style>
     :root {
       --bg-gradient: linear-gradient(135deg, #090e1a 0%, #121829 100%);
@@ -185,6 +193,7 @@
       box-shadow: 0 4px 20px var(--primary-glow);
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       border: 1px solid rgba(255, 255, 255, 0.2);
+      cursor: pointer;
     }
 
     body.light-mode .download-btn {
@@ -398,7 +407,7 @@
       }
     }
 
-    /* Interactive Image / Visualization Cards */
+    /* Interactive Canvas Wrappers */
     .viz-container {
       position: relative;
       border-radius: 12px;
@@ -407,39 +416,28 @@
       background: #0d111d;
       margin-top: 15px;
       cursor: zoom-in;
+      padding: 20px;
+      height: 350px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      transition: all 0.3s ease;
     }
 
     body.light-mode .viz-container {
       background: #f8fafc;
     }
 
-    .viz-container img {
-      width: 100%;
-      height: auto;
-      display: block;
-      transition: transform 0.5s ease;
-    }
-
-    .viz-container:hover img {
-      transform: scale(1.03);
+    .viz-container:hover {
+      border-color: var(--primary);
+      box-shadow: 0 4px 15px var(--primary-glow);
     }
 
     .viz-overlay {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: rgba(0, 0, 0, 0.7);
-      padding: 10px 15px;
-      font-size: 0.85rem;
-      color: #9ca3af;
+      margin-top: 10px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
       text-align: center;
-      border-top: 1px solid var(--card-border);
-    }
-
-    body.light-mode .viz-overlay {
-      background: rgba(255, 255, 255, 0.95);
-      color: #475569;
     }
 
     /* Tables Styles */
@@ -536,19 +534,7 @@
       box-shadow: 0 0 10px var(--primary-glow);
     }
 
-    /* Stats Badge */
-    .badge {
-      display: inline-block;
-      padding: 3px 8px;
-      border-radius: 12px;
-      font-size: 0.75rem;
-      font-weight: bold;
-    }
-    .badge-high { background: rgba(255, 59, 48, 0.2); color: #ff3b30; border: 1px solid rgba(255, 59, 48, 0.3); }
-    .badge-medium { background: rgba(255, 123, 0, 0.2); color: #ff7b00; border: 1px solid rgba(255, 123, 0, 0.3); }
-    .badge-low { background: rgba(79, 172, 254, 0.2); color: #4facfe; border: 1px solid rgba(79, 172, 254, 0.3); }
-
-    /* Lightbox Modal */
+    /* Lightbox Modal for HD Chart View */
     .modal {
       display: none;
       position: fixed;
@@ -562,13 +548,27 @@
       justify-content: center;
       align-items: center;
       flex-direction: column;
+      padding: 20px;
     }
 
-    .modal-content {
-      max-width: 90%;
-      max-height: 80%;
-      border-radius: 12px;
-      box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+    .modal-content-wrapper {
+      width: 90%;
+      max-width: 900px;
+      height: 70%;
+      background: #090e1a;
+      border: 1px solid var(--card-border-active);
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 0 40px rgba(0, 242, 254, 0.2);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    body.light-mode .modal-content-wrapper {
+      background: #f5f7fa;
+      box-shadow: 0 0 40px rgba(31, 78, 120, 0.2);
     }
 
     .modal-caption {
@@ -576,17 +576,24 @@
       margin-top: 15px;
       font-size: 1.1rem;
       font-weight: 500;
+      text-align: center;
+    }
+    body.light-mode .modal-caption {
+      color: #1e293b;
     }
 
     .close-btn {
       position: absolute;
-      top: 30px;
-      right: 40px;
+      top: -45px;
+      right: 0px;
       color: #fff;
       font-size: 2.5rem;
       font-weight: bold;
       cursor: pointer;
       transition: color 0.2s ease;
+    }
+    body.light-mode .close-btn {
+      color: #1e293b;
     }
 
     .close-btn:hover {
@@ -660,6 +667,32 @@
     body.light-mode .highlight-cell {
       background: rgba(255, 123, 0, 0.12) !important;
     }
+
+    /* Custom styles for PDF exports and Print */
+    @media print {
+      body {
+        background: #fff !important;
+        color: #000 !important;
+      }
+      .top-nav-bar, .nav-tabs, .download-btn, .quiz-card, .search-bar {
+        display: none !important;
+      }
+      .tab-content {
+        display: block !important;
+        page-break-after: always;
+      }
+      .card {
+        background: #fff !important;
+        border: 1px solid #ccc !important;
+        box-shadow: none !important;
+        page-break-inside: avoid;
+      }
+      .viz-container {
+        border: 1px solid #ccc !important;
+        background: #fff !important;
+        page-break-inside: avoid;
+      }
+    }
   </style>
 </head>
 <body>
@@ -671,7 +704,7 @@
   <!-- Top Utility Navigation Bar -->
   <div class="top-nav-bar">
     <div class="top-nav-container">
-      <a href="https://github.com/rabbit0407/AI2026" target="_blank" class="top-nav-link">
+      <a href="../index.html" class="top-nav-link">
         <svg viewBox="0 0 24 24">
           <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
         </svg>
@@ -691,13 +724,13 @@
     <h1 class="hero-title">삶의 만족도와 자살률 상관관계 분석</h1>
     <p class="hero-subtitle">KOSIS 사회조사 및 사망원인통계 융합 데이터 시각화 및 사회학적 원인 분석 보고서 (2020 ~ 2024)</p>
     
-    <!-- CTA Button -->
-    <a href="./삶의_만족도와_자살률_상관관계_분석_보고서.pdf" class="download-btn" download>
+    <!-- PDF Save CTA Button -->
+    <button onclick="window.print()" class="download-btn">
       <svg viewBox="0 0 24 24">
         <path d="M19 12v7H5v-7H3v7c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zm-6 .67l2.59-2.58L17 11.5l-5 5-5-5 1.41-1.41L11 12.67V3h2v9.67z"/>
       </svg>
-      정식 PDF 보고서 다운로드
-    </a>
+      보고서 PDF 인쇄 / 저장하기
+    </button>
   </header>
 
   <!-- Navigation tab bar -->
@@ -737,8 +770,9 @@
         <div class="card">
           <h2 class="card-title"><span class="card-title-icon">🧮</span> 분석 방법론 및 점수 환산</h2>
           <p>삶의 만족도를 종합적인 하나의 지수로 계량화하기 위해, 설문 항목의 5단계 답변 비중에 가중치를 적용한 <strong>삶의 만족도 점수(Satisfaction Score)</strong>를 계산했습니다.</p>
-          <div class="accent-box" style="font-family: var(--font-outfit); font-size: 0.95rem; font-weight: 600; text-align: center;">
-            만족도 점수 = [ (매우만족*5) + (약간만족*4) + (보통*3) + (약간불만*2) + (매우불만*1) ] / 100
+          <div class="accent-box">
+            <!-- LaTeX Formula dynamically rendered by KaTeX -->
+            $$\text{만족도 점수} = \frac{(\text{매우만족} \times 5) + (\text{약간만족} \times 4) + (\text{보통} \times 3) + (\text{약간불만} \times 2) + (\text{매우불만} \times 1)}{100}$$
           </div>
         </div>
       </div>
@@ -748,7 +782,7 @@
     <section id="tab-trends" class="tab-content">
       <div class="card">
         <h2 class="card-title"><span class="card-title-icon">📈</span> 전국 평균 시계열 추이 (2020 ~ 2024)</h2>
-        <p>전국 데이터를 통합하여 연도별 삶의 만족도 점수와 자살률의 비동조화 현상을 추적합니다. 표의 각 행을 클릭해 추세를 비교할 수 있습니다.</p>
+        <p>전국 데이터를 통합하여 연도별 삶의 만족도 점수와 자살률의 비동조화 현상을 추적합니다. 아래 표의 추세를 차트에서 직관적으로 대조할 수 있습니다.</p>
         
         <div class="table-container">
           <table>
@@ -786,16 +820,16 @@
       <div class="grid-2col">
         <div class="card">
           <h2 class="card-title"><span class="card-title-icon">📊</span> 시각화 1: 연도별 전국 평균 추이</h2>
-          <div class="viz-container" onclick="openModal('./images/national_trends.png', '연도별 전국 평균 삶의 만족도 및 자살률 추이')">
-            <img src="./images/national_trends.png" alt="전국 평균 시계열 추이">
+          <div class="viz-container" onclick="openModal('nationalTrendsChart', '연도별 전국 평균 삶의 만족도 및 자살률 추이')">
+            <canvas id="nationalTrendsChart"></canvas>
             <div class="viz-overlay">🔍 클릭하여 크게 보기 (2021년 만족도 급락 및 2023-2024년 자살률 상승세)</div>
           </div>
         </div>
 
         <div class="card">
           <h2 class="card-title"><span class="card-title-icon">👥</span> 시각화 2: 성별 격차 비교</h2>
-          <div class="viz-container" onclick="openModal('./images/gender_disparity_trends.png', '전국 성별 자살률 및 삶의 만족도 격차 비교')">
-            <img src="./images/gender_disparity_trends.png" alt="전국 성별 격차 분석">
+          <div class="viz-container" onclick="openModal('genderDisparityChart', '전국 성별 자살률 및 삶의 만족도 격차 비교')">
+            <canvas id="genderDisparityChart"></canvas>
             <div class="viz-overlay">🔍 클릭하여 크게 보기 (비슷한 삶의 만족도 점수 vs 2.5배 격차의 남녀 자살률)</div>
           </div>
         </div>
@@ -859,16 +893,16 @@
       <div class="grid-2col">
         <div class="card">
           <h2 class="card-title"><span class="card-title-icon">📈</span> 시각화 3: 전체 통합 산점도 및 선형 추세</h2>
-          <div class="viz-container" onclick="openModal('./images/satisfaction_vs_suicide_scatter.png', '삶의 만족도 점수 vs 10만 명당 자살률 산점도')">
-            <img src="./images/satisfaction_vs_suicide_scatter.png" alt="통합 산점도">
+          <div class="viz-container" onclick="openModal('overallScatterChart', '삶의 만족도 점수 vs 10만 명당 자살률 산점도')">
+            <canvas id="overallScatterChart"></canvas>
             <div class="viz-overlay">🔍 클릭하여 크게 보기 (성별 통합 및 연도별 추세선 제공)</div>
           </div>
         </div>
 
         <div class="card">
-          <h2 class="card-title"><span class="card-title-icon">🌡️</span> 시각화 4: 세부 설문 항목별 상관관계 열지도</h2>
-          <div class="viz-container" onclick="openModal('./images/correlation_heatmap.png', '삶의 세부 만족도 지표 및 자살률 간의 상관관계 열지도(Heatmap)')">
-            <img src="./images/correlation_heatmap.png" alt="상관관계 열지도">
+          <h2 class="card-title"><span class="card-title-icon">🌡️</span> 시각화 4: 세부 설문 항목별 상관관계 강도</h2>
+          <div class="viz-container" onclick="openModal('correlationBarChart', '삶의 세부 만족도 지표 및 자살률 간의 상관관계')">
+            <canvas id="correlationBarChart"></canvas>
             <div class="viz-overlay">🔍 클릭하여 크게 보기 (보통 응답 비율이 자살률과 유의한 양의 상관성(+0.41)을 띰)</div>
           </div>
         </div>
@@ -927,16 +961,16 @@
       <div class="grid-2col">
         <div class="card">
           <h2 class="card-title"><span class="card-title-icon">📊</span> 시각화 5: 시도별 자살률 및 만족도 비교 (대조 그래프)</h2>
-          <div class="viz-container" onclick="openModal('./images/regional_comparison_bar.png', '2024년 시도별 자살률 및 삶의 만족도 비교')">
-            <img src="./images/regional_comparison_bar.png" alt="시도별 비교 차트">
+          <div class="viz-container" onclick="openModal('regionalBarChart', '2024년 시도별 자살률 및 삶의 만족도 비교')">
+            <canvas id="regionalBarChart"></canvas>
             <div class="viz-overlay">🔍 클릭하여 크게 보기 (충남, 대전 등 높은 만족도와 고위험 자살률의 충돌 시각화)</div>
           </div>
         </div>
 
         <div class="card">
           <h2 class="card-title"><span class="card-title-icon">📍</span> 시각화 6: 2024년 시도별 삶의 만족도 vs 자살률 분포 (좌표평면)</h2>
-          <div class="viz-container" onclick="openModal('./images/satisfaction_vs_suicide_2024_annotated.png', '2024년 시도별 삶의 만족도 점수 vs 자살률 분포')">
-            <img src="./images/satisfaction_vs_suicide_2024_annotated.png" alt="2024 시도 산점도">
+          <div class="viz-container" onclick="openModal('paradoxScatterChart', '2024년 시도별 삶의 만족도 점수 vs 자살률 분포')">
+            <canvas id="paradoxScatterChart"></canvas>
             <div class="viz-overlay">🔍 클릭하여 크게 보기 (우상단의 충남, 제주 등 역설 지대 표시)</div>
           </div>
         </div>
@@ -981,14 +1015,16 @@
 
   </main>
 
-  <!-- Lightbox Modal -->
+  <!-- Lightbox Modal for dynamic chart cloning -->
   <div id="lightbox-modal" class="modal" onclick="closeModal()">
-    <span class="close-btn" onclick="closeModal()">&times;</span>
-    <img id="modal-img" class="modal-content" src="" alt="Fullscreen image">
+    <div class="modal-content-wrapper" onclick="event.stopPropagation()">
+      <span class="close-btn" onclick="closeModal()">&times;</span>
+      <canvas id="modal-chart-canvas"></canvas>
+    </div>
     <div id="modal-caption" class="modal-caption"></div>
   </div>
 
-  <!-- JavaScript logic -->
+  <!-- JavaScript logic and Chart rendering engines -->
   <script>
     // Tab switching logic
     function showTab(tabId) {
@@ -1065,33 +1101,538 @@
       rows.forEach(row => tbody.appendChild(row));
     }
 
-    // Lightbox modal logic
-    function openModal(imgSrc, caption) {
-      const modal = document.getElementById('lightbox-modal');
-      const modalImg = document.getElementById('modal-img');
-      const modalCap = document.getElementById('modal-caption');
+    // --- CHART IMPLEMENTATIONS & CONFIGURATION ---
+    const charts = {};
+    let modalChart = null;
+
+    // Common Colors Based on Theme
+    function getThemeColors() {
+      const isLight = document.body.classList.contains('light-mode');
+      return {
+        text: isLight ? '#475569' : '#9ca3af',
+        grid: isLight ? 'rgba(0, 0, 0, 0.08)' : 'rgba(255, 255, 255, 0.08)',
+        primary: isLight ? '#1f4e78' : '#4facfe',
+        secondary: isLight ? '#0088cc' : '#00f2fe',
+        accentRed: '#ff3b30',
+        accentOrange: '#ff7b00',
+        cardBg: isLight ? '#ffffff' : '#0d111d'
+      };
+    }
+
+    // 1. National Trends Chart (National Averages 2020-2024)
+    function initNationalTrendsChart() {
+      const ctx = document.getElementById('nationalTrendsChart').getContext('2d');
+      const colors = getThemeColors();
       
+      charts.nationalTrendsChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ['2020', '2021', '2022', '2023', '2024'],
+          datasets: [
+            {
+              label: '삶의 만족도 점수',
+              data: [3.42, 3.16, 3.39, 3.36, 3.37],
+              borderColor: colors.primary,
+              backgroundColor: colors.primary,
+              yAxisID: 'ySatisfaction',
+              tension: 0.1,
+              borderWidth: 3
+            },
+            {
+              label: '10만 명당 자살률',
+              data: [25.7, 26.0, 25.2, 27.3, 29.1],
+              borderColor: colors.accentRed,
+              backgroundColor: colors.accentRed,
+              yAxisID: 'ySuicide',
+              tension: 0.1,
+              borderWidth: 3
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { labels: { color: colors.text } }
+          },
+          scales: {
+            x: { grid: { color: colors.grid }, ticks: { color: colors.text } },
+            ySatisfaction: {
+              type: 'linear',
+              position: 'left',
+              min: 3.0,
+              max: 3.6,
+              grid: { color: colors.grid },
+              ticks: { color: colors.text },
+              title: { display: true, text: '만족도 점수', color: colors.text }
+            },
+            ySuicide: {
+              type: 'linear',
+              position: 'right',
+              min: 20,
+              max: 32,
+              grid: { drawOnChartArea: false },
+              ticks: { color: colors.text },
+              title: { display: true, text: '자살률 (명)', color: colors.text }
+            }
+          }
+        }
+      });
+    }
+
+    // 2. Gender Disparity Chart
+    function initGenderDisparityChart() {
+      const ctx = document.getElementById('genderDisparityChart').getContext('2d');
+      const colors = getThemeColors();
+
+      charts.genderDisparityChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ['2020', '2021', '2022', '2023', '2024'],
+          datasets: [
+            {
+              label: '남성 자살률',
+              data: [35.5, 35.9, 35.3, 38.3, 41.8],
+              borderColor: colors.accentRed,
+              backgroundColor: colors.accentRed,
+              yAxisID: 'ySuicide',
+              borderWidth: 2
+            },
+            {
+              label: '여성 자살률',
+              data: [15.9, 16.2, 15.1, 16.5, 16.6],
+              borderColor: colors.accentOrange,
+              backgroundColor: colors.accentOrange,
+              yAxisID: 'ySuicide',
+              borderWidth: 2
+            },
+            {
+              label: '남성 만족도 점수',
+              data: [3.45, 3.15, 3.39, 3.37, 3.38],
+              borderColor: colors.primary,
+              backgroundColor: colors.primary,
+              yAxisID: 'ySatisfaction',
+              borderDash: [5, 5],
+              borderWidth: 2
+            },
+            {
+              label: '여성 만족도 점수',
+              data: [3.40, 3.17, 3.39, 3.36, 3.35],
+              borderColor: colors.secondary,
+              backgroundColor: colors.secondary,
+              yAxisID: 'ySatisfaction',
+              borderDash: [5, 5],
+              borderWidth: 2
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { labels: { color: colors.text } }
+          },
+          scales: {
+            x: { grid: { color: colors.grid }, ticks: { color: colors.text } },
+            ySatisfaction: {
+              type: 'linear',
+              position: 'left',
+              min: 3.0,
+              max: 3.6,
+              grid: { color: colors.grid },
+              ticks: { color: colors.text },
+              title: { display: true, text: '만족도 점수', color: colors.text }
+            },
+            ySuicide: {
+              type: 'linear',
+              position: 'right',
+              min: 10,
+              max: 45,
+              grid: { drawOnChartArea: false },
+              ticks: { color: colors.text },
+              title: { display: true, text: '자살률 (명)', color: colors.text }
+            }
+          }
+        }
+      });
+    }
+
+    // 3. Overall Scatter Chart with Dynamic Regression Line
+    function initOverallScatterChart() {
+      const ctx = document.getElementById('overallScatterChart').getContext('2d');
+      const colors = getThemeColors();
+
+      // Regional 2024 Scatter Dataset
+      const scatterPoints = [
+        {x: 3.44, y: 36.3, r: '제주'}, {x: 3.56, y: 34.8, r: '충남'}, {x: 3.34, y: 34.5, r: '전남'},
+        {x: 3.42, y: 34.3, r: '강원'}, {x: 3.38, y: 32.3, r: '전북'}, {x: 3.39, y: 31.8, r: '충북'},
+        {x: 3.35, y: 31.6, r: '경북'}, {x: 3.52, y: 31.2, r: '대전'}, {x: 3.21, y: 31.2, r: '인천'},
+        {x: 3.32, y: 30.3, r: '부산'}, {x: 3.41, y: 29.9, r: '광주'}, {x: 3.21, y: 29.4, r: '대구'},
+        {x: 3.43, y: 29.2, r: '울산'}, {x: 3.40, y: 28.5, r: '경남'}, {x: 3.31, y: 28.2, r: '경기'},
+        {x: 3.44, y: 24.1, r: '서울'}, {x: 3.35, y: 23.0, r: '세종'}
+      ];
+
+      // Regression maths y = mx + c
+      const xVals = scatterPoints.map(p => p.x);
+      const yVals = scatterPoints.map(p => p.y);
+      const sumX = xVals.reduce((a, b) => a + b, 0);
+      const sumY = yVals.reduce((a, b) => a + b, 0);
+      const sumXY = scatterPoints.reduce((sum, p) => sum + (p.x * p.y), 0);
+      const sumX2 = xVals.reduce((sum, x) => sum + (x * x), 0);
+      const n = scatterPoints.length;
+
+      const slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+      const intercept = (sumY - slope * sumX) / n;
+
+      const regPoints = [
+        {x: 3.15, y: slope * 3.15 + intercept},
+        {x: 3.60, y: slope * 3.60 + intercept}
+      ];
+
+      charts.overallScatterChart = new Chart(ctx, {
+        type: 'scatter',
+        data: {
+          datasets: [
+            {
+              label: '시도별 실측지표',
+              data: scatterPoints,
+              backgroundColor: colors.primary,
+              borderColor: colors.primary,
+              pointRadius: 6
+            },
+            {
+              label: '선형 추세선',
+              data: regPoints,
+              type: 'line',
+              borderColor: colors.accentRed,
+              borderWidth: 1.5,
+              fill: false,
+              pointRadius: 0
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { labels: { color: colors.text } },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  const raw = context.raw;
+                  if (raw.r) {
+                    return `${raw.r}: (만족도: ${raw.x}, 자살률: ${raw.y})`;
+                  }
+                  return `추세선`;
+                }
+              }
+            }
+          },
+          scales: {
+            x: {
+              type: 'linear',
+              position: 'bottom',
+              min: 3.15,
+              max: 3.60,
+              grid: { color: colors.grid },
+              ticks: { color: colors.text },
+              title: { display: true, text: '삶의 만족도 점수', color: colors.text }
+            },
+            y: {
+              min: 20,
+              max: 40,
+              grid: { color: colors.grid },
+              ticks: { color: colors.text },
+              title: { display: true, text: '자살률 (명)', color: colors.text }
+            }
+          }
+        }
+      });
+    }
+
+    // 4. Horizontal Correlation Strengths Bar Chart
+    function initCorrelationBarChart() {
+      const ctx = document.getElementById('correlationBarChart').getContext('2d');
+      const colors = getThemeColors();
+
+      charts.correlationBarChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['보통 비율 (%)', '매우 만족 (%)', '매우 불만족 (%)', '약간 불만족 (%)', '종합 만족도 점수', '약간 만족 (%)'],
+          datasets: [{
+            label: '피어슨 상관계수 (r)',
+            data: [0.41, -0.17, -0.05, -0.12, -0.04, -0.10],
+            backgroundColor: function(context) {
+              const value = context.dataset.data[context.dataIndex];
+              return value > 0 ? 'rgba(255, 123, 0, 0.7)' : 'rgba(79, 172, 254, 0.7)';
+            },
+            borderColor: function(context) {
+              const value = context.dataset.data[context.dataIndex];
+              return value > 0 ? '#ff7b00' : '#4facfe';
+            },
+            borderWidth: 1.5
+          }]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false }
+          },
+          scales: {
+            x: {
+              min: -0.3,
+              max: 0.5,
+              grid: { color: colors.grid },
+              ticks: { color: colors.text }
+            },
+            y: {
+              grid: { display: false },
+              ticks: { color: colors.text }
+            }
+          }
+        }
+      });
+    }
+
+    // 5. Regional Comparison Bar & Line (2024)
+    function initRegionalBarChart() {
+      const ctx = document.getElementById('regionalBarChart').getContext('2d');
+      const colors = getThemeColors();
+
+      const regions = ['제주', '충남', '전남', '강원', '전북', '충북', '경북', '대전', '인천', '부산', '광주', '대구', '울산', '경남', '경기', '서울', '세종'];
+      const suicideRates = [36.3, 34.8, 34.5, 34.3, 32.3, 31.8, 31.6, 31.2, 31.2, 30.3, 29.9, 29.4, 29.2, 28.5, 28.2, 24.1, 23.0];
+      const satisfactionScores = [3.44, 3.56, 3.34, 3.42, 3.38, 3.39, 3.35, 3.52, 3.21, 3.32, 3.41, 3.21, 3.43, 3.40, 3.31, 3.44, 3.35];
+
+      charts.regionalBarChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: regions,
+          datasets: [
+            {
+              label: '자살률 (명)',
+              data: suicideRates,
+              backgroundColor: 'rgba(255, 59, 48, 0.65)',
+              borderColor: colors.accentRed,
+              borderWidth: 1,
+              yAxisID: 'ySuicide'
+            },
+            {
+              label: '만족도 점수',
+              data: satisfactionScores,
+              type: 'line',
+              borderColor: colors.secondary,
+              backgroundColor: colors.secondary,
+              tension: 0.1,
+              yAxisID: 'ySatisfaction',
+              borderWidth: 2
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { labels: { color: colors.text } }
+          },
+          scales: {
+            x: { grid: { display: false }, ticks: { color: colors.text } },
+            ySuicide: {
+              type: 'linear',
+              position: 'left',
+              min: 15,
+              max: 40,
+              grid: { color: colors.grid },
+              ticks: { color: colors.text },
+              title: { display: true, text: '자살률', color: colors.text }
+            },
+            ySatisfaction: {
+              type: 'linear',
+              position: 'right',
+              min: 3.1,
+              max: 3.65,
+              grid: { display: false },
+              ticks: { color: colors.text },
+              title: { display: true, text: '만족도', color: colors.text }
+            }
+          }
+        }
+      });
+    }
+
+    // 6. Paradox Scatter Chart with Quadrants
+    function initParadoxScatterChart() {
+      const ctx = document.getElementById('paradoxScatterChart').getContext('2d');
+      const colors = getThemeColors();
+
+      const dataset = [
+        {x: 3.44, y: 36.3, label: '제주'}, {x: 3.56, y: 34.8, label: '충남'}, {x: 3.34, y: 34.5, label: '전남'},
+        {x: 3.42, y: 34.3, label: '강원'}, {x: 3.38, y: 32.3, label: '전북'}, {x: 3.39, y: 31.8, label: '충북'},
+        {x: 3.35, y: 31.6, label: '경북'}, {x: 3.52, y: 31.2, label: '대전'}, {x: 3.21, y: 31.2, label: '인천'},
+        {x: 3.32, y: 30.3, label: '부산'}, {x: 3.41, y: 29.9, label: '광주'}, {x: 3.21, y: 29.4, label: '대구'},
+        {x: 3.43, y: 29.2, label: '울산'}, {x: 3.40, y: 28.5, label: '경남'}, {x: 3.31, y: 28.2, label: '경기'},
+        {x: 3.44, y: 24.1, label: '서울'}, {x: 3.35, y: 23.0, label: '세종'}
+      ];
+
+      // Quadrant drawing plugin logic
+      const quadrantPlugin = {
+        id: 'quadrantPlugin',
+        beforeDraw(chart) {
+          const {ctx, chartArea: {top, bottom, left, right}, scales: {x, y}} = chart;
+          
+          const medianX = x.getPixelForValue(3.39); // Median Satisfaction
+          const medianY = y.getPixelForValue(30.3); // Median Suicide Rate
+
+          ctx.save();
+          // Quadrant Labels & Colors
+          // Top-Right: High Satisfaction, High Suicide Rate (Paradox Zone)
+          ctx.fillStyle = 'rgba(255, 59, 48, 0.05)';
+          ctx.fillRect(medianX, top, right - medianX, medianY - top);
+          
+          // Bottom-Right: High Satisfaction, Low Suicide Rate (Optimal Zone)
+          ctx.fillStyle = 'rgba(0, 242, 254, 0.04)';
+          ctx.fillRect(medianX, medianY, right - medianX, bottom - medianY);
+
+          // Top-Left: Low Satisfaction, High Suicide Rate (High Risk Zone)
+          ctx.fillStyle = 'rgba(255, 123, 0, 0.04)';
+          ctx.fillRect(left, top, medianX - left, medianY - top);
+
+          // Boundaries lines
+          ctx.lineWidth = 1.5;
+          ctx.strokeStyle = colors.grid;
+          ctx.beginPath();
+          ctx.moveTo(medianX, top);
+          ctx.lineTo(medianX, bottom);
+          ctx.moveTo(left, medianY);
+          ctx.lineTo(right, medianY);
+          ctx.stroke();
+
+          // Quadrant texts
+          ctx.fillStyle = colors.text;
+          ctx.font = '10px Noto Sans KR';
+          ctx.fillText('역설 지대 (만족도↑ 자살률↑)', medianX + 10, top + 20);
+          ctx.fillText('선진 안심 지대 (만족도↑ 자살률↓)', medianX + 10, bottom - 15);
+          ctx.fillText('고위험 취약 지대 (만족도↓ 자살률↑)', left + 10, top + 20);
+          ctx.fillText('정서 정체 지대 (만족도↓ 자살률↓)', left + 10, bottom - 15);
+
+          ctx.restore();
+        }
+      };
+
+      charts.paradoxScatterChart = new Chart(ctx, {
+        type: 'scatter',
+        data: {
+          datasets: [{
+            label: '시도 데이터',
+            data: dataset,
+            backgroundColor: colors.accentRed,
+            borderColor: colors.accentRed,
+            pointRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  const raw = context.raw;
+                  return `${raw.label}: (만족도: ${raw.x}, 자살률: ${raw.y})`;
+                }
+              }
+            }
+          },
+          scales: {
+            x: {
+              min: 3.15,
+              max: 3.60,
+              grid: { display: false },
+              ticks: { color: colors.text },
+              title: { display: true, text: '삶의 만족도 점수', color: colors.text }
+            },
+            y: {
+              min: 20,
+              max: 40,
+              grid: { display: false },
+              ticks: { color: colors.text },
+              title: { display: true, text: '자살률 (명)', color: colors.text }
+            }
+          }
+        },
+        plugins: [quadrantPlugin]
+      });
+    }
+
+    // --- UTILITIES FOR HD VIEWER MODAL & THEME TOGGLE ---
+
+    // Deep Copy Config and Create modal chart
+    function openModal(chartId, caption) {
+      const modal = document.getElementById('lightbox-modal');
       modal.style.display = 'flex';
-      modalImg.src = imgSrc;
-      modalCap.textContent = caption;
+      document.getElementById('modal-caption').textContent = caption;
+
+      const sourceChart = charts[chartId];
+      if (!sourceChart) return;
+
+      const modalCtx = document.getElementById('modal-chart-canvas').getContext('2d');
+      if (modalChart) modalChart.destroy();
+
+      // Copying configuration objects securely
+      const config = {
+        type: sourceChart.config.type,
+        data: JSON.parse(JSON.stringify(sourceChart.config.data)),
+        options: JSON.parse(JSON.stringify(sourceChart.config.options)),
+        plugins: sourceChart.config.plugins
+      };
+
+      // Set scale configs larger for presentation
+      config.options.maintainAspectRatio = false;
+
+      modalChart = new Chart(modalCtx, config);
     }
 
     function closeModal() {
       document.getElementById('lightbox-modal').style.display = 'none';
+      if (modalChart) {
+        modalChart.destroy();
+        modalChart = null;
+      }
     }
 
-    // Close on Esc key
-    window.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') {
-        closeModal();
-      }
-    });
+    // Dynamic Chart colors update on theme toggle
+    function updateChartsTheme() {
+      const colors = getThemeColors();
 
-    // Dark/Light Mode Toggle logic
+      Object.values(charts).forEach(chart => {
+        if (!chart) return;
+        
+        // Update gridlines & labels color dynamically
+        if (chart.options.scales) {
+          Object.keys(chart.options.scales).forEach(scaleKey => {
+            const scale = chart.options.scales[scaleKey];
+            if (scale.grid) scale.grid.color = colors.grid;
+            if (scale.ticks) scale.ticks.color = colors.text;
+            if (scale.title) scale.title.color = colors.text;
+          });
+        }
+        
+        if (chart.options.plugins && chart.options.plugins.legend && chart.options.plugins.legend.labels) {
+          chart.options.plugins.legend.labels.color = colors.text;
+        }
+
+        chart.update();
+      });
+    }
+
+    // Theme Toggle implementation
     function toggleDarkMode() {
       document.body.classList.toggle('light-mode');
       const isLight = document.body.classList.contains('light-mode');
       const toggleBtn = document.getElementById('theme-toggle-btn');
+      
       if (isLight) {
         toggleBtn.innerHTML = `
           <svg viewBox="0 0 24 24">
@@ -1107,7 +1648,27 @@
           라이트 모드
         `;
       }
+      
+      // Update charts
+      updateChartsTheme();
     }
+
+    // Close modal on escape keypress
+    window.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeModal();
+      }
+    });
+
+    // Initialize all charts on load
+    window.onload = function() {
+      initNationalTrendsChart();
+      initGenderDisparityChart();
+      initOverallScatterChart();
+      initCorrelationBarChart();
+      initRegionalBarChart();
+      initParadoxScatterChart();
+    };
   </script>
 </body>
 </html>
