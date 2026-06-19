@@ -158,9 +158,9 @@
     <script>
         const cardGrid = document.getElementById('card-grid');
         
-        // Projects data for all 10 cards
+        // Projects data for all 11 cards
         const projects = [
-            { id: 0, title: "AI의 이해", color: "card-blue", grad: "from-blue-500 to-blue-700", icon: "fa-brain", description: "AI의 정의, 역사적 흐름, 생성형 AI의 메커니즘을 분석하고구글 NotebookLM을 통해 지식 베이스를 구축했습니다.", detail: "이 프로젝트는 AI를 블랙박스가 아닌 이해 가능한 도구로 정의하는 데 집중했습니다. 데이터가 어떻게 지능으로 변모하는지 그 핵심 프로세스를 탐구했습니다.", tech: "Google NotebookLM", link: "./02/index.html" },
+            { id: 0, title: "AI의 이해", color: "card-blue", grad: "from-blue-500 to-blue-700", icon: "fa-brain", description: "AI의 정의, 역사적 흐름, 생성형 AI의 메커니즘을 분석하고 구글 NotebookLM을 통해 지식 베이스를 구축했습니다.", detail: "이 프로젝트는 AI를 블랙박스가 아닌 이해 가능한 도구로 정의하는 데 집중했습니다. 데이터가 어떻게 지능으로 변모하는지 그 핵심 프로세스를 탐구했습니다.", tech: "Google NotebookLM", link: "./02/index.html" },
             { id: 1, title: "데이터 스토리텔링", color: "card-purple", grad: "from-purple-500 to-purple-700", icon: "fa-book-open", description: "공공 데이터를 분석하고 인사이트를 도출하여 시각적으로 설득력 있는 리포트 작성하여 스토리북으로 만들기", detail: "공공 데이터를 분석하고 인사이트를 도출하여 시각적으로 설득력 있는 리포트 작성하여 스토리북으로 만들기", tech: "Gemini 스토리북", link: "./03/index.html" },
             { id: 2, title: "웹 기술의 이해", color: "card-pink", grad: "from-pink-500 to-pink-700", icon: "fa-code", description: "현대 웹을 구성하는 HTML, CSS, JavaScript의 구조를 이해하고, 사용자가 상호작용할 수 있는 웹 인터페이스의 원리를 학습합니다.", detail: "웹 표준 기술을 바탕으로 직관적인 UI/UX를 설계하는 방법과 브라우저의 렌더링 과정을 탐구하여 웹 프로젝트의 기초를 다졌습니다.", tech: "HTML5 / CSS3 / Tailwind", link: "./04/index.html" },
             { id: 3, title: "중간과제 : 나와 전공을 연결하는 AI 스토리 웹페이지 제작", color: "card-orange", grad: "from-orange-500 to-orange-700", icon: "fa-id-card-clip", description: "자신의 전공 분야와 AI 기술의 접점을 찾고, 이를 스토리텔링 형식으로 풀어낸 개인 맞춤형 웹페이지를 제작합니다.", detail: "개인적 배경과 전공 지식을 AI 리터러시와 결합하여, 미래의 커리어 비전을 제시하는 인터랙티브 웹 포트폴리오 프로젝트입니다.", tech: "Web Storytelling / AI Integration", link: "./05/index.html" },
@@ -169,10 +169,11 @@
             { id: 6, title: "유튜브 댓글 분석", color: "card-red", grad: "from-red-500 to-red-700", icon: "fa-comments", description: "코랩으로 유튜브 댓글 분석", detail: "YouTube API를 활용하여 영상의 댓글 데이터를 수집하고, 워드클라우드 및 감성 분석을 통해 사용자 반응을 시각화하는 프로젝트입니다.", tech: "Google Colab / YouTube API / WordCloud", link: "./08/index.html" },
             { id: 7, title: "유튜브 댓글 분석(실습)", color: "card-indigo", grad: "from-indigo-500 to-indigo-700", icon: "fa-magnifying-glass", description: "코랩과 제미나이로 유튜브 영상과 댓글 분석", detail: "코랩과 제미나이를 이용해 유튜브 영상 정보를 분석하고 다량의 실시간 대중 반응을 통계 및 카테고리별로 자동 분류하여 분석하는 인터랙티브 실습 과제입니다.", tech: "Google Colab / Gemini AI / Data Analysis", link: "./09/index.html" },
             { id: 8, title: "구글 AI Studio", color: "card-amber", grad: "from-amber-500 to-amber-700", icon: "fa-lightbulb", description: "구글 AI Studio로 박스오피스 조회", detail: "구글 AI Studio를 연동하여 실시간 및 기간별 박스오피스 데이터를 검색하고 조회하는 시스템을 구현하는 프로젝트입니다.", tech: "Google AI Studio / API", link: "https://rabbit0407.github.io/box_office/index.html" },
-            { id: 9, title: "Antigravity 활용", color: "card-cyan", grad: "from-cyan-500 to-cyan-700", icon: "fa-rocket", description: "Antigravity를 활용하여 '시도별 삶의 만족도'와 '시군구별 인구 십만명당 자살률' 2개의 엑셀 파일의 상관관계를 분석해서 보고서를 작성함.", detail: "Antigravity 플랫폼을 활용하여 '시도별 삶의 만족도' 데이터와 '시군구별 인구 십만명당 자살률' 데이터를 연계 분석하고, 각 지표 간의 통계적 상관관계를 도출하여 종합적인 사회 분석 보고서를 작성한 프로젝트입니다.", tech: "Antigravity / Data Analysis", link: "./test/index.html" }
+            { id: 9, title: "Antigravity 활용", color: "card-cyan", grad: "from-cyan-500 to-cyan-700", icon: "fa-rocket", description: "Antigravity를 활용하여 '시도별 삶의 만족도'와 '시군구별 인구 십만명당 자살률' 2개의 엑셀 파일의 상관관계를 분석해서 보고서를 작성함.", detail: "Antigravity 플랫폼을 활용하여 '시도별 삶의 만족도' 데이터와 '시군구별 인구 십만명당 자살률' 데이터를 연계 분석하고, 각 지표 간의 통계적 상관관계를 도출하여 종합적인 사회 분석 보고서를 작성한 프로젝트입니다.", tech: "Antigravity / Data Analysis", link: "./test/index.html" },
+            { id: 10, title: "기말고사 : 대한민국 성인의 디지털 문해능력 분석", color: "card-blue", grad: "from-indigo-600 to-blue-800", icon: "fa-graduation-cap", description: "대한민국 성인의 디지털 문해능력 데이터를 분석하고 시각화하여 정보 격차 현황과 시사점을 도출한 기말고사 프로젝트입니다.", detail: "연령별, 교육수준별, 지역별 디지털 문해능력 통계를 정밀하게 구조화하고 분석하여, 다가오는 초지능 시대에 요구되는 디지털 포용 정책과 개인 리터러시 강화 방안을 제언한 최종 성과물입니다.", tech: "Python / Data Analysis / Visual Presentation", link: "./10/index.html" }
         ];
 
-        // Generate all 10 cards
+        // Generate all 11 cards
         projects.forEach((proj, index) => {
             const hasResult = proj.link !== undefined;
             
@@ -194,6 +195,9 @@
                       <i class="fas fa-plus text-white"></i>
                     </button>`;
 
+            // Format project index nicely to handle single/double digits perfectly (e.g., Project 01, Project 11)
+            const formattedIndex = String(index + 1).padStart(2, '0');
+
             const card = `
             <div class="card-hover ${proj.color} bg-white dark:bg-darkCard rounded-2xl shadow-lg overflow-hidden transition-all duration-300 group relative flex flex-col">
                 <div class="relative h-44 bg-gradient-to-br ${proj.grad} flex items-center justify-center">
@@ -208,7 +212,7 @@
                 </div>
                 <div class="p-8 flex flex-col flex-grow">
                     <div class="flex items-center gap-2 mb-3">
-                        <span class="px-2.5 py-0.5 bg-gray-50 dark:bg-gray-800 text-gray-500 dark:text-gray-400 text-[10px] font-extrabold rounded-lg border border-gray-200 dark:border-gray-700 uppercase">Project 0${index + 1}</span>
+                        <span class="px-2.5 py-0.5 bg-gray-50 dark:bg-gray-800 text-gray-500 dark:text-gray-400 text-[10px] font-extrabold rounded-lg border border-gray-200 dark:border-gray-700 uppercase">Project ${formattedIndex}</span>
                     </div>
                     <h3 class="text-2xl font-bold mb-3 group-hover:text-blue-500 transition-colors">${proj.title}</h3>
                     <p class="text-gray-500 dark:text-gray-400 text-sm mb-6 line-clamp-3 leading-relaxed flex-grow">
@@ -255,7 +259,7 @@
                 body.innerHTML = `
                     <div class="space-y-6">
                         <div class="flex gap-2">
-                            <span class="px-2 py-1 bg-blue-100 text-blue-700 text-[10px] font-bold rounded">PROJECT 0${id + 1}</span>
+                            <span class="px-2 py-1 bg-blue-100 text-blue-700 text-[10px] font-bold rounded">PROJECT ${String(id + 1).padStart(2, '0')}</span>
                             <span class="px-2 py-1 bg-pink-100 text-pink-700 text-[10px] font-bold rounded uppercase">AI Literacy</span>
                         </div>
                         
