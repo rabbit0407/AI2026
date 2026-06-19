@@ -35,7 +35,7 @@
             background: #cbd5e1;
             border-radius: 4px;
         }
-        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+        .dark .custom-scrollbar::-webkit-webkit-scrollbar-thumb {
             background: #334155;
         }
     </style>
@@ -68,7 +68,7 @@
 
                     <!-- HWPX download link -->
                     <a href="./기말고사 보고서.hwpx" download class="bg-slate-900 hover:bg-slate-800 text-white text-sm px-4 py-2 rounded-lg transition-all flex items-center gap-2 shadow-sm dark:bg-blue-600 dark:hover:bg-blue-500">
-                        <i class="fa-solid fa-file-word"></i> HWPX 보고서 다운로드
+                        <i class="fa-solid fa-file-word"></i> 기말고사 보고서 다운로드
                     </a>
                 </div>
             </div>
@@ -103,7 +103,8 @@
                 
                 <!-- Interactive Chart Card -->
                 <div class="bg-white rounded-xl shadow-sm border border-slate-200 dark:bg-slate-900 dark:border-slate-800 p-6 transition-colors duration-300">
-                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+                    <!-- Top Category Tab bar -->
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
                         <div>
                             <h2 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                                 <i class="fa-solid fa-chart-bar text-blue-500"></i> 특성별 디지털 문해능력 수준 (%)
@@ -118,9 +119,33 @@
                         </div>
                     </div>
 
-                    <!-- Canvas for Chart.js -->
-                    <div class="relative h-[320px] w-full">
+                    <!-- Visualization Engine Switcher -->
+                    <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3 mb-4">
+                        <span class="text-xs font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1">
+                            <i class="fa-solid fa-gears text-blue-500"></i> 시각화 출력 방식:
+                        </span>
+                        <div class="flex bg-slate-100 dark:bg-slate-800 p-0.5 rounded-lg text-[11px]">
+                            <button id="engine-interactive" onclick="setVisualizationEngine('interactive')" class="px-2.5 py-1 font-semibold rounded-md transition-all bg-white dark:bg-slate-700 text-blue-600 dark:text-blue-400 shadow-sm">
+                                Chart.js (동적 인터랙티브)
+                            </button>
+                            <button id="engine-static" onclick="setVisualizationEngine('static')" class="px-2.5 py-1 font-semibold rounded-md transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white flex items-center gap-1">
+                                <i class="fa-brands fa-python text-indigo-500"></i> Colab 정밀 분석 그래프 (1.png)
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Canvas Wrapper (for Chart.js) -->
+                    <div id="chartCanvasWrapper" class="relative h-[320px] w-full">
                         <canvas id="literacyChart"></canvas>
+                    </div>
+
+                    <!-- Colab Exported Image Wrapper (for 1.png) -->
+                    <div id="colabImageWrapper" class="hidden relative h-[320px] w-full flex items-center justify-center bg-white dark:bg-slate-950 p-1 rounded-lg overflow-hidden border border-slate-100 dark:border-slate-800 transition-all">
+                        <img src="./1.png" alt="연령별 디지털 문해능력 수준 격차" class="max-h-full max-w-full object-contain rounded dark:brightness-90 dark:contrast-105" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80';">
+                        <!-- Tiny overlay label indicating local file source -->
+                        <div class="absolute bottom-2 right-2 bg-slate-900/80 text-white text-[9px] font-mono px-2 py-0.5 rounded flex items-center gap-1 backdrop-blur-sm">
+                            <i class="fa-solid fa-link text-indigo-400"></i> src: ./1.png
+                        </div>
                     </div>
 
                     <!-- Level Explanation Grid -->
@@ -354,6 +379,11 @@
                     </h4>
                     <div class="pl-3 border-l border-slate-100 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-300 leading-relaxed space-y-1">
                         <p>전체 성인 인구의 절반 이상(52.8%)이 일상생활에 지장이 없는 수준4에 해당하나, 4명 중 1명에 해당하는 약 25.9%는 여전히 모바일 기기 사용조차 익숙지 않은 수준1 또는 수준2에 위치해 있습니다. 특히 연령대별 하락 추이가 가장 강력한 정량 지표로 작용합니다.</p>
+                        <!-- Image Reference Badge for report submission -->
+                        <div class="mt-2.5 p-2 bg-slate-50 dark:bg-slate-800/40 rounded border border-slate-100 dark:border-slate-800 text-[11px] text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+                            <i class="fa-solid fa-chart-column text-indigo-500"></i>
+                            <span>[시각화 분석] 연령대별 정밀 분석 차트(Figure 1)는 좌측 Colab 탭에서 교차 조회가 가능합니다.</span>
+                        </div>
                     </div>
                 </section>
 
@@ -446,6 +476,7 @@
         };
 
         let myChart = null;
+        let currentEngine = 'interactive'; // 'interactive' or 'static'
 
         // Initialize App on Window Load
         window.onload = function() {
@@ -453,6 +484,37 @@
             renderChart('age');
             runSimulation();
         };
+
+        // Visualization Engine Switcher Logic
+        function setVisualizationEngine(engine) {
+            currentEngine = engine;
+            
+            const btnInteractive = document.getElementById('engine-interactive');
+            const btnStatic = document.getElementById('engine-static');
+            const chartCanvas = document.getElementById('chartCanvasWrapper');
+            const colabImage = document.getElementById('colabImageWrapper');
+
+            if (engine === 'static') {
+                // Style Active Button
+                btnStatic.className = "px-2.5 py-1 font-semibold rounded-md transition-all bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-400 shadow-sm flex items-center gap-1";
+                btnInteractive.className = "px-2.5 py-1 font-semibold rounded-md transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white";
+                
+                // Show/Hide Wrappers
+                chartCanvas.classList.add('hidden');
+                colabImage.classList.remove('hidden');
+
+                // static chart strictly represents age group data, auto switch category tab to 'age'
+                switchTab('age');
+            } else {
+                // Style Active Button
+                btnInteractive.className = "px-2.5 py-1 font-semibold rounded-md transition-all bg-white dark:bg-slate-700 text-blue-600 dark:text-blue-400 shadow-sm";
+                btnStatic.className = "px-2.5 py-1 font-semibold rounded-md transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white flex items-center gap-1";
+                
+                // Show/Hide Wrappers
+                colabImage.classList.add('hidden');
+                chartCanvas.classList.remove('hidden');
+            }
+        }
 
         // Dark Mode Initialization & Persistence
         function initDarkMode() {
@@ -593,6 +655,11 @@
 
         // Tab switching logic
         function switchTab(tabName) {
+            // Revert visualization engine to interactive if educational/income tab is selected
+            if (tabName !== 'age' && currentEngine === 'static') {
+                setVisualizationEngine('interactive');
+            }
+
             const tabs = ['age', 'education', 'income'];
             const isDark = document.documentElement.classList.contains('dark');
             tabs.forEach(t => {
