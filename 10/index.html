@@ -14,6 +14,8 @@
     </script>
     <!-- Chart.js for beautiful interactive visualizations -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Tone.js for high-fidelity procedurally generated background music (Zero external audio dependency) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
     <!-- FontAwesome for clean vector icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts: Inter & Noto Sans KR for premium legibility -->
@@ -35,12 +37,20 @@
             background: #cbd5e1;
             border-radius: 4px;
         }
-        .dark .custom-scrollbar::-webkit-webkit-scrollbar-thumb {
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
             background: #334155;
         }
+        /* Custom Keyframe Animations for Soundwave indicator */
+        @keyframes bounce-slow {
+            0%, 100% { height: 4px; }
+            50% { height: 16px; }
+        }
+        .sound-bar-1 { animation: bounce-slow 0.8s infinite ease-in-out; }
+        .sound-bar-2 { animation: bounce-slow 1.1s infinite ease-in-out; animation-delay: 0.2s; }
+        .sound-bar-3 { animation: bounce-slow 0.9s infinite ease-in-out; animation-delay: 0.4s; }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-200 min-h-screen transition-colors duration-300">
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-200 min-h-screen transition-colors duration-300 pb-20 md:pb-8">
 
     <!-- Navigation Bar -->
     <nav class="bg-white border-b border-slate-200 sticky top-0 z-50 dark:bg-slate-900 dark:border-slate-800 transition-colors duration-300">
@@ -106,9 +116,15 @@
                     <!-- Top Category Tab bar -->
                     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
                         <div>
-                            <h2 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                                <i class="fa-solid fa-chart-bar text-blue-500"></i> 특성별 디지털 문해능력 수준 (%)
-                            </h2>
+                            <div class="flex flex-wrap items-center gap-2">
+                                <h2 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                                    <i class="fa-solid fa-chart-bar text-blue-500"></i> 특성별 디지털 문해능력 수준 (%)
+                                </h2>
+                                <!-- Colab Image Download Button -->
+                                <a href="./1.png" download="Colab_디지털_문해능력_그래프.png" class="inline-flex items-center gap-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 dark:bg-indigo-950/40 dark:hover:bg-indigo-900/40 dark:text-indigo-300 text-xs font-semibold px-2.5 py-1 rounded-md transition-all shadow-sm">
+                                    <i class="fa-solid fa-download text-[10px]"></i> Colab 그래프 다운로드
+                                </a>
+                            </div>
                             <p class="text-xs text-slate-500 mt-1">성인 디지털 문해력 조사 (2024년 기준)</p>
                         </div>
                         <!-- Tab Buttons -->
@@ -125,22 +141,24 @@
                             <i class="fa-solid fa-gears text-blue-500"></i> 시각화 출력 방식:
                         </span>
                         <div class="flex bg-slate-100 dark:bg-slate-800 p-0.5 rounded-lg text-[11px]">
-                            <button id="engine-interactive" onclick="setVisualizationEngine('interactive')" class="px-2.5 py-1 font-semibold rounded-md transition-all bg-white dark:bg-slate-700 text-blue-600 dark:text-blue-400 shadow-sm">
+                            <button id="engine-interactive" onclick="setVisualizationEngine('interactive')" class="px-2.5 py-1 font-semibold rounded-md transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">
                                 Chart.js (동적 인터랙티브)
                             </button>
-                            <button id="engine-static" onclick="setVisualizationEngine('static')" class="px-2.5 py-1 font-semibold rounded-md transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white flex items-center gap-1">
+                            <button id="engine-static" onclick="setVisualizationEngine('static')" class="px-2.5 py-1 font-semibold rounded-md transition-all bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-400 shadow-sm flex items-center gap-1">
                                 <i class="fa-brands fa-python text-indigo-500"></i> Colab 정밀 분석 그래프 (1.png)
                             </button>
                         </div>
                     </div>
 
                     <!-- Canvas Wrapper (for Chart.js) -->
-                    <div id="chartCanvasWrapper" class="relative h-[320px] w-full">
+                    <!-- Hidden by default for initial static load -->
+                    <div id="chartCanvasWrapper" class="relative h-[320px] w-full hidden">
                         <canvas id="literacyChart"></canvas>
                     </div>
 
                     <!-- Colab Exported Image Wrapper (for 1.png) -->
-                    <div id="colabImageWrapper" class="hidden relative h-[320px] w-full flex items-center justify-center bg-white dark:bg-slate-950 p-1 rounded-lg overflow-hidden border border-slate-100 dark:border-slate-800 transition-all">
+                    <!-- Displayed by default for initial static load -->
+                    <div id="colabImageWrapper" class="relative h-[320px] w-full flex items-center justify-center bg-white dark:bg-slate-950 p-1 rounded-lg overflow-hidden border border-slate-100 dark:border-slate-800 transition-all">
                         <img src="./1.png" alt="연령별 디지털 문해능력 수준 격차" class="max-h-full max-w-full object-contain rounded dark:brightness-90 dark:contrast-105" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80';">
                         <!-- Tiny overlay label indicating local file source -->
                         <div class="absolute bottom-2 right-2 bg-slate-900/80 text-white text-[9px] font-mono px-2 py-0.5 rounded flex items-center gap-1 backdrop-blur-sm">
@@ -353,9 +371,9 @@
                         <span class="w-1.5 h-1.5 bg-blue-600 dark:bg-blue-400 rounded-full"></span> 1. 선정한 주제와 선정 이유
                     </h4>
                     <div class="pl-3 border-l border-slate-100 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-300 leading-relaxed space-y-1">
-                        <p class="font-semibold text-slate-900 dark:text-white">주제: 대한민국 성인의 인구학적 특성에 따른 디지털 문해능력 격차 문제 분석</p>
+                        <p class="font-semibold text-slate-900 dark:text-white">주제: 대한민국 성인의 인구학적 특성(연령, 소득, 학력)에 따른 디지털 문해능력 격차 문제 분석 및 사회적 시사점</p>
                         <p>
-                            지능정보사회로 고도화되는 현대 경제에서 디지털 자산 및 서비스 활용 능력은 생계와 복지의 직결 조건입니다. 세대 갈등과 계층 불평등의 새로운 축으로 자리 잡은 디지털 소외 실태를 구체적인 통계로 진단하고 분석하기 위해 이를 주제로 채택했습니다.
+                            지능정보사회로 고도화되는 현대 경제에서 디지털 서비스 활용 능력은 단순한 생활상의 편리함을 넘어, 보편적인 경제적 기회 확보와 복지 수급의 필수 조건입니다. 정보 격차가 새로운 사회적 불평등 및 세대 갈등의 축으로 작용하는 현실을 개량화된 KOSIS 마이크로데이터를 통해 실증적으로 진단하고 해결책을 모색하고자 이 주제를 선정했습니다.
                         </p>
                     </div>
                 </section>
@@ -366,8 +384,8 @@
                         <span class="w-1.5 h-1.5 bg-blue-600 dark:bg-blue-400 rounded-full"></span> 2. 활용한 통계 자료 출처
                     </h4>
                     <div class="pl-3 border-l border-slate-100 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-300 space-y-1">
-                        <div><strong class="text-slate-800 dark:text-slate-200">자료명:</strong> 성인 디지털 문해능력 수준 (2024년 공표 데이터)</div>
-                        <div><strong class="text-slate-800 dark:text-slate-200">기관명:</strong> 통계청 KOSIS / 평생교육조사처</div>
+                        <div><strong class="text-slate-800 dark:text-slate-200">자료명:</strong> 성인 디지털 문해능력 수준 (2024년 공표 기준)</div>
+                        <div><strong class="text-slate-800 dark:text-slate-200">기관명:</strong> 통계청 KOSIS 국가통계포털 / 평생교육조사처</div>
                         <div><strong class="text-slate-800 dark:text-slate-200">원천 파일:</strong> <span class="font-mono bg-slate-100 dark:bg-slate-800 px-1 py-0.2 rounded text-[11px]">성인_디지털_문해능력_수준_20260619101209.csv</span></div>
                     </div>
                 </section>
@@ -375,76 +393,118 @@
                 <!-- SECTION 3 -->
                 <section class="space-y-2">
                     <h4 class="text-xs font-bold text-blue-600 dark:text-blue-400 flex items-center gap-1.5">
-                        <span class="w-1.5 h-1.5 bg-blue-600 dark:bg-blue-400 rounded-full"></span> 3. 주요 내용 요약
+                        <span class="w-1.5 h-1.5 bg-blue-600 dark:bg-blue-400 rounded-full"></span> 3. 데이터 수집 및 정제 과정
                     </h4>
-                    <div class="pl-3 border-l border-slate-100 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-300 leading-relaxed space-y-1">
-                        <p>전체 성인 인구의 절반 이상(52.8%)이 일상생활에 지장이 없는 수준4에 해당하나, 4명 중 1명에 해당하는 약 25.9%는 여전히 모바일 기기 사용조차 익숙지 않은 수준1 또는 수준2에 위치해 있습니다. 특히 연령대별 하락 추이가 가장 강력한 정량 지표로 작용합니다.</p>
-                        <!-- Image Reference Badge for report submission -->
-                        <div class="mt-2.5 p-2 bg-slate-50 dark:bg-slate-800/40 rounded border border-slate-100 dark:border-slate-800 text-[11px] text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
-                            <i class="fa-solid fa-chart-column text-indigo-500"></i>
-                            <span>[시각화 분석] 연령대별 정밀 분석 차트(Figure 1)는 좌측 Colab 탭에서 교차 조회가 가능합니다.</span>
-                        </div>
+                    <div class="pl-3 border-l border-slate-100 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-300 leading-relaxed space-y-1.5">
+                        <p>
+                            통계청에서 제공받은 CSV 데이터를 Jupyter Notebook 및 Google Colab 환경에서 파이썬 Pandas 라이브러리를 활용해 정제했습니다.
+                        </p>
+                        <p>
+                            데이터 내 한글 인코딩(EUC-KR) 오류를 UTF-8-sig 포맷 변환을 통해 해소하였고, 연령대(18-29세부터 70세 이상), 최종학력(초등학교 이하부터 대졸 이상), 가구소득 수준별 세그먼트로 나눈 뒤 각 도메인의 디지털 문해 수준 1~4 비율을 백분율 데이터로 수렴시켜 최종 정밀 분석 모델을 확보했습니다.
+                        </p>
                     </div>
                 </section>
 
                 <!-- SECTION 4 -->
                 <section class="space-y-2">
                     <h4 class="text-xs font-bold text-blue-600 dark:text-blue-400 flex items-center gap-1.5">
-                        <span class="w-1.5 h-1.5 bg-blue-600 dark:bg-blue-400 rounded-full"></span> 4. 발견한 특징 및 문제점
+                        <span class="w-1.5 h-1.5 bg-blue-600 dark:bg-blue-400 rounded-full"></span> 4. 주요 분석 결과 요약
                     </h4>
-                    <div class="pl-3 border-l border-slate-100 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-300 leading-relaxed space-y-1.5">
-                        <p class="font-medium text-slate-800 dark:text-slate-200"><i class="fa-solid fa-circle-exclamation text-red-500 mr-1"></i> 고령층의 전방위적 배제</p>
-                        <p>70대 이상 연령층의 76.5%가 디지털 초보 단계에 밀려나 있어 키오스크 결제나 모바일 의료 예약 등 일상적 혜택에서 고립되어 있습니다.</p>
-                        <p class="font-medium text-slate-800 dark:text-slate-200"><i class="fa-solid fa-circle-exclamation text-red-500 mr-1"></i> 정보 격차의 경제적 대물림</p>
-                        <p>월 100만 원 미만 가구의 수준4 도달률(7.5%)하고 700만 원 이상 가구(73.5%) 간의 약 10배에 가까운 대격차는, 자본 격차가 곧바로 정보 문해력 격차로 고착화되고 있음을 보여줍니다.</p>
+                    <div class="pl-3 border-l border-slate-100 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-300 leading-relaxed space-y-1">
+                        <p>대한민국 성인 전체 소계 기준, 최상위 디지털 활용이 가능한 '수준 4'가 52.8%로 가장 높은 비중을 차지하고 있습니다.</p>
+                        <p>그러나, 전체 성인 중 약 4명당 1명꼴(25.9%)은 여전히 기본적인 디지털 생활이 불가능하거나 타인의 도움에 지속적으로 의존해야 하는 '수준 1~2' 구간에 정체해 있어 정보 취약층의 규모가 상당히 거대함을 계량적으로 입증했습니다.</p>
                     </div>
                 </section>
 
                 <!-- SECTION 5 -->
                 <section class="space-y-2">
                     <h4 class="text-xs font-bold text-blue-600 dark:text-blue-400 flex items-center gap-1.5">
-                        <span class="w-1.5 h-1.5 bg-blue-600 dark:bg-blue-400 rounded-full"></span> 5. 생성형 AI 활용 과정 설명
+                        <span class="w-1.5 h-1.5 bg-blue-600 dark:bg-blue-400 rounded-full"></span> 5. 분석을 통해 발견한 특징 및 문제점
                     </h4>
                     <div class="pl-3 border-l border-slate-100 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-300 leading-relaxed space-y-1.5">
-                        <p><strong>탐색:</strong> AI로 제공된 데이터 파일의 인코딩 문제와 구조 분석을 해결하고 상위 데이터를 신속히 구조화했습니다.</p>
-                        <p><strong>해석:</strong> 학력별(초등학교 vs 대학교), 소득별(극빈층 vs 고소득층) 수치를 세그먼트별로 분할하여 가장 격차가 극대화되는 상관관계를 연산 처리하는 과정을 거쳤습니다.</p>
-                        <p><strong>작성:</strong> 기말고사 질문지(<span class="font-mono text-[11px] bg-slate-100 dark:bg-slate-850 px-1 py-0.5 rounded">기말고사 문제.docx</span>)에 맞춘 레포트 레이아웃 설계와 학술적인 한국어 개조식 문체 변환을 지원받았습니다.</p>
+                        <p class="font-medium text-slate-800 dark:text-slate-200"><i class="fa-solid fa-circle-exclamation text-red-500 mr-1"></i> 고령층의 전방위적 삶의 고립</p>
+                        <p>70대 이상 연령층의 76.5%가 수준 1~2단계에 고착되어 있어, 키오스크 및 모바일 기반의 필수 생활 인프라에서 완전히 분리된 소외 현상이 지배적입니다.</p>
+                        <p class="font-medium text-slate-800 dark:text-slate-200"><i class="fa-solid fa-circle-exclamation text-red-500 mr-1"></i> 소득·학력이 자아내는 양극화 격차</p>
+                        <p>초등학교 이하 학력 집단의 수준 4 도달률은 0.9%인 반면, 대졸 집단은 70.5%로 대조됩니다. 또한 가구 소득 극빈층(100만 원 미만)의 수준 4 도달률(7.5%) 대비 고소득층(73.5%)의 대격차는 과거의 불평등이 고스란히 디지털 소외로 전이되고 있음을 실증합니다.</p>
                     </div>
                 </section>
 
                 <!-- SECTION 6 -->
                 <section class="space-y-2">
                     <h4 class="text-xs font-bold text-blue-600 dark:text-blue-400 flex items-center gap-1.5">
-                        <span class="w-1.5 h-1.5 bg-blue-600 dark:bg-blue-400 rounded-full"></span> 6. AI 의견에 대한 본인의 수정·보완
+                        <span class="w-1.5 h-1.5 bg-blue-600 dark:bg-blue-400 rounded-full"></span> 6. 생성형 AI 활용 과정 설명
                     </h4>
-                    <div class="pl-3 border-l text-xs text-slate-600 dark:text-slate-300 leading-relaxed space-y-1 bg-amber-50/50 dark:bg-amber-950/20 p-2 rounded-r-lg border-amber-500 dark:border-amber-600">
-                        <p class="font-medium text-amber-800 dark:text-amber-400">"단순한 현상 묘사에서 구조적 양극화의 불평등 진단으로 보완"</p>
-                        <p>AI는 단순히 "연령이 많을수록 활용 능력이 떨어진다"는 표면적인 인과만 제시했습니다. 그러나 저는 본인의 문제의식을 투영하여 <strong>'정보 격차가 계층 이동을 가로막는 새로운 기회의 장벽이 되고 있다'</strong>는 사회학적 관점의 비판을 직접 서술해 내용의 완결성과 개성을 보완했습니다.</p>
+                    <div class="pl-3 border-l border-slate-100 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-300 leading-relaxed space-y-1.5">
+                        <p><strong>기술 탐색:</strong> 가치 도출을 유도하기 위해 원천 CSV의 구조적 특징과 전처리 과정에서 필수적인 판다스 코드 스크립트를 생성형 AI를 활용하여 기획했습니다.</p>
+                        <p><strong>가설 수립:</strong> "소득과 학력 자산이 상호 연계될 때 발생하는 다중 취약계층의 디지털 배제 가속성"에 대한 다차원적 교차검증 가설을 설계하는 데 AI와의 브레인스토밍을 적극적으로 접목했습니다.</p>
                     </div>
                 </section>
 
                 <!-- SECTION 7 -->
                 <section class="space-y-2">
                     <h4 class="text-xs font-bold text-blue-600 dark:text-blue-400 flex items-center gap-1.5">
-                        <span class="w-1.5 h-1.5 bg-blue-600 dark:bg-blue-400 rounded-full"></span> 7. 본인의 최종 해석 및 결론
+                        <span class="w-1.5 h-1.5 bg-blue-600 dark:bg-blue-400 rounded-full"></span> 7. AI 의견에 대한 본인의 수정·보완
                     </h4>
-                    <div class="pl-3 border-l border-slate-100 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-                        <p class="font-semibold text-slate-900 dark:text-white mb-1">"디지털 복지는 보편적 인권입니다"</p>
-                        디지털 격차는 단순 개인의 노력 여하가 아닌, 고소득 부모 세대의 학력 및 유년 시절 접근 인프라가 미친 구조적 불평등의 거울입니다. 국가와 평생학습기관은 고령층 및 극빈 계층을 대상으로 더 밀도 높은 맞춤형 교육 서비스와 기기 보조금 등의 복지정책을 의무 시행해야만 양극화 극복이 가능합니다.
+                    <div class="pl-3 border-l text-xs text-slate-600 dark:text-slate-300 leading-relaxed space-y-1 bg-amber-50/50 dark:bg-amber-950/20 p-2.5 rounded-r-lg border-amber-500 dark:border-amber-600">
+                        <p class="font-medium text-amber-800 dark:text-amber-400">"선형적 한계를 극복하는 비판적 인문학 관점 개입"</p>
+                        <p>생성형 AI는 단순히 "연령이 높고 소득이 낮을수록 디지털 격차가 늘어난다"는 기계적인 상관관계만을 표면화시켰습니다.</p>
+                        <p>이에 저는 <strong>'정보 격차가 단순 개인의 적응 실패가 아니라 국가와 복지의 기본권 침해로 직결되는 새로운 계급 불평등의 거울'</strong>이라는 점을 역설하고, "다중 교차성 취약계층 포용 대안"을 분석 보고서에 독자적으로 서술하여 학술적 깊이를 보완했습니다.</p>
                     </div>
                 </section>
 
                 <!-- SECTION 8 -->
                 <section class="space-y-2">
                     <h4 class="text-xs font-bold text-blue-600 dark:text-blue-400 flex items-center gap-1.5">
-                        <span class="w-1.5 h-1.5 bg-blue-600 dark:bg-blue-400 rounded-full"></span> 8. 활동 소감 및 배운 점
+                        <span class="w-1.5 h-1.5 bg-blue-600 dark:bg-blue-400 rounded-full"></span> 8. 디지털 양극화 해소를 위한 구체적 해결 방안
                     </h4>
-                    <div class="pl-3 border-l border-slate-100 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-                        실제 로우(Raw) 데이터 CSV 파일을 직접 코드와 그래프로 조작해보며 숫자가 가진 설득력을 절감할 수 있었습니다. AI는 든든한 연구 조력자이지만, 데이터를 기획하고 비판적인 시각으로 재해석하여 실질적인 사회 문제 해결 제안을 주체적으로 내리는 것은 우리 인간의 몫이라는 것을 깊이 체험했습니다.
+                    <div class="pl-3 border-l border-slate-100 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-300 leading-relaxed space-y-1.5">
+                        <p><strong>취약계층 인프라 보장제:</strong> 공공 및 금융 서비스 단말기(키오스크)에 고령층 친화형 UI 표준 설계 규격을 의무화하고, 주민센터 내 디지털 기기 활용 대면 전담 창구의 법제화가 동반되어야 합니다.</p>
+                        <p><strong>보편적 디지털 복지 바우처:</strong> 취약 세대 대상 고사양 태블릿 및 인터넷 인프라 지원 바우처를 확대하고, 동년배 멘토링 형식의 지역 생활 정착형 1:1 디지털 역량 교육을 정기 강화해야 합니다.</p>
+                    </div>
+                </section>
+
+                <!-- SECTION 9 -->
+                <section class="space-y-2">
+                    <h4 class="text-xs font-bold text-blue-600 dark:text-blue-400 flex items-center gap-1.5">
+                        <span class="w-1.5 h-1.5 bg-blue-600 dark:bg-blue-400 rounded-full"></span> 9. 최종 결론 및 활동 소감
+                    </h4>
+                    <div class="pl-3 border-l border-slate-100 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-300 leading-relaxed space-y-1.5">
+                        <p><strong>결론:</strong> 대한민국 성인의 디지털 양극화는 평생 학습의 격차와 사각지대에서 기인합니다. 격차 해소는 지능정보사회를 이룩하는 완결 조건이며 보편복지의 영토 확장입니다.</p>
+                        <p><strong>활동 소감 및 배운 점:</strong> 로우 데이터를 실제 만지며 숫자의 객관적 힘을 경험하는 동시에, 생성형 AI는 보조자일 뿐 진보적이고 정교한 대안을 제시하는 것은 분석가의 인문 공감 철학에 수렴한다는 소중한 진리를 체득했습니다.</p>
                     </div>
                 </section>
 
             </div>
+        </div>
+    </div>
+
+    <!-- Floating Minimalist BGM Controller Widget (Bottom Right corner) -->
+    <div class="fixed bottom-6 right-6 z-[100] max-w-sm">
+        <div class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border border-slate-200/50 dark:border-slate-800/50 shadow-xl rounded-2xl p-4 transition-all duration-300 flex items-center gap-4">
+            <!-- Animated Soundwave Waveform Indicator -->
+            <div class="flex items-end gap-[3px] w-6 h-5" id="soundwave-container">
+                <span class="w-[3px] bg-emerald-500 rounded-full" id="bar1"></span>
+                <span class="w-[3px] bg-emerald-500 rounded-full" id="bar2"></span>
+                <span class="w-[3px] bg-emerald-500 rounded-full" id="bar3"></span>
+            </div>
+            
+            <!-- Music Information & Volume Slider -->
+            <div class="flex-1 min-w-[120px]">
+                <div class="text-[11px] font-bold text-slate-900 dark:text-white tracking-tight leading-none mb-1">교수님을 위한 잔잔한 BGM</div>
+                <div class="text-[9px] text-slate-400 dark:text-slate-500 truncate mb-1.5">Tone.js 실시간 제너레이티브 패드</div>
+                
+                <!-- Volume Controls -->
+                <div class="flex items-center gap-1.5">
+                    <i class="fa-solid fa-volume-low text-[10px] text-slate-400"></i>
+                    <input type="range" id="volume-control" min="-30" max="-6" value="-18" class="w-20 h-1 bg-slate-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-500" oninput="changeVolume(this.value)">
+                    <i class="fa-solid fa-volume-high text-[10px] text-slate-400"></i>
+                </div>
+            </div>
+
+            <!-- Play & Pause Trigger Button -->
+            <button onclick="toggleBgm()" id="bgmTrigger" class="w-10 h-10 rounded-full bg-emerald-500 hover:bg-emerald-600 dark:bg-emerald-600 dark:hover:bg-emerald-500 text-white flex items-center justify-center shadow-md transition-all active:scale-95" aria-label="배경음악 토글">
+                <i id="bgmIcon" class="fa-solid fa-play ml-0.5 text-sm"></i>
+            </button>
         </div>
     </div>
 
@@ -476,12 +536,12 @@
         };
 
         let myChart = null;
-        let currentEngine = 'interactive'; // 'interactive' or 'static'
+        let currentEngine = 'static'; // Default to static on page load
 
         // Initialize App on Window Load
         window.onload = function() {
             initDarkMode();
-            renderChart('age');
+            setVisualizationEngine('static'); // Runs switchTab('age') and renderChart('age') inside
             runSimulation();
         };
 
@@ -691,7 +751,7 @@
             if (ageVal === "18 ~ 29세") {
                 level4Score = 79.7;
                 level1Score = 0.9;
-                analysisText = "20대 청년층은 태어날 때부터 디지털 기기를 손에 쥔 '디지털 네이티브' 세대입니다. 이 연령대에서 활용 능력이 떨어지는 경우는 극히 드뭅니다.";
+                analysisText = "20대 청년층은 태어날 때부터 디지털 기기를 손에 쥔 '디지털 네이티브' 세대입니다. 이 연령대에서 활용 능력이 떨어지는 경우는 극히 드눕니다.";
             } else if (ageVal === "30 ~ 39세") {
                 level4Score = 73.1;
                 level1Score = 0.7;
@@ -732,6 +792,121 @@
             document.getElementById('sim-bar4').style.width = `${level4Score}%`;
             document.getElementById('sim-bar1').style.width = `${level1Score}%`;
             document.getElementById('sim-analysis').innerText = analysisText;
+        }
+
+        /* Procedural generative ambient audio engine */
+        let padSynth = null;
+        let melodySynth = null;
+        let reverbEffect = null;
+        let delayEffect = null;
+        let audioInitialized = false;
+        let isPlaying = false;
+        let scheduleEventIds = [];
+
+        // Soothing Chord Progression: I - vi - IV - V in F major Pentatonic (F - Dm - Bb - C)
+        const chordProgression = [
+            ["F3", "C4", "F4", "A4"],  // F Major
+            ["D3", "A3", "D4", "F4"],  // D Minor
+            ["A#2", "F3", "A#3", "D4"], // Bb Major
+            ["C3", "G3", "C4", "E4"]   // C Major
+        ];
+        let progressionIndex = 0;
+
+        // Pentatonic Scale notes for dreamy, pleasant melody plucks
+        const scaleNotes = ["F4", "G4", "A4", "C5", "D5", "F5", "G5", "A5"];
+
+        function initAudioEngine() {
+            if (audioInitialized) return;
+
+            // 1. Creative spatial audio path: Reverb & Delay
+            reverbEffect = new Tone.Reverb({ decay: 7, wet: 0.6 }).toDestination();
+            delayEffect = new Tone.FeedbackDelay({ delayTime: "4n", feedback: 0.5, wet: 0.35 }).connect(reverbEffect);
+
+            // 2. Soothing Pad Synthesizer for warm background wash
+            padSynth = new Tone.PolySynth(Tone.Synth, {
+                oscillator: { type: "triangle" },
+                envelope: { attack: 3, decay: 4, sustain: 0.6, release: 4.5 }
+            }).connect(reverbEffect);
+            padSynth.volume.value = -18; // Keep it quietly nestled below the read path
+
+            // 3. Dreamy Bell-like Synthesizer for generative melodies
+            melodySynth = new Tone.Synth({
+                oscillator: { type: "sine" },
+                envelope: { attack: 0.4, decay: 1.5, sustain: 0.2, release: 2.5 }
+            }).connect(delayEffect);
+            melodySynth.volume.value = -16;
+
+            audioInitialized = true;
+        }
+
+        function toggleBgm() {
+            // Web Audio Context safety standard (user gesture requirement)
+            Tone.start();
+            initAudioEngine();
+
+            if (isPlaying) {
+                // Pause procedural engine
+                Tone.Transport.stop();
+                
+                // Clear active repeats
+                scheduleEventIds.forEach(id => Tone.Transport.clear(id));
+                scheduleEventIds = [];
+                
+                isPlaying = false;
+                document.getElementById('bgmIcon').className = "fa-solid fa-play ml-0.5 text-sm";
+                disableVisualizer();
+            } else {
+                // Play procedural engine
+                Tone.Transport.bpm.value = 52; // Very slow, calm tempo
+
+                // Loop 1: Play slowly evolving chord pads every 8 seconds
+                const chordRepeatId = Tone.Transport.scheduleRepeat((time) => {
+                    const chord = chordProgression[progressionIndex];
+                    padSynth.triggerAttackRelease(chord, "6s", time);
+                    progressionIndex = (progressionIndex + 1) % chordProgression.length;
+                }, "8n");
+                scheduleEventIds.push(chordRepeatId);
+
+                // Loop 2: Play delicate, generative melody plucks on probabilistic triggers
+                const melodyRepeatId = Tone.Transport.scheduleRepeat((time) => {
+                    // 65% probability to play a note for organic flow
+                    if (Math.random() < 0.65) {
+                        const randomNote = scaleNotes[Math.floor(Math.random() * scaleNotes.length)];
+                        melodySynth.triggerAttackRelease(randomNote, "2n", time);
+                    }
+                }, "2n");
+                scheduleEventIds.push(melodyRepeatId);
+
+                Tone.Transport.start();
+                isPlaying = true;
+                document.getElementById('bgmIcon').className = "fa-solid fa-pause text-sm";
+                enableVisualizer();
+            }
+        }
+
+        function changeVolume(dbValue) {
+            initAudioEngine();
+            // Convert logarithmic value for pleasant feedback scale
+            if (padSynth && melodySynth) {
+                padSynth.volume.value = parseFloat(dbValue);
+                melodySynth.volume.value = parseFloat(dbValue) + 2; // Keep plucks slightly louder than wash
+            }
+        }
+
+        function enableVisualizer() {
+            document.getElementById('bar1').classList.add('sound-bar-1');
+            document.getElementById('bar2').classList.add('sound-bar-2');
+            document.getElementById('bar3').classList.add('sound-bar-3');
+        }
+
+        function disableVisualizer() {
+            document.getElementById('bar1').classList.remove('sound-bar-1');
+            document.getElementById('bar2').classList.remove('sound-bar-2');
+            document.getElementById('bar3').classList.remove('sound-bar-3');
+            // Reset to idle static bar height
+            document.getElementById('bar1').style.height = "4px";
+            document.getElementById('bar2').style.height = "4px";
+            document.getElementById('bar3').style.height = "4px";
         }
     </script>
 </body>
